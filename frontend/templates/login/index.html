@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>LOGIN</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}" />
+  </head>
+  <body>
+    <div class="cod-container">
+      <div class="form-header">
+        <img src="{% static 'img/UNAMAD.png' %}" alt="UNMAD-OGC" />
+        <h1>BIENVENIDO</h1>
+      </div>
+
+      <div class="form-content">
+        <form action="" class="cod-form" id="form-login" method="POST">
+          {% csrf_token %}
+          <div class="form-title">
+            <h3>Iniciar Sesión</h3>
+          </div>
+
+          <div class="input-group">
+            <input
+              type="user"
+              class="form-input"
+              name="username"
+              id="idusername"
+            />
+            {% for error in form.username.errors %}
+            <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+
+            <label class="label" for="usuario">Usuario</label>
+          </div>
+
+          <div class="input-group">
+            <input
+              type="password"
+              class="form-input"
+              name="password"
+              id="id_password"
+            />
+
+            <label class="label" for="pass">Contraseña</label>
+          </div>
+
+          <div class="input-group">
+            <input type="submit" class="form-input" value="Iniciar Sesión" />
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  </body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <title>Sistema UNAMAD</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta
+      name="keywords"
+      content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive"
+    />
+    <meta name="author" content="Codedthemes" />
+    <!-- Favicon icon -->
+    <link
+      rel="icon"
+      href="{% static 'images/favicon.ico' %}"
+      type="image/x-icon"
+    />
+    <!-- Google font-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"
+      rel="stylesheet"
+    />
+    <!-- waves.css -->
+    <link
+      rel="stylesheet"
+      href="{% static 'pages/waves/css/waves.min.css' %}"
+      type="text/css"
+      media="all"
+    />
+    <!-- Required Fremwork -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/bootstrap/css/bootstrap.min.css' %}"
+    />
+    <!-- waves.css -->
+    <link
+      rel="stylesheet"
+      href="{% static 'pages/waves/css/waves.min.css' %}"
+      type="text/css"
+      media="all"
+    />
+    <!-- themify icon -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'icon/themify-icons/themify-icons.css' %}"
+    />
+    <!-- font-awesome-n -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/font-awesome-n.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/font-awesome.min.css' %}"
+    />
+    <!-- scrollbar.css -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/jquery.mCustomScrollbar.css' %}"
+    />
+    <!-- Style.css -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/style.css' %}"
+    />
+    <script>
+      var base_url = 'http://{{ request.get_host }}/';
+    </script>
+  </head>
+
+  <body>
+    <!-- Pre-loader start -->
+    <div class="theme-loader">
+      <div class="loader-track">
+        <div class="preloader-wrapper">
+          <div class="spinner-layer spinner-blue">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+          <div class="spinner-layer spinner-red">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+
+          <div class="spinner-layer spinner-yellow">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+
+          <div class="spinner-layer spinner-green">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Pre-loader end -->
+    <div id="pcoded" class="pcoded">
+      <div class="pcoded-overlay-box"></div>
+      <div class="pcoded-container navbar-wrapper">
+        <nav class="navbar header-navbar pcoded-header">
+          <div class="navbar-wrapper">
+            <div class="navbar-logo">
+              <a
+                class="mobile-menu waves-effect waves-light"
+                id="mobile-collapse"
+                href="#!"
+              >
+                <i class="ti-menu"></i>
+              </a>
+              <div class="mobile-search waves-effect waves-light">
+                <div class="header-search">
+                  <div class="main-search morphsearch-search">
+                    <div class="input-group">
+                      <span class="input-group-prepend search-close"
+                        ><i class="ti-close input-group-text"></i
+                      ></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter Keyword"
+                      />
+                      <span class="input-group-append search-btn"
+                        ><i class="ti-search input-group-text"></i
+                      ></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a href="/">
+                <img
+                  class="img-fluid-logo"
+                  src="{% static 'images/logo_unamad.png' %}"
+                  alt="Theme-Logo"
+                />
+              </a>
+              <a class="mobile-options waves-effect waves-light">
+                <i class="ti-more"></i>
+              </a>
+            </div>
+            <div class="navbar-container container-fluid">
+              <ul class="nav-left">
+                <li>
+                  <div class="sidebar_toggle">
+                    <a href="javascript:void(0)"><i class="ti-menu"></i></a>
+                  </div>
+                </li>
+                <li>
+                  <a
+                    href="#!"
+                    onclick="javascript:toggleFullScreen()"
+                    class="waves-effect waves-light"
+                  >
+                    <i class="ti-fullscreen"></i>
+                  </a>
+                </li>
+              </ul>
+              <ul class="nav-right">
+                <li class="header-notification">
+                  <a href="#!" class="waves-effect waves-light">
+                    <i class="ti-bell"></i>
+                    <span class="badge bg-c-red"></span>
+                  </a>
+                  <ul class="show-notification">
+                    <li>
+                      <h6>Notifications</h6>
+                      <label class="label label-danger">New</label>
+                    </li>
+                    <li class="waves-effect waves-light">
+                      <div class="media">
+                        <img
+                          class="
+                            d-flex
+                            align-self-center
+                            img-radius
+                            fondo_celeste
+                          "
+                          src="{% static 'images/avatar-7.png' %}"
+                          alt="Generic placeholder image"
+                        />
+                        <div class="media-body">
+                          <h5 class="notification-user">John Doe</h5>
+                          <p class="notification-msg">
+                            Lorem ipsum dolor sit amet, consectetuer elit.
+                          </p>
+                          <span class="notification-time">30 minutes ago</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="waves-effect waves-light">
+                      <div class="media">
+                        <img
+                          class="d-flex align-self-center img-radius"
+                          src="{% static 'images/avatar-7.png' %}"
+                          alt="Generic placeholder image"
+                        />
+                        <div class="media-body">
+                          <h5 class="notification-user">Joseph William</h5>
+                          <p class="notification-msg">
+                            Lorem ipsum dolor sit amet, consectetuer elit.
+                          </p>
+                          <span class="notification-time">30 minutes ago</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="waves-effect waves-light">
+                      <div class="media">
+                        <img
+                          class="d-flex align-self-center img-radius"
+                          src="{% static 'images/avatar-3.jpg' %}"
+                          alt="Generic placeholder image"
+                        />
+                        <div class="media-body">
+                          <h5 class="notification-user">Sara Soudein</h5>
+                          <p class="notification-msg">
+                            Lorem ipsum dolor sit amet, consectetuer elit.
+                          </p>
+                          <span class="notification-time">30 minutes ago</span>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="user-profile header-notification">
+                  <a href="#!" class="waves-effect waves-light">
+                    <img
+                      src="{% static 'images/avatar-7.png' %}"
+                      class="img-radius fondo_celeste"
+                      alt="User-Profile-Image"
+                    />
+                    <span>{{usuario.cNombres}}</span>
+                    <i class="ti-angle-down"></i>
+                  </a>
+                  <ul class="show-notification profile-notification">
+                    <li class="waves-effect waves-light">
+                      <a href="user-profile.html">
+                        <i class="ti-user"></i> Perfil
+                      </a>
+                    </li>
+                    <li class="waves-effect waves-light">
+                      <a href="http://{{ request.get_host }}/logout/">
+                        <i class="ti-layout-sidebar-left"></i> Cerrar Sesión
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div class="pcoded-main-container">
+          <div class="pcoded-wrapper">
+            <nav class="pcoded-navbar">
+              <div class="sidebar_toggle">
+                <a href="#"><i class="icon-close icons"></i></a>
+              </div>
+              <div class="pcoded-inner-navbar main-menu">
+                <div class="">
+                  <div class="main-menu-header">
+                    <img
+                      class="img-80 img-radius fondo_celeste"
+                      src="{% static 'images/avatar-7.png' %}"
+                      alt="User-Profile-Image"
+                    />
+                    <div class="user-details">
+                      <span>{{usuario.cCargo}}</span>
+                      <span id="more-details"
+                        >{{usuario.cNombres}}<i class="fa fa-caret-down"></i
+                      ></span>
+                    </div>
+                  </div>
+                  <div class="main-menu-content">
+                    <ul>
+                      <li class="more-details">
+                        <a href="user-profile.html"
+                          ><i class="ti-user"></i>Perfil</a
+                        >
+                        <a href="http://{{ request.get_host }}/logout/"
+                          ><i class="ti-layout-sidebar-left"></i>Cerrar
+                          Sesión</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <ul class="pcoded-item pcoded-left-item">
+                  <li class="{{menu_inicio}}">
+                    <a
+                      href="http://{{ request.get_host }}/"
+                      class="waves-effect waves-dark"
+                    >
+                      <span class="pcoded-micon"
+                        ><i class="ti-home"></i><b>D</b></span
+                      >
+                      <span class="pcoded-mtext">Inicio</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                  </li>
+                </ul>
+                <div class="pcoded-navigation-label">Licenciamiento</div>
+                <ul class="pcoded-item pcoded-left-item">
+                  <li class="pcoded-hasmenu {{menu_condicion}}">
+                    <a
+                      href="javascript:void(0)"
+                      class="waves-effect waves-dark menu_condicion"
+                    >
+                      <span class="pcoded-micon"
+                        ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
+                      >
+                      <span class="pcoded-mtext">Condiciones Básicas</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                      {% block submenucondiciones %} {% endblock %}
+                    </ul>
+                  </li>
+                </ul>
+                <ul class="pcoded-item pcoded-left-item">
+                  <li class="pcoded-hasmenu {{menu_requerimiento}}">
+                    <a
+                      href="javascript:void(0)"
+                      class="waves-effect waves-dark menu_requerimiento"
+                    >
+                      <span class="pcoded-micon"
+                        ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
+                      >
+                      <span class="pcoded-mtext">Requerimientos</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                      {% block submenurequerimiento %} {% endblock %}
+                    </ul>
+                  </li>
+                </ul>
+                <ul class="pcoded-item pcoded-left-item">
+                  <li class="pcoded-hasmenu {{menu_recomendacion}}">
+                    <a
+                      href="javascript:void(0)"
+                      class="waves-effect waves-dark menu_recomendacion"
+                    >
+                      <span class="pcoded-micon"
+                        ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
+                      >
+                      <span class="pcoded-mtext">Recomendadiones</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                      {% block submenurecomendacion %} {% endblock %}
+                    </ul>
+                  </li>
+                </ul>
+                <div class="pcoded-navigation-label">Administración</div>
+                <ul class="pcoded-item pcoded-left-item">
+                  <li class="">
+                    {% if usuario.is_staff|lower == "true" %}
+                    <a
+                      href="http://{{ request.get_host }}/admin/"
+                      class="waves-effect waves-dark"
+                      target="_blank"
+                    >
+                      <span class="pcoded-micon"
+                        ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
+                      >
+                      <span class="pcoded-mtext">Administrador</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                    {% endif %} {% comment %}
+                    <ul class="pcoded-submenu">
+                      {% block submenucondiciones %} {% endblock %}
+                    </ul>
+                    {% endcomment %}
+                  </li>
+                </ul>
+              </div>
+            </nav>
+            <div class="pcoded-content">
+              <div class="pcoded-inner-content">
+                <!-- Main-body start -->
+                <div class="main-body">
+                  <div class="page-wrapper">
+                    <!-- Page-body start -->
+                    <div class="page-body">
+                      <!-- Content body-->
+                      {% block pagecontent %}{% endblock pagecontent %}
+                    </div>
+                    <!-- Page-body end -->
+                  </div>
+                  <div id="styleSelector"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Modal para cargar archivos-->
+    <div
+      class="modal fade"
+      id="modalCargarArchivo"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">
+              Cargar Evidencia
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <input type="hidden" id="idEvidencia" value="0" />
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupFileAddon01"
+                    >Cargar</span
+                  >
+                </div>
+                <div class="custom-file">
+                  <input
+                    type="file"
+                    class="custom-file-input"
+                    id="fileEvidencia"
+                  />
+                  <label class="custom-file-label" for="fileEvidencia"
+                    >Seleccione pdf..</label
+                  >
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-success"
+              id="btnCargarEvidencia"
+            >
+              Cargar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Fin de Modal para Cargar Archivos-->
+
+    <!--Modal para Revisar archivos-->
+    <div
+      class="modal fade"
+      id="modalRevisarArchivo"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">
+              Revisión de Medio de Verificacón
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            {% if usuario.lRevisor|lower == 'true' %}
+            <div class="form-group">
+              <input type="hidden" id="idEvidenciaRevision" value="0" />
+              <label for="cComentarioRevision">Comentario de Revisión</label>
+              <textarea
+                class="form-control rounded-0"
+                id="cComentarioRevision"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-danger"
+              id="btnObservarRevision"
+            >
+              Observar
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              id="btnAprobarRevision"
+            >
+              Aprobar
+            </button>
+            {% endif %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Comentario</th>
+                  <th scope="col">Estado</th>
+                </tr>
+              </thead>
+              <tbody id="tBodyRevision"></tbody>
+            </table>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+    <!--Fin de Modal para Revisar Archivos-->
+
+    <script
+      type="text/javascript"
+      src="{% static 'js/jquery/jquery.min.js' %} "
+    ></script>
+    <script
+      type="text/javascript"
+      src="{% static 'js/jquery-ui/jquery-ui.min.js' %} "
+    ></script>
+    <script
+      type="text/javascript"
+      src="{% static 'js/popper.js/popper.min.js' %}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{% static 'js/bootstrap/js/bootstrap.min.js' %} "
+    ></script>
+    <!-- waves js -->
+    <script src="{% static 'pages/waves/js/waves.min.js' %}"></script>
+    <!-- jquery slimscroll js -->
+    <script
+      type="text/javascript"
+      src="{% static 'js/jquery-slimscroll/jquery.slimscroll.js' %}"
+    ></script>
+
+    <!-- slimscroll js -->
+    <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %} "></script>
+
+    <!-- menu js -->
+    <script src="{% static 'js/pcoded.min.js' %}"></script>
+    <script src="{% static 'js/vertical/vertical-layout.min.js' %} "></script>
+    <script
+      type="text/javascript"
+      src="{% static 'js/accordion.min.js' %} "
+    ></script>
+    <script
+      type="text/javascript"
+      src="{% static 'js/bootstrap-growl.min.js' %}"
+    ></script>
+
+    <script type="text/javascript" src="{% static 'js/script.js' %} "></script>
+    <script type="text/javascript" src="{% static 'js/general.js' %} "></script>
+  </body>
+</html>

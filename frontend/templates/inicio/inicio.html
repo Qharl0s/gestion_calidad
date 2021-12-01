@@ -1,0 +1,67 @@
+{% extends 'inicio/header_menu_body.html' %}
+<!--########################-->
+{% block classmenuinicio %} class="active" {% endblock classmenuinicio%}
+
+<!--######################## -->
+{% block classsubmenucondiciones %} class="pcoded-hasmenu
+clasesoloparacompletar" {% endblock classsubmenucondiciones%}
+<!--########################-->
+
+{% block pagecontent %}
+<div class="row">
+  <!-- Project< statustic start -->
+  <div class="col-xl-12">
+    <div class="card proj-progress-card">
+      <div class="card-block">
+        <div class="row">
+          <div class="col-xl-3 col-md-6">
+            <h6>Condiciones Básicas</h6>
+            <h5 class="m-b-30 f-w-700">
+              20
+              <span class="text-c-green m-l-10">5</span>
+              <span class="text-c-red m-l-10">8</span>
+            </h5>
+            <div class="progress">
+              <div class="progress-bar bg-c-red" style="width: 25%"></div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-6">
+            <h6>Requerimientos</h6>
+            <h5 class="m-b-30 f-w-700">
+              8
+              <span class="text-c-green m-l-10">5</span>
+              <span class="text-c-red m-l-10">0</span>
+            </h5>
+            <div class="progress">
+              <div class="progress-bar bg-c-blue" style="width: 65%"></div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-6">
+            <h6>Recomendaciones</h6>
+            <h5 class="m-b-30 f-w-700">
+              10
+              <span class="text-c-green m-l-10">9</span>
+              <span class="text-c-red m-l-10">1</span>
+            </h5>
+            <div class="progress">
+              <div class="progress-bar bg-c-green" style="width: 85%"></div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-6">
+            <h6>Acreditación</h6>
+            <h5 class="m-b-30 f-w-700">
+              5
+              <span class="text-c-green m-l-10">2</span>
+              <span class="text-c-red m-l-10">2</span>
+            </h5>
+            <div class="progress">
+              <div class="progress-bar bg-c-yellow" style="width: 45%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Project statustic end -->
+</div>
+{% endblock pagecontent %}
