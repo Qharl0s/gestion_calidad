@@ -15,8 +15,5 @@ class Autenticador(ModelBackend):
                 token,created = Token.objects.get_or_create(user = User)
                 return User
             return None
-            # if User.fechaInicio <= date.today() <= User.fechaFin :
-            #     return User
-            # return None
         except User.DoesNotExist:
             return None

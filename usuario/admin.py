@@ -14,7 +14,7 @@ class UsuarioAdmin(UserAdmin):
     list_filter = ()
 
 class oficinaAdmin(admin.ModelAdmin):
-    list_display = ('id','cOficina')
+    list_display = ('id','cOficina', 'lAcreditacion')
 
     def __str__(self):
         return self.oficina.cOficina

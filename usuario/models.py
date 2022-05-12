@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Oficina(models.Model):
   cOficina = models.CharField('Oficina', max_length=120, default='')
+  lAcreditacion = models.BooleanField('Acreditación',default=False)
   lVigente = models.BooleanField('Vigente',default=True)
 
   def __str__(self):

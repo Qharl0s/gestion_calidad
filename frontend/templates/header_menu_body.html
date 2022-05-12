@@ -75,6 +75,11 @@
       type="text/css"
       href="{% static 'css/style.css' %}"
     />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'editor/editor.css' %}"
+    />
     <script>
       var base_url = 'http://{{ request.get_host }}/';
     </script>
@@ -209,12 +214,7 @@
                     <li class="waves-effect waves-light">
                       <div class="media">
                         <img
-                          class="
-                            d-flex
-                            align-self-center
-                            img-radius
-                            fondo_celeste
-                          "
+                          class="d-flex align-self-center img-radius fondo_celeste"
                           src="{% static 'images/avatar-7.png' %}"
                           alt="Generic placeholder image"
                         />
@@ -304,6 +304,7 @@
                       alt="User-Profile-Image"
                     />
                     <div class="user-details">
+                      <span>{{usuario.oficina.cOficina}}</span>
                       <span>{{usuario.cCargo}}</span>
                       <span id="more-details"
                         >{{usuario.cNombres}}<i class="fa fa-caret-down"></i
@@ -338,7 +339,9 @@
                     </a>
                   </li>
                 </ul>
+                {% if usuario.oficina.lAcreditacion|lower == 'true' %}
                 <div class="pcoded-navigation-label">Licenciamiento</div>
+
                 <ul class="pcoded-item pcoded-left-item">
                   <li class="pcoded-hasmenu {{menu_condicion}}">
                     <a
@@ -356,6 +359,7 @@
                     </ul>
                   </li>
                 </ul>
+
                 <ul class="pcoded-item pcoded-left-item">
                   <li class="pcoded-hasmenu {{menu_requerimiento}}">
                     <a
@@ -373,6 +377,7 @@
                     </ul>
                   </li>
                 </ul>
+
                 <ul class="pcoded-item pcoded-left-item">
                   <li class="pcoded-hasmenu {{menu_recomendacion}}">
                     <a
@@ -390,6 +395,28 @@
                     </ul>
                   </li>
                 </ul>
+                {%endif%}<!--##########-->
+                {% if usuario.oficina.lAcreditacion|lower == 'true' %}
+                <div class="pcoded-navigation-label">Acreditación</div>
+
+                <ul class="pcoded-item pcoded-left-item">
+                  <li class="pcoded-hasmenu {{menu_estandar}}">
+                    <a
+                      href="javascript:void(0)"
+                      class="waves-effect waves-dark menu_estandar"
+                    >
+                      <span class="pcoded-micon"
+                        ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
+                      >
+                      <span class="pcoded-mtext">Estandares</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                      {% block submenuestandares %} {% endblock %}
+                    </ul>
+                  </li>
+                </ul>
+                {%endif%}
                 <div class="pcoded-navigation-label">Administración</div>
                 <ul class="pcoded-item pcoded-left-item">
                   <li class="">
@@ -434,7 +461,7 @@
         </div>
       </div>
     </div>
-
+    
     <!--Modal para cargar archivos-->
     <div
       class="modal fade"
@@ -443,7 +470,7 @@
       role="dialog"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">
@@ -459,8 +486,29 @@
             </button>
           </div>
           <div class="modal-body">
-            <form>
-              <input type="hidden" id="idEvidencia" value="0" />
+            <form class="form-material">
+              <input type="hidden" id="idMedioVerificacion" value="0" />
+              <div class="form-group form-default form-static-label">
+                <textarea id="detalle1" class="form-control editor"></textarea>
+                <textarea
+                  id="txtEditorContent1"
+                  name="txtEditorContent"
+                  hidden=""
+                ></textarea>
+                <span class="form-bar"></span>
+                <label class="float-label"> Detalle:</label>
+              </div>
+              <div class="form-group form-default form-static-label">
+                <textarea id="detalle2" class="form-control editor"></textarea>
+                <textarea
+                  id="txtEditorContent2"
+                  name="txtEditorContent"
+                  hidden=""
+                ></textarea>
+                <span class="form-bar"></span>
+                <label class="float-label"> Identificación de Brechas:</label>
+              </div>
+              {% if usuario.lRevisor|lower == 'false' %}
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="inputGroupFileAddon01"
@@ -478,9 +526,11 @@
                   >
                 </div>
               </div>
+              {%endif%}
             </form>
           </div>
           <div class="modal-footer">
+            {% if usuario.lRevisor|lower == 'false' %}
             <button
               type="button"
               class="btn btn-success"
@@ -488,12 +538,13 @@
             >
               Cargar
             </button>
+            {%endif%}
           </div>
         </div>
       </div>
     </div>
     <!--Fin de Modal para Cargar Archivos-->
-
+    
     <!--Modal para Revisar archivos-->
     <div
       class="modal fade"
@@ -502,11 +553,11 @@
       role="dialog"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">
-              Revisión de Medio de Verificacón
+              Revisión de Medio de Verificación
             </h5>
             <button
               type="button"
@@ -521,11 +572,15 @@
             {% if usuario.lRevisor|lower == 'true' %}
             <div class="form-group">
               <input type="hidden" id="idEvidenciaRevision" value="0" />
-              <label for="cComentarioRevision">Comentario de Revisión</label>
               <textarea
-                class="form-control rounded-0"
+                class="form-control rounded-0 editor"
                 id="cComentarioRevision"
                 rows="3"
+              ></textarea>
+              <textarea
+                id="txtEditorContentRevision"
+                name="txtEditorContent"
+                hidden=""
               ></textarea>
             </div>
 
@@ -560,6 +615,7 @@
       </div>
     </div>
     <!--Fin de Modal para Revisar Archivos-->
+   
 
     <script
       type="text/javascript"
@@ -599,7 +655,10 @@
       type="text/javascript"
       src="{% static 'js/bootstrap-growl.min.js' %}"
     ></script>
-
+    <script
+      type="text/javascript"
+      src="{% static 'editor/editor.js' %} "
+    ></script>
     <script type="text/javascript" src="{% static 'js/script.js' %} "></script>
     <script type="text/javascript" src="{% static 'js/general.js' %} "></script>
   </body>

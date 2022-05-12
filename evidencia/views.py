@@ -3,68 +3,124 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
-from evidencia.models import MedioVerificacion
-from usuario.models import Usuario
+from evidencia.models import Categoria, Evidencia, MedioVerificacion
+from usuario.models import Oficina, Usuario
+
+# @login_required
+# def evidencia(request, id_medio_verificacion):
+#   user = Usuario.objects.get(username=request.user.username)
+#   oficina = user.oficina
+#   try:
+#     medio = MedioVerificacion.objects.get(id=id_medio_verificacion)
+#   except MedioVerificacion.DoesNotExist:
+#     medio = MedioVerificacion()
+    
+#   evidencia = Evidencia.objects.get(medioVerificacion=medio, oficina=oficina)
+  
+#   context = {'usuario':user, 'idMedioVerificacion':id_medio_verificacion, 'evidencia': evidencia}
+  
+#   return render(request, 'evidencia.html', context)
+
+@login_required
+def estandares(request):
+  user = Usuario.objects.get(username=request.user.username)  
+  categoria = Categoria.objects.filter(id=4)
+  
+  context = {'categoria' : categoria, 'usuario':user, 'menu_estandar':"pcoded-trigger active"}
+  return render(request, 'medios_verificacion.html', context)
 
 @login_required
 def condiciones(request):
   user = Usuario.objects.get(username=request.user.username)  
-  grupos = obtener_grupos(user, 1)
-  context = {'condiciones' : grupos, 'usuario':user, 'menu_condicion':"pcoded-trigger active"}
-  return render(request, 'inicio/condiciones.html', context)
+  
+  oficina = user.oficina
+  categoria = Categoria.objects.filter(id=1)
+  
+  context = {'categoria' : categoria, 'usuario':user, 'oficina':oficina, 'menu_condicion':"pcoded-trigger active",
+  #'evidencias':evidencias
+  }
+  return render(request, 'medios_verificacion.html', context)
 
 @login_required
 def requerimientos(request):
   user = Usuario.objects.get(username=request.user.username)  
-  grupos = obtener_grupos(user, 2)
-  context = {'condiciones' : grupos, 'usuario':user, 'menu_requerimiento':"pcoded-trigger active"}
-  return render(request, 'inicio/condiciones.html', context)
+  categoria = Categoria.objects.filter(id=2)
+  
+  context = {'categoria' : categoria, 'usuario':user, 'menu_requerimiento':"pcoded-trigger active"}
+  return render(request, 'medios_verificacion.html', context)
 
 @login_required
 def recomendaciones(request):
   user = Usuario.objects.get(username=request.user.username)  
-  grupos = obtener_grupos(user, 3)
-  context = {'condiciones' : grupos, 'usuario':user, 'menu_recomendacion':"pcoded-trigger active"}
-  return render(request, 'inicio/condiciones.html', context)
+  categoria = Categoria.objects.filter(id=3)
+  
+  context = {'categoria' : categoria, 'usuario':user, 'menu_recomendacion':"pcoded-trigger active"}
+  return render(request, 'medios_verificacion.html', context)
 
 @login_required
 def guardar_evidencia(request):
   if request.method=="POST":
     try:
-      pdf = request.FILES['fileEvidencia']
-      idEvidencia = request.POST['idEvidencia']
-      medio = MedioVerificacion.objects.get(id=idEvidencia)
-      
-      
-      if medio.archivoPdf.name != '':
-        fs_ = FileSystemStorage("media/")
-        if fs_.exists(medio.archivoPdf.name):
-            fs_.delete(medio.archivoPdf.name)
+      if 'fileEvidencia' in request.FILES:
+        pdf = request.FILES['fileEvidencia']
       
       user = Usuario.objects.get(username=request.user.username)
+      medio_verificacion = MedioVerificacion.objects.get(id=request.POST['idMedioVerificacion'])
       
-      medio.archivoPdf = pdf
-      medio.dFechaCarga = datetime.now()
-      medio.lRevisado = False
-      medio.usuarioCarga = user
-      medio.save()
+      try:
+        evidencia = Evidencia.objects.get(oficina=user.oficina, medioVerificacion = medio_verificacion)
+        if evidencia.archivoPdf.name != '' and 'fileEvidencia' in request.FILES:
+          fs_ = FileSystemStorage("media/")
+          if fs_.exists(evidencia.archivoPdf.name):
+              fs_.delete(evidencia.archivoPdf.name)
+      
+      except Evidencia.DoesNotExist:
+        evidencia = Evidencia()
+      
+      
+      
+      if 'fileEvidencia' in request.FILES:
+        evidencia.archivoPdf = pdf
+      
+      evidencia.oficina = user.oficina
+      evidencia.medioVerificacion = medio_verificacion
+      evidencia.dFechaCarga = datetime.now()
+      evidencia.lRevisado = False
+      evidencia.usuarioCarga = user
+      evidencia.cDetalle1 = request.POST['cDetalle1']
+      evidencia.cDetalle2 = request.POST['cDetalle2']
+      evidencia.idEstado = 'Cargado'
+      evidencia.save()
       
       return JsonResponse({"state":"success","cMensaje":'Operación exitosa'})
     except ValueError as e:
-        return JsonResponse({"state":"error","cMensaje":'Ocurrió un error al intentar guardar la revisión, intente de nuevo.'})
+        return JsonResponse({"state":"error","cMensaje":'Ocurrió un error al intentar guardar la evidencia, intente de nuevo.'})
 
+@login_required
+def obtener_evidencia(request):
+  if request.method=="POST":
+    try:
+      medio_verificacion = MedioVerificacion.objects.get(id=request.POST['idMedioVerificacion'])
+      user = Usuario.objects.get(username=request.user.username)
+      evidencia = Evidencia.objects.get(oficina=user.oficina, medioVerificacion = medio_verificacion)
+      
+      return JsonResponse({"state":"success", "cMensaje":"","cDetalle1":evidencia.cDetalle1, "cDetalle2":evidencia.cDetalle2, "cArchivoName": evidencia.archivoPdf.name})
+    except Evidencia.DoesNotExist:
+        return JsonResponse({"state":"error","cMensaje":'No se ha encontrado evidencia cargada.'})
+    
+    
 @login_required
 def guardar_revision(request):
   if request.method=="POST":
     try:
       user = Usuario.objects.get(username=request.user.username)
-      medio = MedioVerificacion.objects.get(id=request.POST['idEvidencia'])
-      medio.idEstado = int(request.POST['idEstado'])
-      medio.cComentarioRevisor = request.POST['cComentario']
-      medio.dFechaRevision = datetime.now()
-      medio.lRevisado = True
-      medio.usuarioRevisor = user
-      medio.save()
+      evidencia = Evidencia.objects.get(id=request.POST['idEvidencia'])
+      evidencia.idEstado = request.POST['idEstado']
+      evidencia.cComentarioRevisor = request.POST['cComentario']
+      evidencia.dFechaRevision = datetime.now()
+      evidencia.lRevisado = True
+      evidencia.usuarioRevisor = user
+      evidencia.save()
       return JsonResponse({"state":"success","cMensaje":'Operación exitosa'})
     except ValueError:
         return JsonResponse({"state":"error","cMensaje":'Ocurrió un error al intentar guardar la revisión, intente de nuevo.'})
@@ -72,57 +128,57 @@ def guardar_revision(request):
 @login_required
 def listar_revision(request):
   if request.method == "POST":
-    medio = MedioVerificacion.objects.get(id=request.POST['idEvidencia'])
+    evidencia = Evidencia.objects.get(id=request.POST['idEvidencia'])
     cEstado = "Pendiente"
-    if medio.idEstado == 2:
+    if evidencia.idEstado == 2:
       cEstado = "Observado"
-    if medio.idEstado == 3:
+    if evidencia.idEstado == 3:
       cEstado = "Aprobado"
       
-    return JsonResponse({"dFecha":medio.dFechaRevision.strftime("%m/%d/%Y, %H:%M:%S"),"cComentario":medio.cComentarioRevisor, "cEstado": cEstado})
+    return JsonResponse({"dFecha":evidencia.dFechaRevision.strftime("%m/%d/%Y, %H:%M:%S"),"cComentario":evidencia.cComentarioRevisor, "cEstado": cEstado})
  
-def obtener_grupos(user, idGrupo):
-  if user.lRevisor or user.is_staff :
-    evidencias = MedioVerificacion.objects.filter(lVigente=True)
-  else:
-    evidencias = user.oficina.evidencias.filter(lVigente=True)
-  #Listar Indicadores vs Evidencia
-  indicadores = []
-  for evidencia in evidencias:
-    cIndicadorDesc = evidencia.indicador.cIndicador+'<p><i>'+evidencia.indicador.cDescripcion+'</i></p>'
-    if cIndicadorDesc not in indicadores:
-      indicadores.append(cIndicadorDesc)
+# def obtener_grupos(user, idGrupo):
+#   if user.lRevisor or user.is_staff :
+#     evidencias = MedioVerificacion.objects.filter(lVigente=True)
+#   else:
+#     evidencias = user.oficina.evidencias.filter(lVigente=True)
+#   #Listar Indicadores vs Evidencia
+#   indicadores = []
+#   for evidencia in evidencias:
+#     cIndicadorDesc = evidencia.indicador.cIndicador+'<p><i>'+evidencia.indicador.cDescripcion+'</i></p>'
+#     if cIndicadorDesc not in indicadores:
+#       indicadores.append(cIndicadorDesc)
   
-  evi_indi = {}
-  for indicador in indicadores:
-    evidencias_ = []
-    for evidencia in evidencias:
-      cIndicadorDesc = evidencia.indicador.cIndicador+'<p><i>'+evidencia.indicador.cDescripcion+'</i></p>'
-      if cIndicadorDesc == indicador:
-        evidencias_.append(evidencia)
-    evi_indi[indicador] = evidencias_
+#   evi_indi = {}
+#   for indicador in indicadores:
+#     evidencias_ = []
+#     for evidencia in evidencias:
+#       cIndicadorDesc = evidencia.indicador.cIndicador+'<p><i>'+evidencia.indicador.cDescripcion+'</i></p>'
+#       if cIndicadorDesc == indicador:
+#         evidencias_.append(evidencia)
+#     evi_indi[indicador] = evidencias_
   
-  # listar grupos
-  grupos = []
-  for evidencia in evidencias:
-    if evidencia.indicador.grupo.categoria.id == idGrupo and evidencia.indicador.grupo.cGrupo not in grupos:
-      grupos.append(evidencia.indicador.grupo.cGrupo)
-  # Listar indicadores por grupo
-  ind_cond = {}
-  for grupo in grupos:
-    indicador_ = []
-    for evidencia in evidencias:
-      if evidencia.indicador.grupo.cGrupo == grupo:
-        cIndicadorDesc = evidencia.indicador.cIndicador+'<p><i>'+evidencia.indicador.cDescripcion+'</i></p>'
-        if cIndicadorDesc not in indicador_:
-          indicador_.append(cIndicadorDesc)
-    ind_cond[grupo] = indicador_
+#   # listar grupos
+#   grupos = []
+#   for evidencia in evidencias:
+#     if evidencia.indicador.grupo.categoria.id == idGrupo and evidencia.indicador.grupo.cGrupo not in grupos:
+#       grupos.append(evidencia.indicador.grupo.cGrupo)
+#   # Listar indicadores por grupo
+#   ind_cond = {}
+#   for grupo in grupos:
+#     indicador_ = []
+#     for evidencia in evidencias:
+#       if evidencia.indicador.grupo.cGrupo == grupo:
+#         cIndicadorDesc = evidencia.indicador.cIndicador+'<p><i>'+evidencia.indicador.cDescripcion+'</i></p>'
+#         if cIndicadorDesc not in indicador_:
+#           indicador_.append(cIndicadorDesc)
+#     ind_cond[grupo] = indicador_
   
-  indicador_grupo = {}
-  for key, item in ind_cond.items():
-    array = {}
-    for it in item:
-      array[it] = evi_indi[it]
-    indicador_grupo[key] = array
+#   indicador_grupo = {}
+#   for key, item in ind_cond.items():
+#     array = {}
+#     for it in item:
+#       array[it] = evi_indi[it]
+#     indicador_grupo[key] = array
     
-  return indicador_grupo
+#   return indicador_grupo

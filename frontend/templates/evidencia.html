@@ -1,0 +1,62 @@
+{% extends 'header_menu_body.html' %}
+
+{% block pagecontent %}
+  <div class="card">
+    <div class="card-block accordion-block">
+      <form class="form-material">
+        <input type="hidden" id="idMedioVerificacion" value="{{idMedioVerificacion}}" />
+        <div class="form-group form-default form-static-label">
+          <textarea id="detalle1" class="form-control editor"></textarea>
+          <textarea
+            id="txtEditorContent1"
+            name="txtEditorContent1"
+            hidden=""
+          ></textarea>
+          <span class="form-bar"></span>
+          <label class="float-label"> Detalle:</label>
+          <label class="btn btn-success">Editar</label>
+        </div>
+        <div class="form-group form-default form-static-label">
+          <textarea id="detalle2" class="form-control editor"></textarea>
+          <textarea
+            id="txtEditorContent2"
+            name="txtEditorContent2"
+            hidden=""
+          ></textarea>
+          <span class="form-bar"></span>
+          <label class="float-label"> Identificación de Brechas:</label>
+        </div>
+        {% if usuario.lRevisor|lower == 'true' %}
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupFileAddon01"
+              >Cargar</span
+            >
+          </div>
+          <div class="custom-file">
+            <input
+              type="file"
+              class="custom-file-input"
+              id="fileEvidencia"
+            />
+            <label class="custom-file-label" for="fileEvidencia"
+              >{{evidencia.archivoPdf.name}}</label
+            >
+          </div>
+        </div>
+        {%endif%}
+      </form>
+      <div class="text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          id="btnCargarEvidencia"
+        >
+          Guardar Evidencia
+        </button>
+
+        <button id="btnEditarEvidencia">Editar</button>
+      </div>
+    </div>
+  </div>
+{% endblock pagecontent %}

@@ -100,11 +100,6 @@ p {
   font-size: 13px;
 }
 
-b,
-strong {
-  font-weight: 500;
-}
-
 code {
   padding: 0px 3px;
   border-radius: 3px;

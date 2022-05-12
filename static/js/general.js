@@ -1,4 +1,12 @@
 $(function () {
+
+  
+  $('.menu_estandar').click(function (e) {
+    if (!$(this).parent().hasClass('active')) {
+      $(location).attr('href', base_url + 'estandares/');
+    }
+  });
+
   $('.menu_condicion').click(function (e) {
     if (!$(this).parent().hasClass('active')) {
       $(location).attr('href', base_url + 'condiciones/');
@@ -18,8 +26,26 @@ $(function () {
   });
 
   $('.btnCargarArchivo').click(function () {
-    var id = $(this).data('idevidencia');
-    $('#idEvidencia').val(id);
+    var id = $(this).data('medioverificacion');
+    $.ajax({
+      url: base_url + 'obtener_evidencia/',
+      data: {
+        idMedioVerificacion: id,
+      },
+      dataType: 'Json',
+      type: 'POST',
+      success: function (response) {
+        $('#idMedioVerificacion').val(id);
+        $('#detalle1').Editor('setText', response.cDetalle1 ===undefined ? '' : response.cDetalle1);
+        $('#detalle2').Editor('setText', response.cDetalle2 ===undefined ? '' : response.cDetalle2);
+        $('.custom-file-label').html(response.cArchivoName ===undefined? 'Seleccione el archivo pdf': response.cArchivoName);
+      },
+    });
+    // var detalle1 = $(this).data('detalle1');
+    // var detalle2 = $(this).data('detalle2');
+
+    
+
     $('#modalCargarArchivo').modal('show');
   });
 
@@ -85,16 +111,24 @@ $(function () {
   $('#btnObservarRevision').click(function () {
     guardar_revision(
       $('#idEvidenciaRevision').val(),
-      2,
-      $('#cComentarioRevision').val()
+      'Observado',
+      $(
+        $('#txtEditorContentRevision').text(
+          $('#cComentarioRevision').Editor('getText')
+        )[0]
+      ).val()
     );
   });
 
   $('#btnAprobarRevision').click(function () {
     guardar_revision(
       $('#idEvidenciaRevision').val(),
-      3,
-      $('#cComentarioRevision').val()
+      'Aprobado',
+      $(
+        $('#txtEditorContentRevision').text(
+          $('#cComentarioRevision').Editor('getText')
+        )[0]
+      ).val()
     );
   });
 
@@ -102,8 +136,17 @@ $(function () {
   $('#btnCargarEvidencia').click(function () {
     var fd = new FormData();
     var files = $('#fileEvidencia')[0].files;
-    fd.append('idEvidencia', $('#idEvidencia').val());
+    fd.append('idMedioVerificacion', $('#idMedioVerificacion').val());
+    fd.append(
+      'cDetalle1',
+      $($('#txtEditorContent1').text($('#detalle1').Editor('getText'))[0]).val()
+    );
+    fd.append(
+      'cDetalle2',
+      $($('#txtEditorContent2').text($('#detalle2').Editor('getText'))[0]).val()
+    );
     fd.append('fileEvidencia', files[0]);
+
     $.ajax({
       url: base_url + 'guardar_evidencia/',
       data: fd,
@@ -125,7 +168,77 @@ $(function () {
   });
 
   $('.btnVerArchivo').click(function (e) {
-    window.open($(this).data('urlpdf'), '_blank');
+    var id = $(this).data('medioverificacion');
+    $.ajax({
+      url: base_url + 'obtener_evidencia/',
+      data: {
+        idMedioVerificacion: id,
+      },
+      dataType: 'Json',
+      type: 'POST',
+      success: function (response) {
+        console.log(response);
+        if(response.cArchivoName ===undefined)
+        {}
+        else{
+          window.open(base_url+'media/'+response.cArchivoName, '_blank');
+        }
+          
+      },
+    });
+
+  });
+
+  $('#detalle1').Editor({
+    fonts: null,
+    styles: null,
+    font_size: null,
+    block_quote: false,
+    insert_img: false,
+    undo: false,
+    redo: false,
+    insert_link: false,
+    strikeout: false,
+    print: false,
+    unlink: false,
+    hr_line: false,
+    source: false,
+    insert_table: false,
+    select_all: false,
+  });
+  $('#detalle2').Editor({
+    fonts: null,
+    styles: null,
+    font_size: null,
+    block_quote: false,
+    insert_img: false,
+    undo: false,
+    redo: false,
+    insert_link: false,
+    strikeout: false,
+    print: false,
+    unlink: false,
+    hr_line: false,
+    source: false,
+    insert_table: false,
+    select_all: false,
+  });
+  $('#cComentarioRevision').Editor({
+    fonts: null,
+    styles: null,
+    font_size: null,
+    block_quote: false,
+    insert_img: false,
+    undo: false,
+    redo: false,
+    insert_link: false,
+    strikeout: false,
+    print: false,
+    unlink: false,
+    hr_line: false,
+    source: false,
+    insert_table: false,
+    select_all: false,
   });
   /************************************************************************ */
   function notify(
