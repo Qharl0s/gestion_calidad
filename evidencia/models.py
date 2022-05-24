@@ -44,10 +44,7 @@ class MedioVerificacion(models.Model):
   oficinaResponsable = models.ForeignKey(Oficina, related_name='evidencias', on_delete=models.CASCADE, blank=True, null=True)
   lVigente = models.BooleanField('Vigente',default=True, null=False)
 
-class Evidencia(models.Model):
-  class Meta:
-    verbose_name_plural = "5. Evidencias"
-  ESTADO = (
+ESTADO = (
     ('Pendiente', 'Pendiente'),
     ('Cargado', 'Cargado'),
     ('Revisado', 'Revisado'),
@@ -55,30 +52,61 @@ class Evidencia(models.Model):
     ('Aprobado', 'Aprobado'),
   )
   
-  ESCALA = (
-    ('1', 'Contextualización'),
-    ('2', 'Planificación'),
-    ('3', 'Optimización'),
-    ('3', 'Avance de actividades al 25%'),
-    ('4', 'Avance de actividades al 50%'),
-    ('5', 'Avance de actividades al 75%'),
-    ('6', 'Avance de actividades al 100%'),
-    ('7', 'Análisis de resultados'),
-    ('8', 'Justificación'),
-    ('9', 'Finalizado'),
-  )
+ESCALA = (
+  ('1', 'Contextualización'),
+  ('2', 'Planificación'),
+  ('3', 'Optimización'),
+  ('4', 'Avance de actividades al 25%'),
+  ('5', 'Avance de actividades al 50%'),
+  ('6', 'Avance de actividades al 75%'),
+  ('7', 'Avance de actividades al 100%'),
+  ('8', 'Análisis de resultados'),
+  ('9', 'Justificación'),
+  ('10', 'Finalizado'),
+)
+  
+class Evidencia(models.Model):
+  class Meta:
+    verbose_name_plural = "5. Evidencias"
+  
   
   medioVerificacion = models.ForeignKey(MedioVerificacion, on_delete=models.CASCADE, blank=True, null=True)
   oficina = models.ForeignKey(Oficina, related_name='oficina', on_delete=models.CASCADE, blank=True, null=True)
   
   idEstado = models.CharField('Estado', choices=ESTADO, default="Pendiente",  max_length=20)
-  idEscala = models.CharField('Escala', choices=ESCALA, default="Contextualizacion",  max_length=120)
+  idEscala = models.CharField('Escala', choices=ESCALA, default="1",  max_length=120)
   usuarioCarga = models.ForeignKey(Usuario, related_name='evidencia_cargada', on_delete=models.CASCADE, blank=True, null=True)
-  cDetalle1 = models.CharField('Primer Detalle', max_length=480, default='', blank=True, null=True,)
-  cDetalle2 = models.CharField('Segundo Detalle', max_length=480, default='', blank=True, null=True,)
+  cDetalle1 = models.TextField('Primer Detalle', default='', blank=True, null=True,)
+  cDetalle2 = models.TextField('Segundo Detalle', default='', blank=True, null=True,)
   archivoPdf = models.FileField(upload_to='pdf/', blank=True, null=True, default='')
   dFechaCarga = models.DateTimeField('Fecha de Carga', blank=True, null=True)
   lRevisado = models.BooleanField('Revisado',default=False, null=False)
   usuarioRevisor = models.ForeignKey(Usuario, related_name='evidencia_revisada', on_delete=models.CASCADE, blank=True, null=True)
+  cComentarioRevisor = models.CharField('Comentario de Revisor', max_length=360, blank=True, null=True)
+  dFechaRevision = models.DateTimeField('Fecha de Revisión', blank=True, null=True)
+  
+  def escala_desc(self):
+    d = dict(ESCALA)
+    if self.idEscala in d:
+        return d[self.idEscala]
+    return None
+
+  
+class Evidencia_Todo(models.Model):
+  class Meta:
+    verbose_name_plural = "6. Evidencias Todo"
+  
+  medioVerificacion = models.ForeignKey(MedioVerificacion, on_delete=models.CASCADE, blank=True, null=True)
+  oficina = models.ForeignKey(Oficina, related_name='oficinas', on_delete=models.CASCADE, blank=True, null=True)
+  
+  idEstado = models.CharField('Estado', choices=ESTADO, default="Pendiente",  max_length=20)
+  idEscala = models.CharField('Escala', choices=ESCALA, default="Contextualizacion",  max_length=120)
+  usuarioCarga = models.ForeignKey(Usuario, related_name='evidencia_cargado', on_delete=models.CASCADE, blank=True, null=True)
+  cDetalle1 = models.TextField('Primer Detalle', default='', blank=True, null=True,)
+  cDetalle2 = models.TextField('Segundo Detalle', default='', blank=True, null=True,)
+  archivoPdf = models.FileField(upload_to='pdf/', blank=True, null=True, default='')
+  dFechaCarga = models.DateTimeField('Fecha de Carga', blank=True, null=True)
+  lRevisado = models.BooleanField('Revisado',default=False, null=False)
+  usuarioRevisor = models.ForeignKey(Usuario, related_name='evidencia_revisado', on_delete=models.CASCADE, blank=True, null=True)
   cComentarioRevisor = models.CharField('Comentario de Revisor', max_length=360, blank=True, null=True)
   dFechaRevision = models.DateTimeField('Fecha de Revisión', blank=True, null=True)

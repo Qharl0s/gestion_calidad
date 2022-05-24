@@ -1,9 +1,9 @@
 $(function () {
-
   
   $('.menu_estandar').click(function (e) {
+    var id_oficina = $(this).data('idoficina');
     if (!$(this).parent().hasClass('active')) {
-      $(location).attr('href', base_url + 'estandares/');
+      $(location).attr('href', base_url + 'estandares/' + id_oficina + '/');
     }
   });
 
@@ -27,10 +27,12 @@ $(function () {
 
   $('.btnCargarArchivo').click(function () {
     var id = $(this).data('medioverificacion');
+    var id_oficina = $(this).data('idoficina');
     $.ajax({
       url: base_url + 'obtener_evidencia/',
       data: {
         idMedioVerificacion: id,
+        idOficina: id_oficina,
       },
       dataType: 'Json',
       type: 'POST',
@@ -67,9 +69,7 @@ $(function () {
           response.dFecha +
           '</td><td>' +
           response.cComentario +
-          '</td><td>' +
-          response.cEstado +
-          '</td></tr>';
+          '</td><td>';
         $('#tBodyRevision').html(tr);
       },
     });
@@ -168,24 +168,24 @@ $(function () {
   });
 
   $('.btnVerArchivo').click(function (e) {
-    var id = $(this).data('medioverificacion');
-    $.ajax({
-      url: base_url + 'obtener_evidencia/',
-      data: {
-        idMedioVerificacion: id,
-      },
-      dataType: 'Json',
-      type: 'POST',
-      success: function (response) {
-        console.log(response);
-        if(response.cArchivoName ===undefined)
-        {}
-        else{
-          window.open(base_url+'media/'+response.cArchivoName, '_blank');
-        }
-          
-      },
-    });
+    window.open(base_url+'media/'+$(this).data('urlpdf'), '_blank');
+    // var id = $(this).data('medioverificacion');
+    // $.ajax({
+    //   url: base_url + 'obtener_evidencia/',
+    //   data: {
+    //     idMedioVerificacion: id,
+    //   },
+    //   dataType: 'Json',
+    //   type: 'POST',
+    //   success: function (response) {
+    //     console.log(response);
+    //     if(response.cArchivoName ===undefined)
+    //     {}
+    //     else{
+    //       window.open(base_url+'media/'+response.cArchivoName, '_blank');
+    //     }
+    //   },
+    // });
 
   });
 

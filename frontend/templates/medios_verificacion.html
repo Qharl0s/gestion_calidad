@@ -76,6 +76,22 @@
       <h5 class="card-header-text">Condiciones</h5>
     </div>
     {% endcomment %}
+    {% if usuario.lRevisor|lower == 'true' %}
+    <div class="row">
+      <div class="dropdown col-lg-12 col-sm-12">
+        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
+          {{oficina.cOficina}}
+        </button>
+        <div class="dropdown-menu">
+          {% for ofi in oficinas%}
+            <a class="dropdown-item" href="http://{{ request.get_host }}/estandares/{{ofi.id}}/">{{ofi.cOficina}}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    
+
     <div class="card-block accordion-block">
       <div id="accordion" role="tablist" aria-multiselectable="true">
         {% for categoria_ in categoria%}
@@ -117,16 +133,19 @@
                           {% for medio in indicador.medioverificacion_set.all %}
                             <tr>
                               <td><b>{{medio.cTitulo}}</b>, <i>{{medio.cMedioVerificacion}}</i></td>
-                              <td>
+                              <td class="text-right">
                               {% for evi in medio.evidencia_set.all %}
                                 {% if oficina == evi.oficina %}
-                                  {{evi.id}}
+                                  <span class="text-right label label-warning"> {{evi.escala_desc}}</span>
                                 {%endif%}
                               {% endfor %}
+                              {% if medio.evidencia_set.count == 0 %}
+                                <span class="text-right label label-warning">Contextualización</span>
+                              {% endif %}
                               </td>
-                              <td class="text-right">
+                              <td class="text-right" style="width: 130px;">
                                 <div class="btn-group btn-group-sm">
-                                  <button type="button" class="btn btn-success btnCargarArchivo" data-medioverificacion="{{medio.id}}"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                                  <button type="button" class="btn btn-success btnCargarArchivo" data-medioverificacion="{{medio.id}}" data-idoficina="{{oficina.id}}"><i class="fa fa-upload" aria-hidden="true"></i></button>
                                   {% for evi in medio.evidencia_set.all %}
                                     {% if oficina == evi.oficina %}
                                       {% if evi.archivoPdf%}

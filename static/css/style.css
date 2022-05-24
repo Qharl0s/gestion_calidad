@@ -3995,7 +3995,7 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .label-warning {
-  color: #fff;
+  color: #333 !important;
 }
 
 /*======= Label-color css starts  ======= */
@@ -10543,7 +10543,7 @@ select.form-control:hover {
   padding: 4px 7px;
   margin-right: 5px;
   font-weight: 400;
-  color: #fff !important;
+  color: #fff;
 }
 
 .label-main {

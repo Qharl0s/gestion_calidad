@@ -339,7 +339,7 @@
                     </a>
                   </li>
                 </ul>
-                {% if usuario.oficina.lAcreditacion|lower == 'true' %}
+                {% if usuario.oficina.lAcreditacion|lower != 'true' or usuario.lRevior|lower == 'true' %}
                 <div class="pcoded-navigation-label">Licenciamiento</div>
 
                 <ul class="pcoded-item pcoded-left-item">
@@ -396,7 +396,7 @@
                   </li>
                 </ul>
                 {%endif%}<!--##########-->
-                {% if usuario.oficina.lAcreditacion|lower == 'true' %}
+                {% if usuario.oficina.lAcreditacion|lower == 'true' or usuario.lRevisor|lower == 'true' %}
                 <div class="pcoded-navigation-label">Acreditación</div>
 
                 <ul class="pcoded-item pcoded-left-item">
@@ -404,6 +404,7 @@
                     <a
                       href="javascript:void(0)"
                       class="waves-effect waves-dark menu_estandar"
+                      data-idoficina="{{user.oficina.id}}"
                     >
                       <span class="pcoded-micon"
                         ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
@@ -508,7 +509,7 @@
                 <span class="form-bar"></span>
                 <label class="float-label"> Identificación de Brechas:</label>
               </div>
-              {% if usuario.lRevisor|lower == 'false' %}
+              {% if usuario.lRevisor|lower != 'true' %}
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="inputGroupFileAddon01"
@@ -530,7 +531,7 @@
             </form>
           </div>
           <div class="modal-footer">
-            {% if usuario.lRevisor|lower == 'false' %}
+            {% if usuario.lRevisor|lower != 'true' %}
             <button
               type="button"
               class="btn btn-success"
@@ -604,7 +605,6 @@
                 <tr>
                   <th scope="col">Fecha</th>
                   <th scope="col">Comentario</th>
-                  <th scope="col">Estado</th>
                 </tr>
               </thead>
               <tbody id="tBodyRevision"></tbody>
@@ -650,6 +650,10 @@
     <script
       type="text/javascript"
       src="{% static 'js/accordion.min.js' %} "
+    ></script>
+    <script
+      type="text/javascript"
+      src="{% static 'js/jquery-ui/jquery-ui.min.js' %} "
     ></script>
     <script
       type="text/javascript"

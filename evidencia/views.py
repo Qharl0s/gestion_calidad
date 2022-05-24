@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
-from evidencia.models import Categoria, Evidencia, MedioVerificacion
+from evidencia.models import Categoria, Evidencia, Evidencia_Todo, MedioVerificacion
 from usuario.models import Oficina, Usuario
 
 # @login_required
@@ -22,11 +22,23 @@ from usuario.models import Oficina, Usuario
 #   return render(request, 'evidencia.html', context)
 
 @login_required
-def estandares(request):
-  user = Usuario.objects.get(username=request.user.username)  
+def estandares(request, oficina_id=0):
+  user = Usuario.objects.get(username=request.user.username)
+  
+  oficina = user.oficina
+  oficinas = Oficina()
+  if user.lRevisor:
+    try:
+      oficina = Oficina.objects.get(id=oficina_id)
+    except Oficina.DoesNotExist:
+      oficina = Oficina()
+      oficina.id = 0
+      oficina.cOficina = 'Seleccione Oficina..'
+    oficinas = Oficina.objects.filter(lVigente=True, lAcreditacion=True)
+  
   categoria = Categoria.objects.filter(id=4)
   
-  context = {'categoria' : categoria, 'usuario':user, 'menu_estandar':"pcoded-trigger active"}
+  context = {'categoria' : categoria, 'usuario':user, 'oficina': oficina, 'oficinas': oficinas, 'menu_estandar':"pcoded-trigger active"}
   return render(request, 'medios_verificacion.html', context)
 
 @login_required
@@ -76,9 +88,7 @@ def guardar_evidencia(request):
       
       except Evidencia.DoesNotExist:
         evidencia = Evidencia()
-      
-      
-      
+
       if 'fileEvidencia' in request.FILES:
         evidencia.archivoPdf = pdf
       
@@ -102,7 +112,8 @@ def obtener_evidencia(request):
     try:
       medio_verificacion = MedioVerificacion.objects.get(id=request.POST['idMedioVerificacion'])
       user = Usuario.objects.get(username=request.user.username)
-      evidencia = Evidencia.objects.get(oficina=user.oficina, medioVerificacion = medio_verificacion)
+      oficina = Oficina.objects.get(id=request.POST['idOficina'])
+      evidencia = Evidencia.objects.get(oficina=oficina, medioVerificacion = medio_verificacion)
       
       return JsonResponse({"state":"success", "cMensaje":"","cDetalle1":evidencia.cDetalle1, "cDetalle2":evidencia.cDetalle2, "cArchivoName": evidencia.archivoPdf.name})
     except Evidencia.DoesNotExist:
@@ -121,6 +132,48 @@ def guardar_revision(request):
       evidencia.lRevisado = True
       evidencia.usuarioRevisor = user
       evidencia.save()
+      
+      if evidencia.idEstado == 'Aprobado':
+        try:
+          evidencia_todo = Evidencia_Todo.objects.get(oficina=evidencia.oficina, medioVerificacion = evidencia.medioVerificacion, idEscala=evidencia.idEscala)
+        except Evidencia_Todo.DoesNotExist:
+          evidencia_todo = Evidencia_Todo()
+        
+        evidencia_todo.medioVerificacion = evidencia.medioVerificacion
+        evidencia_todo.oficina = evidencia.oficina
+        evidencia_todo.idEstado = 'Aprobado'
+        evidencia_todo.idEscala = evidencia.idEscala
+        evidencia_todo.usuarioCarga = evidencia.usuarioCarga
+        evidencia_todo.cDetalle1 = evidencia.cDetalle1
+        evidencia_todo.cDetalle2 = evidencia.cDetalle2
+        evidencia_todo.archivoPdf = evidencia.archivoPdf
+        evidencia_todo.dFechaCarga = evidencia.dFechaCarga
+        evidencia_todo.lRevisado = evidencia.lRevisado
+        evidencia_todo.usuarioRevisor = evidencia.usuarioRevisor
+        evidencia_todo.cComentarioRevisor = evidencia.cComentarioRevisor
+        evidencia_todo.dFechaRevision = evidencia.dFechaRevision
+        evidencia_todo.save()
+        # Se reinicia datos de la evidencia
+        if evidencia.archivoPdf.name != '':
+          fs_ = FileSystemStorage("media/")
+          if fs_.exists(evidencia.archivoPdf.name):
+              fs_.delete(evidencia.archivoPdf.name)
+        evidencia.archivoPdf = None
+        evidencia.dFechaCarga = None
+        evidencia.idEstado = 'Pendiente'
+        evidencia.cDetalle1 = ''
+        evidencia.cDetalle2 = ''
+        evidencia.lRevisado = False
+        evidencia.usuarioRevisor = None
+        evidencia.cComentarioRevisor = None
+        evidencia.dFechaRevision = None
+        # Agregar Escala o Finalizar
+        if evidencia.oficina.lAcreditacion :
+          evidencia.idEscala = str(int(evidencia.idEscala)+1)
+        else:
+          evidencia.idEscala = '10'
+        evidencia.save()
+      
       return JsonResponse({"state":"success","cMensaje":'Operación exitosa'})
     except ValueError:
         return JsonResponse({"state":"error","cMensaje":'Ocurrió un error al intentar guardar la revisión, intente de nuevo.'})
