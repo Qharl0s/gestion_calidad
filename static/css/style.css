@@ -10713,6 +10713,10 @@ span.badge {
   margin-top: 0;
 }
 
+.card-content{
+  padding: 15px;
+}
+
 #checkbox-select tr td.select-checkbox,
 #checkbox-select tr th.select-checkbox {
   padding-left: 30px;

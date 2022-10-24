@@ -1,0 +1,65 @@
+{% extends 'header_menu_body.html' %}
+<!--########################-->
+
+<!--######################## -->
+{% block classsubmenucondiciones %} class="pcoded-hasmenu
+clasesoloparacompletar" {% endblock classsubmenucondiciones%}
+<!--########################-->
+
+{% block pagecontent %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-content">
+                <form id="form_guardar_datos">
+                    <div class="form-group">
+                        <label for="oficina">Oficina</label>
+                        <input type="text" class="form-control" id="oficina" value="{{usuario.oficina}}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="cargo">Cargo</label>
+                        <input type="text" class="form-control" id="cargo" value="{{usuario.cCargo}}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="cargo">Email</label>
+                        <input type="email" class="form-control" id="email" value="{{usuario.email}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="cargo">Nombres</label>
+                        <input type="text" class="form-control" id="nombres" value="{{usuario.cNombres}}" >
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Actualizar Datos</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-content">
+                <form id="form_actualizar_password">
+                    <div class="form-group">
+                        <label for="usuario">Usuario:</label>
+                        <input type="text" class="form-control" id="usuario" value="{{usuario.username}}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="password_actual">Actual Password:</label>
+                        <input type="password" class="form-control" id="password_actual">
+                    </div>
+                    <div class="form-group">
+                        <label for="nuevo_password1">Nuevo Password:</label>
+                        <input type="password" class="form-control" name="nuevo_password1" id="nuevo_password1">
+                    </div>
+                    <div class="form-group">
+                        <label for="nuevo_password2">Repita Password:</label>
+                        <input type="password" class="form-control" name="nuevo_password2" id="nuevo_password2">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Actualizar Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock pagecontent %}

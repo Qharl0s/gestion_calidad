@@ -1,4 +1,69 @@
 $(function () {
+
+  $('#form_guardar_datos').submit(function (e) {
+    e.preventDefault();
+    if($('#email').val() == ""){
+      notify('Guardar Datos', 'El campo email es obligatorio.', 'danger');
+      return;
+    }
+    if($('#nombres').val() == ""){
+      notify('Guardar Datos', 'El campo nombres es obligatorio.', 'danger');
+      return;
+    }
+    
+    $.ajax({
+      url: base_url + 'guardar_datos/',
+      data: {
+        email: $('#email').val(),
+        nombres: $('#nombres').val(),
+      },
+      dataType: 'Json',
+      type: 'POST',
+      success: function (response) {
+        if (response.state == 'success') {
+          notify('Guardar Datos', response.cMensaje);
+          setTimeout(function () {
+            location.reload();
+          }, 2000);
+        } else notify('Guardar Datos', response.cMensaje, 'danger');
+      },
+    });
+  });
+
+  $('#form_actualizar_password').submit(function (e) {
+    e.preventDefault();
+    if($('#password_actual').val() == ""){
+      notify('Guardar Datos', 'El campo password actual es obligatorio.', 'danger');
+      return;
+    }
+    if($('#nuevo_password1').val() == ""){
+      notify('Guardar Datos', 'El campo de nuevo password es obligatorio.', 'danger');
+      return;
+    }
+    if($('#nuevo_password2').val() == ""){
+      notify('Guardar Datos', 'El campo para repetir password es obligatorio.', 'danger');
+      return;
+    }
+    
+    $.ajax({
+      url: base_url + 'actualizar_password/',
+      data: {
+        password_actual: $('#password_actual').val(),
+        nuevo_password1: $('#nuevo_password1').val(),
+        nuevo_password2: $('#nuevo_password2').val(),
+      },
+      dataType: 'Json',
+      type: 'POST',
+      success: function (response) {
+        if (response.state == 'success') {
+          notify('Actualizar Password', response.cMensaje);
+          setTimeout(function () {
+            location.reload();
+          }, 2000);
+        } else notify('Actualizar Password', response.cMensaje, 'danger');
+      },
+    });
+  });
   
   $('.menu_estandar').click(function (e) {
     var id_oficina = $(this).data('idoficina');
@@ -43,11 +108,6 @@ $(function () {
         $('.custom-file-label').html(response.cArchivoName ===undefined? 'Seleccione el archivo pdf': response.cArchivoName);
       },
     });
-    // var detalle1 = $(this).data('detalle1');
-    // var detalle2 = $(this).data('detalle2');
-
-    
-
     $('#modalCargarArchivo').modal('show');
   });
 

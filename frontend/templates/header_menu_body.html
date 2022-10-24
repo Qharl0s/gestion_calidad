@@ -201,7 +201,7 @@
                 </li>
               </ul>
               <ul class="nav-right">
-                <li class="header-notification">
+                {% comment %} <li class="header-notification">
                   <a href="#!" class="waves-effect waves-light">
                     <i class="ti-bell"></i>
                     <span class="badge bg-c-red"></span>
@@ -260,7 +260,7 @@
                       </div>
                     </li>
                   </ul>
-                </li>
+                </li> {% endcomment %}
                 <li class="user-profile header-notification">
                   <a href="#!" class="waves-effect waves-light">
                     <img
@@ -273,7 +273,7 @@
                   </a>
                   <ul class="show-notification profile-notification">
                     <li class="waves-effect waves-light">
-                      <a href="user-profile.html">
+                      <a href="http://{{ request.get_host }}/perfil/">
                         <i class="ti-user"></i> Perfil
                       </a>
                     </li>
@@ -314,7 +314,7 @@
                   <div class="main-menu-content">
                     <ul>
                       <li class="more-details">
-                        <a href="user-profile.html"
+                        <a href="http://{{ request.get_host }}/perfil/"
                           ><i class="ti-user"></i>Perfil</a
                         >
                         <a href="http://{{ request.get_host }}/logout/"
@@ -373,7 +373,7 @@
                       <span class="pcoded-mcaret"></span>
                     </a>
                     <ul class="pcoded-submenu">
-                      {% block submenurequerimiento %} {% endblock %}
+                      {% block submenurequerimientos %} {% endblock %}
                     </ul>
                   </li>
                 </ul>
@@ -391,7 +391,7 @@
                       <span class="pcoded-mcaret"></span>
                     </a>
                     <ul class="pcoded-submenu">
-                      {% block submenurecomendacion %} {% endblock %}
+                      {% block submenurecomendaciones %} {% endblock %}
                     </ul>
                   </li>
                 </ul>
@@ -404,7 +404,7 @@
                     <a
                       href="javascript:void(0)"
                       class="waves-effect waves-dark menu_estandar"
-                      data-idoficina="{{user.oficina.id}}"
+                      data-idoficina="{% if user.lRevisor|lower == "true" %}0{% else %}{{user.oficina.id}}{% endif %}"
                     >
                       <span class="pcoded-micon"
                         ><i class="ti-layout-grid2-alt"></i><b>BC</b></span

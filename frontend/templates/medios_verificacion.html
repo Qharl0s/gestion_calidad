@@ -6,7 +6,7 @@
     {% for categoria_ in categoria%}
       {% for grupo in categoria_.grupo_set.all %}
         <li class="">
-          <a href="#" class="waves-effect waves-dark">
+          <a href="#" data-id="{{grupo.id}}" class="waves-effect waves-dark submenulateral">
             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
             <span class="pcoded-mtext">{{grupo.cGrupo}}</span>
             <span class="pcoded-mcaret"></span>
@@ -22,7 +22,7 @@
     {% for categoria_ in categoria%}
       {% for grupo in categoria_.grupo_set.all %}
         <li class="">
-          <a href="#" class="waves-effect waves-dark">
+          <a href="#" data-id="{{grupo.id}}" class="waves-effect waves-dark submenulateral">
             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
             <span class="pcoded-mtext">{{grupo.cGrupo}}</span>
             <span class="pcoded-mcaret"></span>
@@ -38,7 +38,7 @@
     {% for categoria_ in categoria%}
       {% for grupo in categoria_.grupo_set.all %}
         <li class="">
-          <a href="#" class="waves-effect waves-dark">
+          <a href="#" data-id="{{grupo.id}}" class="waves-effect waves-dark submenulateral">
             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
             <span class="pcoded-mtext">{{grupo.cGrupo}}</span>
             <span class="pcoded-mcaret"></span>
@@ -54,7 +54,7 @@
     {% for categoria_ in categoria%}
       {% for grupo in categoria_.grupo_set.all %}
         <li class="">
-          <a href="#" class="waves-effect waves-dark">
+          <a href="#" data-id="{{grupo.id}}" class="waves-effect waves-dark submenulateral">
             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
             <span class="pcoded-mtext">{{grupo.cGrupo}}</span>
             <span class="pcoded-mcaret"></span>
@@ -70,13 +70,7 @@
 {% block pagecontent %}
 <div class="row">
   <div class="col-lg-12">
-    <!--<div class="card"> Inicio de Card-->
-    {% comment %}
-    <div class="card-header">
-      <h5 class="card-header-text">Condiciones</h5>
-    </div>
-    {% endcomment %}
-    {% if usuario.lRevisor|lower == 'true' %}
+    {% if usuario.lRevisor|lower == 'true' and lAcreditacion == 'true' %}
     <div class="row">
       <div class="dropdown col-lg-12 col-sm-12">
         <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
@@ -134,20 +128,25 @@
                             <tr>
                               <td><b>{{medio.cTitulo}}</b>, <i>{{medio.cMedioVerificacion}}</i></td>
                               <td class="text-right">
-                              {% for evi in medio.evidencia_set.all %}
-                                {% if oficina == evi.oficina %}
-                                  <span class="text-right label label-warning"> {{evi.escala_desc}}</span>
-                                {%endif%}
-                              {% endfor %}
-                              {% if medio.evidencia_set.count == 0 %}
-                                <span class="text-right label label-warning">Contextualización</span>
-                              {% endif %}
-                              </td>
-                              <td class="text-right" style="width: 130px;">
-                                <div class="btn-group btn-group-sm">
-                                  <button type="button" class="btn btn-success btnCargarArchivo" data-medioverificacion="{{medio.id}}" data-idoficina="{{oficina.id}}"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                                {% if lAcreditacion == 'true' %}
                                   {% for evi in medio.evidencia_set.all %}
                                     {% if oficina == evi.oficina %}
+                                      <span class="text-right label label-warning"> {{evi.escala_desc}}</span>
+                                    {%endif%}
+                                  {% endfor %}
+                                  {% if medio.evidencia_set.count == 0 %}
+                                    <span class="text-right label label-warning">Contextualización</span>
+                                  {% endif %}
+                                {% endif %}
+                              </td>
+                              <td class="text-right" style="width: 133px;">
+                                <div class="btn-group btn-group-sm">
+                                  {% if oficina == medio.oficinaResponsable %}
+                                    <button type="button" class="btn btn-success btnCargarArchivo" data-medioverificacion="{{medio.id}}" data-idoficina="{{oficina.id}}"><i class="fa fa-commenting" aria-hidden="true"></i></button>                                  
+                                  {% endif %}
+                                  
+                                  {% for evi in medio.evidencia_set.all %}
+                                    
                                       {% if evi.archivoPdf%}
                                         <button type="button" class="btn btn-danger btnVerArchivo" data-idevidencia="{{evi.id}}"
                                         data-urlpdf="{{evi.archivoPdf.name}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
@@ -157,7 +156,7 @@
                                       {% else %}
                                         <button type="button" class="btn btn-primary btnRevisarArchivo" data-idevidencia="{{evi.id}}"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
                                       {% endif %}
-                                    {%endif%}
+                                    
                                   {% endfor %}
                                   {% comment %} <button type="button" class="btn btn-danger btnVerArchivo" data-medioverificacion="{{id}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button> {% endcomment %}
 

@@ -38,7 +38,7 @@ def estandares(request, oficina_id=0):
   
   categoria = Categoria.objects.filter(id=4)
   
-  context = {'categoria' : categoria, 'usuario':user, 'oficina': oficina, 'oficinas': oficinas, 'menu_estandar':"pcoded-trigger active"}
+  context = {'categoria' : categoria, 'usuario':user, 'oficina': oficina, 'oficinas': oficinas, 'menu_estandar':"pcoded-trigger active", 'lAcreditacion':'true'}
   return render(request, 'medios_verificacion.html', context)
 
 @login_required
@@ -55,10 +55,12 @@ def condiciones(request):
 
 @login_required
 def requerimientos(request):
-  user = Usuario.objects.get(username=request.user.username)  
+  user = Usuario.objects.get(username=request.user.username)
+  
+  oficina = user.oficina
   categoria = Categoria.objects.filter(id=2)
   
-  context = {'categoria' : categoria, 'usuario':user, 'menu_requerimiento':"pcoded-trigger active"}
+  context = {'categoria' : categoria, 'usuario':user, 'oficina':oficina, 'menu_requerimiento':"pcoded-trigger active"}
   return render(request, 'medios_verificacion.html', context)
 
 @login_required
@@ -154,25 +156,26 @@ def guardar_revision(request):
         evidencia_todo.dFechaRevision = evidencia.dFechaRevision
         evidencia_todo.save()
         # Se reinicia datos de la evidencia
-        if evidencia.archivoPdf.name != '':
-          fs_ = FileSystemStorage("media/")
-          if fs_.exists(evidencia.archivoPdf.name):
-              fs_.delete(evidencia.archivoPdf.name)
-        evidencia.archivoPdf = None
-        evidencia.dFechaCarga = None
-        evidencia.idEstado = 'Pendiente'
-        evidencia.cDetalle1 = ''
-        evidencia.cDetalle2 = ''
-        evidencia.lRevisado = False
-        evidencia.usuarioRevisor = None
-        evidencia.cComentarioRevisor = None
-        evidencia.dFechaRevision = None
-        # Agregar Escala o Finalizar
         if evidencia.oficina.lAcreditacion :
-          evidencia.idEscala = str(int(evidencia.idEscala)+1)
-        else:
-          evidencia.idEscala = '10'
-        evidencia.save()
+          if evidencia.archivoPdf.name != '':
+            fs_ = FileSystemStorage("media/")
+            if fs_.exists(evidencia.archivoPdf.name):
+                fs_.delete(evidencia.archivoPdf.name)
+          evidencia.archivoPdf = None
+          evidencia.dFechaCarga = None
+          evidencia.idEstado = 'Pendiente'
+          evidencia.cDetalle1 = ''
+          evidencia.cDetalle2 = ''
+          evidencia.lRevisado = False
+          evidencia.usuarioRevisor = None
+          evidencia.cComentarioRevisor = None
+          evidencia.dFechaRevision = None
+          # Agregar Escala o Finalizar
+          if evidencia.oficina.lAcreditacion :
+            evidencia.idEscala = str(int(evidencia.idEscala)+1)
+          else:
+            evidencia.idEscala = '10'
+          evidencia.save()
       
       return JsonResponse({"state":"success","cMensaje":'Operación exitosa'})
     except ValueError:

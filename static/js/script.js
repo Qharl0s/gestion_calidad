@@ -1,5 +1,15 @@
 "use strict";
 $(document).ready(function() {
+
+    $('.submenulateral').on('click', function() {
+        var id = $(this).data('id');
+        $('.panel-collapse').removeClass('show');
+        $('#accordion_'+id).addClass('show');
+
+        window.location.hash = "accordion_"+id;
+        
+    });
+
     // card js start
     $(".card-header-right .close-card").on('click', function() {
         var $this = $(this);

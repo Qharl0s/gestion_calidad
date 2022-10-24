@@ -1,4 +1,5 @@
 {% extends 'header_menu_body.html' %}
+{% load static %}
 <!--########################-->
 {% block classmenuinicio %} class="active" {% endblock classmenuinicio%}
 
@@ -10,8 +11,9 @@ clasesoloparacompletar" {% endblock classsubmenucondiciones%}
 {% block pagecontent %}
 <div class="row">
   <!-- Project< statustic start -->
-  <div class="col-xl-12">
-    <div class="card proj-progress-card">
+  <div class="col-xl-12 text-center">
+    <img src="{% static 'images/logo-unamad-portal.png' %}" class="img-fluid" alt="Responsive image">
+    {% comment %} <div class="card proj-progress-card">
       <div class="card-block">
         <div class="row">
           <div class="col-xl-3 col-md-6">
@@ -60,7 +62,7 @@ clasesoloparacompletar" {% endblock classsubmenucondiciones%}
           </div>
         </div>
       </div>
-    </div>
+    </div> {% endcomment %}
   </div>
   <!-- Project statustic end -->
 </div>
