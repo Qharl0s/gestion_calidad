@@ -141,7 +141,7 @@
                               </td>
                               <td class="text-right" style="width: 133px;">
                                 <div class="btn-group btn-group-sm">
-                                  {% if oficina == medio.oficinaResponsable %}
+                                  {% if oficina == medio.oficinaResponsable or oficina.lAcreditacion|lower == 'true' %}
                                     <button type="button" class="btn btn-success btnCargarArchivo" data-medioverificacion="{{medio.id}}" data-idoficina="{{oficina.id}}"><i class="fa fa-commenting" aria-hidden="true"></i></button>                                  
                                   {% endif %}
                                   
