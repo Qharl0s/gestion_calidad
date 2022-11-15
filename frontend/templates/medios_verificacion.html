@@ -144,18 +144,19 @@
                                   {% if oficina == medio.oficinaResponsable or oficina.lAcreditacion|lower == 'true' %}
                                     <button type="button" class="btn btn-success btnCargarArchivo" data-medioverificacion="{{medio.id}}" data-idoficina="{{oficina.id}}"><i class="fa fa-commenting" aria-hidden="true"></i></button>                                  
                                   {% endif %}
-                                  
                                   {% for evi in medio.evidencia_set.all %}
-                                    
+                                    {% if evi.oficina == oficina %}
+                                      <span>{{evi}}</span>
                                       {% if evi.archivoPdf%}
                                         <button type="button" class="btn btn-danger btnVerArchivo" data-idevidencia="{{evi.id}}"
-                                        data-urlpdf="{{evi.archivoPdf.name}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+                                      data-urlpdf="{{evi.archivoPdf.name}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
                                       {% endif %}
                                       {% if evi.lRevisado|lower == 'true' %}
                                         <button type="button" class="btn btn-primary btnRevisarArchivo" data-idevidencia="{{evi.id}}"><i class="fa fa-eye" aria-hidden="true"></i></button>
                                       {% else %}
                                         <button type="button" class="btn btn-primary btnRevisarArchivo" data-idevidencia="{{evi.id}}"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
                                       {% endif %}
+                                    {% endif %}
                                     
                                   {% endfor %}
                                   {% comment %} <button type="button" class="btn btn-danger btnVerArchivo" data-medioverificacion="{{id}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button> {% endcomment %}
