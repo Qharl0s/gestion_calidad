@@ -1,64 +1,70 @@
 {% extends 'header_menu_body.html' %}
 <!--########################-->
 
-{% if menu_condicion == "pcoded-trigger active" %} {% block submenucondiciones%}
-{% for categoria_ in categoria%} {% for grupo in categoria_.grupo_set.all %}
-<li class="">
-  <a
-    href="#"
-    data-id="{{grupo.id}}"
-    class="waves-effect waves-dark submenulateral"
-  >
-    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-    <span class="pcoded-mtext">{{grupo.cGrupo}}</span>
-    <span class="pcoded-mcaret"></span>
-  </a>
-</li>
-{% endfor %} {% endfor %} {% endblock submenucondiciones%} {% endif %} {% if
-menu_requerimiento == "pcoded-trigger active" %} {% block
-submenurequerimientos%} {% for categoria_ in categoria%} {% for grupo in
-categoria_.grupo_set.all %}
-<li class="">
-  <a
-    href="#"
-    data-id="{{grupo.id}}"
-    class="waves-effect waves-dark submenulateral"
-  >
-    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-    <span class="pcoded-mtext">{{grupo.cGrupo}}</span>
-    <span class="pcoded-mcaret"></span>
-  </a>
-</li>
-{% endfor %} {% endfor %} {% endblock submenurequerimientos%} {% endif %} {% if
-menu_recomendacion == "pcoded-trigger active" %} {% block
-submenurecomendaciones%} {% for categoria_ in categoria%} {% for grupo in
-categoria_.grupo_set.all %}
-<li class="">
-  <a
-    href="#"
-    data-id="{{grupo.id}}"
-    class="waves-effect waves-dark submenulateral"
-  >
-    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-    <span class="pcoded-mtext">{{grupo.cGrupo}}</span>
-    <span class="pcoded-mcaret"></span>
-  </a>
-</li>
-{% endfor %} {% endfor %} {% endblock submenurecomendaciones%} {% endif %} {% if
-menu_estandar == "pcoded-trigger active" %} {% block submenuestandares%} {% for
-categoria_ in categoria%} {% for grupo in categoria_.grupo_set.all %}
-<li class="">
-  <a
-    href="#"
-    data-id="{{grupo.id}}"
-    class="waves-effect waves-dark submenulateral"
-  >
-    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-    <span class="pcoded-mtext">{{grupo.cGrupo}}</span>
-    <span class="pcoded-mcaret"></span>
-  </a>
-</li>
-{% endfor %} {% endfor %} {% endblock submenuestandares%} {% endif %}
+{% if menu_condicion == "pcoded-trigger active" %}
+  {% block submenucondiciones%}
+    {% for categoria_ in categoria%}
+      {% for grupo in categoria_.grupo_set.all %}
+        <li class="">
+          <a href="#" data-id="{{grupo.id}}" class="waves-effect waves-dark submenulateral">
+            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+            <span class="pcoded-mtext">{{grupo.cGrupo}}</span>
+            <span class="pcoded-mcaret"></span>
+          </a>
+        </li>
+      {% endfor %}
+    {% endfor %}
+  {% endblock submenucondiciones%} 
+{% endif %}
+
+{% if menu_requerimiento == "pcoded-trigger active" %}
+  {% block submenurequerimientos%}
+    {% for categoria_ in categoria%}
+      {% for grupo in categoria_.grupo_set.all %}
+        <li class="">
+          <a href="#" data-id="{{grupo.id}}" class="waves-effect waves-dark submenulateral">
+            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+            <span class="pcoded-mtext">{{grupo.cGrupo}}</span>
+            <span class="pcoded-mcaret"></span>
+          </a>
+        </li>
+      {% endfor %}
+    {% endfor %}
+  {% endblock submenurequerimientos%} 
+{% endif %}
+
+{% if menu_recomendacion == "pcoded-trigger active" %}
+  {% block submenurecomendaciones%}
+    {% for categoria_ in categoria%}
+      {% for grupo in categoria_.grupo_set.all %}
+        <li class="">
+          <a href="#" data-id="{{grupo.id}}" class="waves-effect waves-dark submenulateral">
+            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+            <span class="pcoded-mtext">{{grupo.cGrupo}}</span>
+            <span class="pcoded-mcaret"></span>
+          </a>
+        </li>
+      {% endfor %}
+    {% endfor %}
+  {% endblock submenurecomendaciones%} 
+{% endif %}
+
+{% if menu_estandar == "pcoded-trigger active" %}
+  {% block submenuestandares%}
+    {% for categoria_ in categoria%}
+      {% for grupo in categoria_.grupo_set.all %}
+        <li class="">
+          <a href="#" data-id="{{grupo.id}}" class="waves-effect waves-dark submenulateral">
+            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+            <span class="pcoded-mtext">{{grupo.cGrupo}}</span>
+            <span class="pcoded-mcaret"></span>
+          </a>
+        </li>
+      {% endfor %}
+    {% endfor %}
+  {% endblock submenuestandares%} 
+{% endif %}
+
 
 <!-- Contenido -->
 {% block pagecontent %}
@@ -67,158 +73,107 @@ categoria_ in categoria%} {% for grupo in categoria_.grupo_set.all %}
     {% if usuario.lRevisor|lower == 'true' and lAcreditacion == 'true' %}
     <div class="row">
       <div class="dropdown col-lg-12 col-sm-12">
-        <button
-          type="button"
-          class="btn btn-dark dropdown-toggle"
-          data-toggle="dropdown"
-        >
+        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
           {{oficina.cOficina}}
         </button>
         <div class="dropdown-menu">
           {% for ofi in oficinas%}
-          <a
-            class="dropdown-item"
-            href="http://{{ request.get_host }}/estandares/{{ofi.id}}/"
-            >{{ofi.cOficina}}</a
-          >
+            <a class="dropdown-item" href="http://{{ request.get_host }}/estandares/{{ofi.id}}/">{{ofi.cOficina}}</a>
           {% endfor %}
         </div>
       </div>
     </div>
     {% endif %}
+    
 
     <div class="card-block accordion-block">
       <div id="accordion" role="tablist" aria-multiselectable="true">
-        {% for categoria_ in categoria%} {% for grupo in
-        categoria_.grupo_set.all %}
-        <div class="accordion-panel card">
-          <div class="accordion-heading" role="tab" id="headingOne">
-            <h2 class="card-title accordion-title">
-              <a
-                class="accordion-msg waves-effect waves-dark bg-primary"
-                data-toggle="collapse"
-                data-parent="#accordion"
-                href="#accordion_{{grupo.id}}"
-                aria-expanded="true"
-                aria-controls="accordion_{{grupo.id}}"
-              >
-                {{grupo.cGrupo}}
-              </a>
-            </h2>
-          </div>
-          <div
-            id="accordion_{{grupo.id}}"
-            class="panel-collapse collapse in show"
-            role="tabpanel"
-            aria-labelledby="headingOne"
-          >
-            <div class="accordion-content accordion-desc">
-              {% for indicador in grupo.indicador_set.all %}
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-header-text">
-                    {% autoescape off %} {{indicador.cIndicador}} {%
-                    endautoescape %}
-                  </h5>
-                </div>
-                <table class="table table-hover table_archivos">
-                  <tbody>
-                    {% for medio in indicador.medioverificacion_set.all %}
-                    <tr>
-                      <td>
-                        <b>{{medio.cTitulo}}</b>,
-                        <i>{{medio.cMedioVerificacion}}</i>
-                      </td>
-                      <td class="text-right">
-                        {% if lAcreditacion == 'true' %} {% for evi in
-                        medio.evidencia_set.all %} {% if oficina == evi.oficina
-                        %}
-                        <span class="text-right label label-warning">
-                          {{evi.escala_desc}}</span
-                        >
-                        {%endif%} {% endfor %} {% if medio.evidencia_set.count
-                        == 0 %}
-                        <span class="text-right label label-warning"
-                          >Contextualización</span
-                        >
-                        {% endif %} {% endif %}
-                      </td>
-                      <td class="text-right" style="width: 133px">
-                        <div class="btn-group btn-group-sm">
-                          {% if oficina == medio.oficinaResponsable or
-                          oficina.lAcreditacion|lower == 'true' %}
-                          <button
-                            type="button"
-                            class="btn btn-success btnCargarArchivo"
-                            data-medioverificacion="{{medio.id}}"
-                            data-idoficina="{{oficina.id}}"
-                          >
-                            <i class="fa fa-commenting" aria-hidden="true"></i>
-                          </button>
-                          {% endif %} {% for evi in medio.evidencia_set.all %}
-                          {% if evi.oficina == oficina %} {% if evi.archivoPdf%}
-                          <button
-                            type="button"
-                            class="btn btn-danger btnVerArchivo"
-                            data-idevidencia="{{evi.id}}"
-                            data-urlpdf="{{evi.archivoPdf.name}}"
-                          >
-                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                          </button>
-                          {% endif %} {% if evi.lRevisado|lower == 'true' %}
-                          <button
-                            type="button"
-                            class="btn btn-primary btnRevisarArchivo"
-                            data-idevidencia="{{evi.id}}"
-                          >
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                          </button>
-                          {% else %}
-                          <button
-                            type="button"
-                            class="btn btn-primary btnRevisarArchivo"
-                            data-idevidencia="{{evi.id}}"
-                          >
-                            <i class="fa fa-eye-slash" aria-hidden="true"></i>
-                          </button>
-                          {% endif %} {%else%}
-                          <button
-                            type="button"
-                            class="btn btn-danger btnVerArchivo"
-                            data-medioverificacion="{{id}}"
-                          >
-                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                          </button>
-                          {% endif %} {% endfor %}
-
-                          <button
-                            type="button"
-                            class="btn btn-danger btnVerArchivo"
-                            data-medioverificacion="{{id}}"
-                          >
-                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                          </button>
-                          {% comment %}
-                          <button
-                            type="button"
-                            class="btn btn-primary btnRevisarArchivo"
-                            data-medioverificacion="{{medio.id}}"
-                          >
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                          </button>
-                          {% endcomment %}
-                        </div>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
+        {% for categoria_ in categoria%}
+          {% for grupo in categoria_.grupo_set.all %}
+            <div class="accordion-panel card">
+              <div class="accordion-heading" role="tab" id="headingOne">
+                <h2 class="card-title accordion-title">
+                  <a
+                    class="accordion-msg waves-effect waves-dark bg-primary"
+                    data-toggle="collapse"
+                    data-parent="#accordion"
+                    href="#accordion_{{grupo.id}}"
+                    aria-expanded="true"
+                    aria-controls="accordion_{{grupo.id}}"
+                  >
+                    {{grupo.cGrupo}}
+                  </a>
+                </h2>
               </div>
-              {% endfor %}
+              <div
+                id="accordion_{{grupo.id}}"
+                class="panel-collapse collapse in show"
+                role="tabpanel"
+                aria-labelledby="headingOne"
+              >
+                <div class="accordion-content accordion-desc">
+                  
+                  {% for indicador in grupo.indicador_set.all %}
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="card-header-text">
+                        {% autoescape off %}
+                        {{indicador.cIndicador}}
+                        {% endautoescape %}
+                        </h5>
+                      </div>
+                      <table class="table table-hover table_archivos">
+                        <tbody>
+                          {% for medio in indicador.medioverificacion_set.all %}
+                            <tr>
+                              <td><b>{{medio.cTitulo}}</b>, <i>{{medio.cMedioVerificacion}}</i></td>
+                              <td class="text-right">
+                                {% if lAcreditacion == 'true' %}
+                                  {% for evi in medio.evidencia_set.all %}
+                                    {% if oficina == evi.oficina %}
+                                      <span class="text-right label label-warning"> {{evi.escala_desc}}</span>
+                                    {%endif%}
+                                  {% endfor %}
+                                  {% if medio.evidencia_set.count == 0 %}
+                                    <span class="text-right label label-warning">Contextualización</span>
+                                  {% endif %}
+                                {% endif %}
+                              </td>
+                              <td class="text-right" style="width: 133px;">
+                                <div class="btn-group btn-group-sm">
+                                  {% if oficina == medio.oficinaResponsable or oficina.lAcreditacion|lower == 'true' %}
+                                    <button type="button" class="btn btn-success btnCargarArchivo" data-medioverificacion="{{medio.id}}" data-idoficina="{{oficina.id}}"><i class="fa fa-commenting" aria-hidden="true"></i></button>                                  
+                                  {% endif %}
+                                  {% for evi in medio.evidencia_set.all %}
+                                    {% if evi.oficina == oficina %}
+                                      {% if evi.archivoPdf%}
+                                        <button type="button" class="btn btn-danger btnVerArchivo" data-idevidencia="{{evi.id}}"
+                                      data-urlpdf="{{evi.archivoPdf.name}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+                                      {% endif %}
+                                      {% if evi.lRevisado|lower == 'true' %}
+                                        <button type="button" class="btn btn-primary btnRevisarArchivo" data-idevidencia="{{evi.id}}"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                      {% else %}
+                                        <button type="button" class="btn btn-primary btnRevisarArchivo" data-idevidencia="{{evi.id}}"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
+                                      {% endif %}
+                                    {% endif %}
+                                    
+                                  {% endfor %}
+                                  <button type="button" class="btn btn-danger btnVerArchivo" data-medioverificacion="{{id}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+
+                                  {% comment %} <button type="button" class="btn btn-primary btnRevisarArchivo" data-medioverificacion="{{medio.id}}"><i class="fa fa-eye" aria-hidden="true"></i></button> {% endcomment %}
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        {% endfor %} {% endfor %}
+          {% endfor %}
+        {% endfor %}
       </div>
     </div>
     <!--</div> Fin de Card-->
