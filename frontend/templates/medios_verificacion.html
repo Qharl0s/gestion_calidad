@@ -156,7 +156,7 @@
                                         <button type="button" class="btn btn-primary btnRevisarArchivo" data-idevidencia="{{evi.id}}"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
                                       {% endif %}
                                     {% else %}
-                                      {% if evi.archivoPdf%}
+                                      {% if evi.archivoPdf and oficina.lAcreditacion|lower != 'true'%}
                                         <button type="button" class="btn btn-danger btnVerArchivo" data-idevidencia="{{evi.id}}"
                                         data-urlpdf="{{evi.archivoPdf.name}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
                                       {% endif %}
