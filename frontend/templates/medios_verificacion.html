@@ -139,7 +139,7 @@
                                   {% endif %}
                                 {% endif %}
                               </td>
-                              <td class="text-right" style="width: 133px;">
+                              <td class="text-right" style="width: 170px;">
                                 <div class="btn-group btn-group-sm">
                                   {% if oficina == medio.oficinaResponsable or oficina.lAcreditacion|lower == 'true' %}
                                     <button type="button" class="btn btn-success btnCargarArchivo" data-medioverificacion="{{medio.id}}" data-idoficina="{{oficina.id}}"><i class="fa fa-commenting" aria-hidden="true"></i></button>                                  
@@ -149,6 +149,8 @@
                                       {% if evi.archivoPdf%}
                                         <button type="button" class="btn btn-danger btnVerArchivo" data-idevidencia="{{evi.id}}"
                                       data-urlpdf="{{evi.archivoPdf.name}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+                                      <button type="button" class="btn btn-warning btnCopiarLink"
+                                      data-urlpdf="{{evi.archivoPdf.name}}"><i class="fa fa-files-o" aria-hidden="true"></i></button>
                                       {% endif %}
                                       {% if evi.lRevisado|lower == 'true' %}
                                         <button type="button" class="btn btn-primary btnRevisarArchivo" data-idevidencia="{{evi.id}}"><i class="fa fa-eye" aria-hidden="true"></i></button>
@@ -159,6 +161,8 @@
                                       {% if evi.archivoPdf and oficina.lAcreditacion|lower != 'true'%}
                                         <button type="button" class="btn btn-danger btnVerArchivo" data-idevidencia="{{evi.id}}"
                                         data-urlpdf="{{evi.archivoPdf.name}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-warning btnCopiarLink"
+                                      data-urlpdf="{{evi.archivoPdf.name}}"><i class="fa fa-files-o" aria-hidden="true"></i></button>
                                       {% endif %}
                                     {% endif %}
                                     

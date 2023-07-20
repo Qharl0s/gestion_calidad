@@ -227,6 +227,16 @@ $(function () {
     });
   });
 
+  $('.btnCopiarLink').click(function(){
+    navigator.clipboard.writeText(base_url+'media/'+$(this).data('urlpdf'))
+    .then(() => {
+      notify('Copiado', 'el link del archivo fue copiado.');
+    })
+    .catch(err => {
+      notify('Copiado', 'No se pudo copiar, intento de nuevo.', 'danger');
+    });
+  });
+
   $('.btnVerArchivo').click(function (e) {
     window.open(base_url+'media/'+$(this).data('urlpdf'), '_blank');
     // var id = $(this).data('medioverificacion');
