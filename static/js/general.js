@@ -228,14 +228,23 @@ $(function () {
   });
 
   $('.btnCopiarLink').click(function(){
-    navigator.clipboard.writeText(base_url+'media/'+$(this).data('urlpdf'))
-    .then(() => {
-      notify('Copiado', 'el link del archivo fue copiado.');
-    })
-    .catch(err => {
-      notify('Copiado', 'No se pudo copiar, intento de nuevo.', 'danger');
-    });
+    unsecuredCopyToClipboard(base_url+'media/'+$(this).data('urlpdf'));
   });
+
+  function unsecuredCopyToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      notify('Copiado', 'el link del archivo fue copiado.');
+    } catch (err) {
+      notify('Copiado', 'No se pudo copiar, intento de nuevo.', 'danger');
+    }
+    document.body.removeChild(textArea);
+  }
 
   $('.btnVerArchivo').click(function (e) {
     window.open(base_url+'media/'+$(this).data('urlpdf'), '_blank');
