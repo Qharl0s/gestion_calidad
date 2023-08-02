@@ -228,15 +228,16 @@ $(function () {
   });
 
   $('.btnCopiarLink').click(function(){
-    unsecuredCopyToClipboard(base_url+'media/'+$(this).data('urlpdf'));
+    unsecuredCopyToClipboard(base_url+'media/'+$(this).data('urlpdf'), $(this));
   });
 
-  function unsecuredCopyToClipboard(text) {
+  function unsecuredCopyToClipboard(text, $this) {
     const textArea = document.createElement("textarea");
     textArea.value = text;
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
+    $this.focus();
     try {
       document.execCommand('copy');
       notify('Copiado', 'el link del archivo fue copiado.');
