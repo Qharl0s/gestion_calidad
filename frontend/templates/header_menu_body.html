@@ -18,7 +18,7 @@
     <!-- Favicon icon -->
     <link
       rel="icon"
-      href="{% static 'images/favicon.ico' %}"
+      href="{% static 'images/favicon_sinc.ico' %}"
       type="image/x-icon"
     />
     <!-- Google font-->
@@ -184,107 +184,58 @@
               </a>
             </div>
             <div class="navbar-container container-fluid">
-              <ul class="nav-left">
-                <li>
-                  <div class="sidebar_toggle">
-                    <a href="javascript:void(0)"><i class="ti-menu"></i></a>
-                  </div>
-                </li>
-                <li>
-                  <a
-                    href="#!"
-                    onclick="javascript:toggleFullScreen()"
-                    class="waves-effect waves-light"
-                  >
-                    <i class="ti-fullscreen"></i>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav-right">
-                {% comment %} <li class="header-notification">
-                  <a href="#!" class="waves-effect waves-light">
-                    <i class="ti-bell"></i>
-                    <span class="badge bg-c-red"></span>
-                  </a>
-                  <ul class="show-notification">
+              <div class="row">
+                <div class="col-md-1">
+                  <ul class="nav-left">
                     <li>
-                      <h6>Notifications</h6>
-                      <label class="label label-danger">New</label>
-                    </li>
-                    <li class="waves-effect waves-light">
-                      <div class="media">
-                        <img
-                          class="d-flex align-self-center img-radius fondo_celeste"
-                          src="{% static 'images/avatar-7.png' %}"
-                          alt="Generic placeholder image"
-                        />
-                        <div class="media-body">
-                          <h5 class="notification-user">John Doe</h5>
-                          <p class="notification-msg">
-                            Lorem ipsum dolor sit amet, consectetuer elit.
-                          </p>
-                          <span class="notification-time">30 minutes ago</span>
-                        </div>
+                      <div class="sidebar_toggle">
+                        <a href="javascript:void(0)"><i class="ti-menu"></i></a>
                       </div>
                     </li>
-                    <li class="waves-effect waves-light">
-                      <div class="media">
-                        <img
-                          class="d-flex align-self-center img-radius"
-                          src="{% static 'images/avatar-7.png' %}"
-                          alt="Generic placeholder image"
-                        />
-                        <div class="media-body">
-                          <h5 class="notification-user">Joseph William</h5>
-                          <p class="notification-msg">
-                            Lorem ipsum dolor sit amet, consectetuer elit.
-                          </p>
-                          <span class="notification-time">30 minutes ago</span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="waves-effect waves-light">
-                      <div class="media">
-                        <img
-                          class="d-flex align-self-center img-radius"
-                          src="{% static 'images/avatar-3.jpg' %}"
-                          alt="Generic placeholder image"
-                        />
-                        <div class="media-body">
-                          <h5 class="notification-user">Sara Soudein</h5>
-                          <p class="notification-msg">
-                            Lorem ipsum dolor sit amet, consectetuer elit.
-                          </p>
-                          <span class="notification-time">30 minutes ago</span>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </li> {% endcomment %}
-                <li class="user-profile header-notification">
-                  <a href="#!" class="waves-effect waves-light">
-                    <img
-                      src="{% static 'images/avatar-7.png' %}"
-                      class="img-radius fondo_celeste"
-                      alt="User-Profile-Image"
-                    />
-                    <span>{{usuario.cNombres}}</span>
-                    <i class="ti-angle-down"></i>
-                  </a>
-                  <ul class="show-notification profile-notification">
-                    <li class="waves-effect waves-light">
-                      <a href="http://{{ request.get_host }}/perfil/">
-                        <i class="ti-user"></i> Perfil
-                      </a>
-                    </li>
-                    <li class="waves-effect waves-light">
-                      <a href="http://{{ request.get_host }}/logout/">
-                        <i class="ti-layout-sidebar-left"></i> Cerrar Sesión
+                    <li>
+                      <a
+                        href="#!"
+                        onclick="javascript:toggleFullScreen()"
+                        class="waves-effect waves-light"
+                      >
+                        <i class="ti-fullscreen"></i>
                       </a>
                     </li>
                   </ul>
-                </li>
-              </ul>
+                </div>
+                <div class="col-md-7 text-center text-white d-none d-md-block">
+                  <p><h3>Sistema Informático de Calidad</h3></p>
+                </div>
+                <div class="col-md-4">
+                  <ul class="nav-right">
+                    <li class="user-profile header-notification">
+                      <a href="#!" class="waves-effect waves-light">
+                        <img
+                          src="{% static 'images/avatar-7.png' %}"
+                          class="img-radius fondo_celeste"
+                          alt="User-Profile-Image"
+                        />
+                        <span>{{usuario.cNombres}}</span>
+                        <i class="ti-angle-down"></i>
+                      </a>
+                      <ul class="show-notification profile-notification">
+                        <li class="waves-effect waves-light">
+                          <a href="http://{{ request.get_host }}/perfil/">
+                            <i class="ti-user"></i> Perfil
+                          </a>
+                        </li>
+                        <li class="waves-effect waves-light">
+                          <a href="http://{{ request.get_host }}/logout/">
+                            <i class="ti-layout-sidebar-left"></i> Cerrar Sesión
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              
             </div>
           </div>
         </nav>
