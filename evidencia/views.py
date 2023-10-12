@@ -66,9 +66,11 @@ def requerimientos(request):
 @login_required
 def recomendaciones(request):
   user = Usuario.objects.get(username=request.user.username)  
+
+  oficina = user.oficina
   categoria = Categoria.objects.filter(id=3)
   
-  context = {'categoria' : categoria, 'usuario':user, 'menu_recomendacion':"pcoded-trigger active"}
+  context = {'categoria' : categoria, 'usuario':user, 'oficina':oficina, 'menu_recomendacion':"pcoded-trigger active"}
   return render(request, 'medios_verificacion.html', context)
 
 @login_required
