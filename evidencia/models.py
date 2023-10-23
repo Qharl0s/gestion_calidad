@@ -37,8 +37,8 @@ class MedioVerificacion(models.Model):
   class Meta:
     verbose_name_plural = "4. Medios de Verficación"
   indicador = models.ForeignKey(Indicador, on_delete=models.PROTECT)
-  cTitulo = models.CharField('Titulo', max_length=120, default='')
-  cMedioVerificacion = models.CharField('Medio de Verificación', max_length=360, null=False)
+  cTitulo = models.CharField('Titulo', max_length=500, default='')
+  cMedioVerificacion = models.CharField('Medio de Verificación', max_length=700, null=False)
   nOrden = models.IntegerField('Orden', default=0, null=False)
   dFechaMaxEntrega = models.DateField('Fecha Max Entrega', blank=True, null=True)
   oficinaResponsable = models.ForeignKey(Oficina, related_name='evidencias', on_delete=models.CASCADE, blank=True, null=True)

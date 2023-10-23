@@ -126,7 +126,7 @@
                         <tbody>
                           {% for medio in indicador.medioverificacion_set.all %}
                             <tr>
-                              <td><b>{{medio.cTitulo}}</b>, <i>{{medio.cMedioVerificacion}}</i></td>
+                              <td><p><b>{{medio.cTitulo}}</b></p><i>{{medio.cMedioVerificacion}}</i></td>
                               <td class="text-right">
                                 {% if lAcreditacion == 'true' %}
                                   {% for evi in medio.evidencia_set.all %}
