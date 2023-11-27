@@ -211,11 +211,11 @@
                     <li class="user-profile header-notification">
                       <a href="#!" class="waves-effect waves-light">
                         <img
-                          src="{% static 'images/avatar-7.png' %}"
+                          src="{% static 'images/avatar-user.png' %}"
                           class="img-radius fondo_celeste"
                           alt="User-Profile-Image"
                         />
-                        <span>{{usuario.cNombres}}</span>
+                        <span style="font-size:12px;">{{usuario.email|slice:':34'}}</span>
                         <i class="ti-angle-down"></i>
                       </a>
                       <ul class="show-notification profile-notification">
@@ -251,14 +251,14 @@
                   <div class="main-menu-header">
                     <img
                       class="img-80 img-radius fondo_celeste"
-                      src="{% static 'images/avatar-7.png' %}"
+                      src="{% static 'images/avatar-user.png' %}"
                       alt="User-Profile-Image"
                     />
                     <div class="user-details">
                       <span>{{usuario.oficina.cOficina}}</span>
                       <span>{{usuario.cCargo}}</span>
-                      <span id="more-details"
-                        >{{usuario.cNombres}}<i class="fa fa-caret-down"></i
+                      <span id="more-details" style="font-size:12px;"
+                        >{{usuario.email|slice:':34'}}<i class="fa fa-caret-down"></i
                       ></span>
                     </div>
                   </div>
