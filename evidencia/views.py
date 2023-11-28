@@ -192,8 +192,12 @@ def listar_revision(request):
       cEstado = "Observado"
     if evidencia.idEstado == 3:
       cEstado = "Aprobado"
-      
-    return JsonResponse({"dFecha":evidencia.dFechaRevision.strftime("%m/%d/%Y, %H:%M:%S"),"cComentario":evidencia.cComentarioRevisor, "cEstado": cEstado})
+    
+    fecha = ''
+    if evidencia.dFechaRevision is not None:
+      evidencia.dFechaRevision.strftime("%m/%d/%Y, %H:%M:%S")
+
+    return JsonResponse({"dFecha": fecha,"cComentario":evidencia.cComentarioRevisor, "cEstado": evidencia.idEstado})
  
 # def obtener_grupos(user, idGrupo):
 #   if user.lRevisor or user.is_staff :

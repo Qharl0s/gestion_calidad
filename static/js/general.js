@@ -2,15 +2,15 @@ $(function () {
 
   $('#form_guardar_datos').submit(function (e) {
     e.preventDefault();
-    if($('#email').val() == ""){
+    if ($('#email').val() == "") {
       notify('Guardar Datos', 'El campo email es obligatorio.', 'danger');
       return;
     }
-    if($('#nombres').val() == ""){
+    if ($('#nombres').val() == "") {
       notify('Guardar Datos', 'El campo nombres es obligatorio.', 'danger');
       return;
     }
-    
+
     $.ajax({
       url: base_url + 'guardar_datos/',
       data: {
@@ -32,19 +32,19 @@ $(function () {
 
   $('#form_actualizar_password').submit(function (e) {
     e.preventDefault();
-    if($('#password_actual').val() == ""){
+    if ($('#password_actual').val() == "") {
       notify('Guardar Datos', 'El campo password actual es obligatorio.', 'danger');
       return;
     }
-    if($('#nuevo_password1').val() == ""){
+    if ($('#nuevo_password1').val() == "") {
       notify('Guardar Datos', 'El campo de nuevo password es obligatorio.', 'danger');
       return;
     }
-    if($('#nuevo_password2').val() == ""){
+    if ($('#nuevo_password2').val() == "") {
       notify('Guardar Datos', 'El campo para repetir password es obligatorio.', 'danger');
       return;
     }
-    
+
     $.ajax({
       url: base_url + 'actualizar_password/',
       data: {
@@ -64,7 +64,7 @@ $(function () {
       },
     });
   });
-  
+
   $('.menu_estandar').click(function (e) {
     var id_oficina = $(this).data('idoficina');
     if (!$(this).parent().hasClass('active')) {
@@ -103,9 +103,9 @@ $(function () {
       type: 'POST',
       success: function (response) {
         $('#idMedioVerificacion').val(id);
-        $('#detalle1').Editor('setText', response.cDetalle1 ===undefined ? '' : response.cDetalle1);
-        $('#detalle2').Editor('setText', response.cDetalle2 ===undefined ? '' : response.cDetalle2);
-        $('.custom-file-label').html(response.cArchivoName ===undefined? 'Seleccione el archivo pdf': response.cArchivoName);
+        $('#detalle1').Editor('setText', response.cDetalle1 === undefined ? '' : response.cDetalle1);
+        $('#detalle2').Editor('setText', response.cDetalle2 === undefined ? '' : response.cDetalle2);
+        $('.custom-file-label').html(response.cArchivoName === undefined ? 'Seleccione el archivo pdf' : response.cArchivoName);
       },
     });
     $('#modalCargarArchivo').modal('show');
@@ -124,11 +124,12 @@ $(function () {
       dataType: 'Json',
       type: 'POST',
       success: function (response) {
+        console.log(response);
         var tr =
           '<tr><td>' +
           response.dFecha +
           '</td><td>' +
-          response.cComentario +
+          (response.cEstado == 'Pendiente' ? '' : response.cEstado + ': ' + response.cComentario) +
           '</td><td>';
         $('#tBodyRevision').html(tr);
       },
@@ -227,8 +228,8 @@ $(function () {
     });
   });
 
-  $('.btnCopiarLink').click(function(){
-    unsecuredCopyToClipboard(base_url+'media/'+$(this).data('urlpdf'), $(this));
+  $('.btnCopiarLink').click(function () {
+    unsecuredCopyToClipboard(base_url + 'media/' + $(this).data('urlpdf'), $(this));
   });
 
   function unsecuredCopyToClipboard(text, $this) {
@@ -248,7 +249,7 @@ $(function () {
   }
 
   $('.btnVerArchivo').click(function (e) {
-    window.open(base_url+'media/'+$(this).data('urlpdf'), '_blank');
+    window.open(base_url + 'media/' + $(this).data('urlpdf'), '_blank');
     // var id = $(this).data('medioverificacion');
     // $.ajax({
     //   url: base_url + 'obtener_evidencia/',
