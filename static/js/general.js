@@ -129,7 +129,7 @@ $(function () {
           '<tr><td>' +
           response.dFecha +
           '</td><td>' +
-          (response.cEstado == 'Pendiente' ? '' : response.cEstado + ': ' + response.cComentario) +
+          (response.cComentario == null ? '' : response.cEstado + ': ' + response.cComentario) +
           '</td><td>';
         $('#tBodyRevision').html(tr);
       },

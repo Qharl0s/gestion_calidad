@@ -81,7 +81,7 @@
       href="{% static 'editor/editor.css' %}"
     />
     <script>
-      var base_url = 'http://{{ request.get_host }}/';
+      var base_url = 'https://{{ request.get_host }}/';
     </script>
   </head>
 
@@ -220,12 +220,12 @@
                       </a>
                       <ul class="show-notification profile-notification">
                         <li class="waves-effect waves-light">
-                          <a href="http://{{ request.get_host }}/perfil/">
+                          <a href="https://{{ request.get_host }}/perfil/">
                             <i class="ti-user"></i> Perfil
                           </a>
                         </li>
                         <li class="waves-effect waves-light">
-                          <a href="http://{{ request.get_host }}/logout/">
+                          <a href="https://{{ request.get_host }}/logout/">
                             <i class="ti-layout-sidebar-left"></i> Cerrar Sesión
                           </a>
                         </li>
@@ -265,10 +265,10 @@
                   <div class="main-menu-content">
                     <ul>
                       <li class="more-details">
-                        <a href="http://{{ request.get_host }}/perfil/"
+                        <a href="https://{{ request.get_host }}/perfil/"
                           ><i class="ti-user"></i>Perfil</a
                         >
-                        <a href="http://{{ request.get_host }}/logout/"
+                        <a href="https://{{ request.get_host }}/logout/"
                           ><i class="ti-layout-sidebar-left"></i>Cerrar
                           Sesión</a
                         >
@@ -279,7 +279,7 @@
                 <ul class="pcoded-item pcoded-left-item">
                   <li class="{{menu_inicio}}">
                     <a
-                      href="http://{{ request.get_host }}/"
+                      href="https://{{ request.get_host }}/"
                       class="waves-effect waves-dark"
                     >
                       <span class="pcoded-micon"
@@ -374,7 +374,7 @@
                   <li class="">
                     {% if usuario.is_staff|lower == "true" %}
                     <a
-                      href="http://{{ request.get_host }}/admin/"
+                      href="https://{{ request.get_host }}/admin/"
                       class="waves-effect waves-dark"
                       target="_blank"
                     >
