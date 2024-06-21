@@ -1,0 +1,67 @@
+{% extends 'header_menu_body.html' %}
+<!--########################-->
+
+{% block pagebreadcrumb%}
+<!-- Page-header start -->
+<div class="row wave">
+  <div class="col-md-8">
+      <ul class="breadcrumb">
+          <li class="breadcrumb-item">
+              <a href="index.html"> <i class="fa fa-home"></i> </a>
+          </li>
+          <li class="breadcrumb-item"><a href="#!">Basic Components</a>
+          </li>
+          <li class="breadcrumb-item"><a href="#!">Animated Tooltip</a>
+          </li>
+      </ul>
+  </div>
+  <div class="col-md-4">
+    <div class="page-header-title text-right pt-3 px-5">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}} - {{periodo_seleccionado.id}}</button>
+        <div class="dropdown-menu">
+            {% for periodo in periodos %}
+            <a class="dropdown-item" href="{{periodo.id}}">{{periodo.cPeriodo}} - {{periodo.id}}</a>  
+            {%endfor%}
+        </div>
+    </div>
+  </div>
+</div>  
+<!-- Page-header end -->
+{%endblock pagebreadcrumb%}
+
+<!-- Contenido -->
+{% block pagecontent %}
+<div class="row">
+    {% for resumen in datos_resumen.grupos %}
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-header" style="background: #a4d2ff">
+                <div class="card-header-left">
+                    <h6>{{resumen.grupo}} - {{resumen.id}}</h6>
+                </div>
+                <div class="card-header-right">
+                    <span style="font-sizes: 10px">Items: <label class="badge badge-default">{{resumen.items}}</label></span>
+                </div>
+            </div>
+            <div class="card-block">
+                <div class="row">
+                    <div class="col text-left">
+                        <ul>
+                            <li><label class="label" style="background: #A7FDCB; color: #05A147"><b>Aprobados: {{resumen.aprobados}}</b></label></li>
+                            <li><label class="label" style="background: #FFE7F0; color: #FF4187"><b>Observados: {{resumen.observados}}</b></label></li>
+                            <li><label class="label" style="background: #FFF3B8; color: #F2C619"><b>Pendientes: {{resumen.pendientes}}</b></label></li>
+                            </ul>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-mini waves-effect waves-light btn-principal"
+                            style="position: absolute;bottom: 0;right: 10px;"
+                        ><i class="ti-eye"></i> Ver</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endblock pagecontent %}

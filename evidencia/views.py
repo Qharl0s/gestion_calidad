@@ -3,23 +3,9 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
-from evidencia.models import Categoria, Evidencia, Evidencia_Todo, MedioVerificacion
+from evidencia.models import Categoria, Evidencia, Evidencia_Todo, MedioVerificacion, Periodo, Grupo
 from usuario.models import Oficina, Usuario
-
-# @login_required
-# def evidencia(request, id_medio_verificacion):
-#   user = Usuario.objects.get(username=request.user.username)
-#   oficina = user.oficina
-#   try:
-#     medio = MedioVerificacion.objects.get(id=id_medio_verificacion)
-#   except MedioVerificacion.DoesNotExist:
-#     medio = MedioVerificacion()
-    
-#   evidencia = Evidencia.objects.get(medioVerificacion=medio, oficina=oficina)
-  
-#   context = {'usuario':user, 'idMedioVerificacion':id_medio_verificacion, 'evidencia': evidencia}
-  
-#   return render(request, 'evidencia.html', context)
+from evidencia.funciones import resumen_grupos, resumen_indicadores
 
 @login_required
 def estandares(request, oficina_id=0):
@@ -39,29 +25,41 @@ def estandares(request, oficina_id=0):
   categoria = Categoria.objects.filter(id=4)
   
   context = {'categoria' : categoria, 'usuario':user, 'oficina': oficina, 'oficinas': oficinas, 'menu_estandar':"pcoded-trigger active", 'lAcreditacion':'true'}
-  return render(request, 'medios_verificacion.html', context)
+  return render(request, 'resumen.html', context)
 
 @login_required
-def condiciones(request):
-  user = Usuario.objects.get(username=request.user.username)  
-  
-  oficina = user.oficina
+def condiciones(request, periodo_id=0):
+  usuario = Usuario.objects.get(username=request.user.username)
+  #Periodo
+  periodos = Periodo.objects.filter(lVigente=True, categoria__id=1).order_by('-id')
+  if periodo_id==0:
+    periodo_seleccionado = periodos[0]  
+  else:
+    periodo_seleccionado = Periodo.objects.get(id=periodo_id)
+  #Categorias
   categoria = Categoria.objects.filter(id=1)
   
-  context = {'categoria' : categoria, 'usuario':user, 'oficina':oficina, 'menu_condicion':"pcoded-trigger active",
-  #'evidencias':evidencias
-  }
-  return render(request, 'medios_verificacion.html', context)
+  resumen = resumen_grupos(categoria, periodo_seleccionado, usuario.oficina, usuario)
+
+  context = {'datos_resumen':resumen, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado}
+  return render(request, 'resumen.html', context)
 
 @login_required
-def requerimientos(request):
-  user = Usuario.objects.get(username=request.user.username)
-  
-  oficina = user.oficina
+def requerimientos(request, periodo_id=0):
+  usuario = Usuario.objects.get(username=request.user.username)
+  #Periodo
+  periodos = Periodo.objects.filter(lVigente=True, categoria__id=2).order_by('-id')
+  if periodo_id==0:
+    periodo_seleccionado = periodos[0]  
+  else:
+    periodo_seleccionado = Periodo.objects.get(id=periodo_id)
+  #Categorias
   categoria = Categoria.objects.filter(id=2)
   
-  context = {'categoria' : categoria, 'usuario':user, 'oficina':oficina, 'menu_requerimiento':"pcoded-trigger active"}
-  return render(request, 'medios_verificacion.html', context)
+  resumen = resumen_grupos(categoria, periodo_seleccionado, usuario.oficina, usuario)
+
+  context = {'datos_resumen':resumen, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado}
+  return render(request, 'resumen.html', context)
 
 @login_required
 def recomendaciones(request):
@@ -71,7 +69,7 @@ def recomendaciones(request):
   categoria = Categoria.objects.filter(id=3)
   
   context = {'categoria' : categoria, 'usuario':user, 'oficina':oficina, 'menu_recomendacion':"pcoded-trigger active"}
-  return render(request, 'medios_verificacion.html', context)
+  return render(request, 'resumen.html', context)
 
 @login_required
 def guardar_evidencia(request):
@@ -199,48 +197,27 @@ def listar_revision(request):
 
     return JsonResponse({"dFecha": fecha,"cComentario":evidencia.cComentarioRevisor, "cEstado": evidencia.idEstado})
  
-# def obtener_grupos(user, idGrupo):
-#   if user.lRevisor or user.is_staff :
-#     evidencias = MedioVerificacion.objects.filter(lVigente=True)
-#   else:
-#     evidencias = user.oficina.evidencias.filter(lVigente=True)
-#   #Listar Indicadores vs Evidencia
-#   indicadores = []
-#   for evidencia in evidencias:
-#     cIndicadorDesc = evidencia.indicador.cIndicador+'<p><i>'+evidencia.indicador.cDescripcion+'</i></p>'
-#     if cIndicadorDesc not in indicadores:
-#       indicadores.append(cIndicadorDesc)
+@login_required
+def indicadores(request, periodo_id, grupo_id):
+  usuario = Usuario.objects.get(username=request.user.username)
+  #Periodo
+  periodo_seleccionado = Periodo.objects.get(id=periodo_id)
+  #Categorias
+  grupos = Grupo.objects.get(id=grupo_id)
   
-#   evi_indi = {}
-#   for indicador in indicadores:
-#     evidencias_ = []
-#     for evidencia in evidencias:
-#       cIndicadorDesc = evidencia.indicador.cIndicador+'<p><i>'+evidencia.indicador.cDescripcion+'</i></p>'
-#       if cIndicadorDesc == indicador:
-#         evidencias_.append(evidencia)
-#     evi_indi[indicador] = evidencias_
-  
-#   # listar grupos
-#   grupos = []
-#   for evidencia in evidencias:
-#     if evidencia.indicador.grupo.categoria.id == idGrupo and evidencia.indicador.grupo.cGrupo not in grupos:
-#       grupos.append(evidencia.indicador.grupo.cGrupo)
-#   # Listar indicadores por grupo
-#   ind_cond = {}
-#   for grupo in grupos:
-#     indicador_ = []
-#     for evidencia in evidencias:
-#       if evidencia.indicador.grupo.cGrupo == grupo:
-#         cIndicadorDesc = evidencia.indicador.cIndicador+'<p><i>'+evidencia.indicador.cDescripcion+'</i></p>'
-#         if cIndicadorDesc not in indicador_:
-#           indicador_.append(cIndicadorDesc)
-#     ind_cond[grupo] = indicador_
-  
-#   indicador_grupo = {}
-#   for key, item in ind_cond.items():
-#     array = {}
-#     for it in item:
-#       array[it] = evi_indi[it]
-#     indicador_grupo[key] = array
-    
-#   return indicador_grupo
+  resumen = resumen_indicadores(grupos, periodo_seleccionado, usuario.oficina, usuario)
+
+  context = {'datos_resumen':resumen,'periodo_seleccionado':periodo_seleccionado}
+  return render(request, 'resumen.html', context)
+
+@login_required
+def indicadores(request, periodo_id, indicador_id):
+  usuario = Usuario.objects.get(username=request.user.username)
+  #Periodo
+  periodo_seleccionado = Periodo.objects.get(id=periodo_id)
+  #Categorias
+  medios = MedioVerificacion.objects.filter(indicador__id=indicador_id)
+
+  context = {'medios':medios,'periodo_seleccionado':periodo_seleccionado}
+
+  return render(request, 'medios_verificacion.html', context)

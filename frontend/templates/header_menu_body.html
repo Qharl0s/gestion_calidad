@@ -23,7 +23,7 @@
     />
     <!-- Google font-->
     <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"
+      href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700"
       rel="stylesheet"
     />
     <!-- waves.css -->
@@ -81,7 +81,7 @@
       href="{% static 'editor/editor.css' %}"
     />
     <script>
-      var base_url = 'https://{{ request.get_host }}:8000/';
+      var base_url = 'http://{{ request.get_host }}/';
     </script>
   </head>
 
@@ -203,8 +203,8 @@
                     </li>
                   </ul>
                 </div>
-                <div class="col-md-7 text-center text-white d-none d-md-block">
-                  <p><h3>Sistema Informático de Calidad</h3></p>
+                <div class="col-md-7 text-center pt-3">
+                  <h5 class="text-white">SISTEMA INFORMÁTICO DE CALIDAD</h5>
                 </div>
                 <div class="col-md-4">
                   <ul class="nav-right">
@@ -220,12 +220,12 @@
                       </a>
                       <ul class="show-notification profile-notification">
                         <li class="waves-effect waves-light">
-                          <a href="https://{{ request.get_host }}:8000/perfil/">
+                          <a href="http://{{ request.get_host }}/perfil/">
                             <i class="ti-user"></i> Perfil
                           </a>
                         </li>
                         <li class="waves-effect waves-light">
-                          <a href="https://{{ request.get_host }}:8000/logout/">
+                          <a href="http://{{ request.get_host }}/logout/">
                             <i class="ti-layout-sidebar-left"></i> Cerrar Sesión
                           </a>
                         </li>
@@ -247,7 +247,7 @@
                 <a href="#"><i class="icon-close icons"></i></a>
               </div>
               <div class="pcoded-inner-navbar main-menu">
-                <div class="">
+                <div>
                   <div class="main-menu-header">
                     <img
                       class="img-80 img-radius fondo_celeste"
@@ -265,10 +265,10 @@
                   <div class="main-menu-content">
                     <ul>
                       <li class="more-details">
-                        <a href="https://{{ request.get_host }}:8000/perfil/"
+                        <a href="http://{{ request.get_host }}/perfil/"
                           ><i class="ti-user"></i>Perfil</a
                         >
-                        <a href="https://{{ request.get_host }}:8000/logout/"
+                        <a href="http://{{ request.get_host }}/logout/"
                           ><i class="ti-layout-sidebar-left"></i>Cerrar
                           Sesión</a
                         >
@@ -276,10 +276,11 @@
                     </ul>
                   </div>
                 </div>
+                <ul class="pcoded-item pcoded-left-item"></ul>
                 <ul class="pcoded-item pcoded-left-item">
                   <li class="{{menu_inicio}}">
                     <a
-                      href="https://{{ request.get_host }}:8000/"
+                      href="http://{{ request.get_host }}/"
                       class="waves-effect waves-dark"
                     >
                       <span class="pcoded-micon"
@@ -374,7 +375,7 @@
                   <li class="">
                     {% if usuario.is_staff|lower == "true" %}
                     <a
-                      href="https://{{ request.get_host }}:8000/admin/"
+                      href="http://{{ request.get_host }}/admin/"
                       class="waves-effect waves-dark"
                       target="_blank"
                     >
@@ -394,6 +395,11 @@
               </div>
             </nav>
             <div class="pcoded-content">
+              
+            <!-- Page-header start -->
+            {% block pagebreadcrumb %}{% endblock pagebreadcrumb %}
+            <!-- Page-header end -->
+             
               <div class="pcoded-inner-content">
                 <!-- Main-body start -->
                 <div class="main-body">

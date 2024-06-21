@@ -1,20 +1,26 @@
 from django.contrib import admin
-from .models import Categoria, Evidencia, Evidencia_Todo, Grupo, Indicador, MedioVerificacion
+from .models import Periodo, Categoria, Evidencia, Evidencia_Todo, Grupo, Indicador, MedioVerificacion
+
+class periodoAdmin(admin.ModelAdmin):
+    list_display = ('cPeriodo', 'categoria', 'lVigente')
+
+    def __str__(self):
+        return self.periodo
 
 class categoriaAdmin(admin.ModelAdmin):
-    list_display = ('id','cCategoria')
+    list_display = ('cCategoria', 'lVigente')
 
     def __str__(self):
         return self.categoria
     
 class grupoAdmin(admin.ModelAdmin):
-    list_display = ('id','cGrupo')
+    list_display = ('cGrupo', 'categoria', 'lVigente')
 
     def __str__(self):
         return self.grupo
 
 class indicadorAdmin(admin.ModelAdmin):
-    list_display = ('cTitulo','cIndicador')
+    list_display = ('cTitulo','cIndicador', 'grupo')
 
 class medioVerificacionAdmin(admin.ModelAdmin):
     list_display = ('cTitulo', 'cMedioVerificacion', 'get_indicador', 'get_oficina', 'lVigente', 'nOrden')
@@ -74,6 +80,7 @@ class evidenciatodoAdmin(admin.ModelAdmin):
             return obj.medioVerificacion.cTitulo
     get_medio.short_description = 'Medio Verficacion'
 
+admin.site.register(Periodo, periodoAdmin)
 admin.site.register(Categoria, categoriaAdmin)
 admin.site.register(Grupo, grupoAdmin)
 admin.site.register(Indicador, indicadorAdmin)

@@ -20,6 +20,16 @@ class Grupo(models.Model):
   def __str__(self):
         return self.cGrupo
 
+class Periodo(models.Model):
+  class Meta:
+    verbose_name_plural = "7. Periodos"
+  categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, blank=True, null=True, default=1)
+  cPeriodo = models.CharField('Periodo', max_length=360, default='')
+  lVigente = models.BooleanField('Vigente',default=True)
+
+  def __str__(self):
+        return self.cPeriodo
+  
 class Indicador(models.Model):
   class Meta:
     verbose_name_plural = "3. Indicadores"
@@ -72,13 +82,13 @@ class Evidencia(models.Model):
   
   medioVerificacion = models.ForeignKey(MedioVerificacion, on_delete=models.CASCADE, blank=True, null=True)
   oficina = models.ForeignKey(Oficina, related_name='oficina', on_delete=models.CASCADE, blank=True, null=True)
+  periodo = models.ForeignKey(Periodo, on_delete=models.PROTECT, blank=True, null=True)
   
   idEstado = models.CharField('Estado', choices=ESTADO, default="Pendiente",  max_length=20)
   idEscala = models.CharField('Escala', choices=ESCALA, default="1",  max_length=120)
   usuarioCarga = models.ForeignKey(Usuario, related_name='evidencia_cargada', on_delete=models.CASCADE, blank=True, null=True)
   cDetalle1 = models.TextField('Primer Detalle', default='', blank=True, null=True,)
   cDetalle2 = models.TextField('Segundo Detalle', default='', blank=True, null=True,)
-  archivoPdf = models.FileField(upload_to='pdf/', blank=True, null=True, default='')
   dFechaCarga = models.DateTimeField('Fecha de Carga', blank=True, null=True)
   lRevisado = models.BooleanField('Revisado',default=False, null=False)
   usuarioRevisor = models.ForeignKey(Usuario, related_name='evidencia_revisada', on_delete=models.CASCADE, blank=True, null=True)
@@ -98,15 +108,30 @@ class Evidencia_Todo(models.Model):
   
   medioVerificacion = models.ForeignKey(MedioVerificacion, on_delete=models.CASCADE, blank=True, null=True)
   oficina = models.ForeignKey(Oficina, related_name='oficinas', on_delete=models.CASCADE, blank=True, null=True)
+  periodo = models.ForeignKey(Periodo, on_delete=models.PROTECT, blank=True, null=True)
   
   idEstado = models.CharField('Estado', choices=ESTADO, default="Pendiente",  max_length=20)
   idEscala = models.CharField('Escala', choices=ESCALA, default="Contextualizacion",  max_length=120)
   usuarioCarga = models.ForeignKey(Usuario, related_name='evidencia_cargado', on_delete=models.CASCADE, blank=True, null=True)
   cDetalle1 = models.TextField('Primer Detalle', default='', blank=True, null=True,)
   cDetalle2 = models.TextField('Segundo Detalle', default='', blank=True, null=True,)
-  archivoPdf = models.FileField(upload_to='pdf/', blank=True, null=True, default='')
   dFechaCarga = models.DateTimeField('Fecha de Carga', blank=True, null=True)
   lRevisado = models.BooleanField('Revisado',default=False, null=False)
   usuarioRevisor = models.ForeignKey(Usuario, related_name='evidencia_revisado', on_delete=models.CASCADE, blank=True, null=True)
   cComentarioRevisor = models.CharField('Comentario de Revisor', max_length=360, blank=True, null=True)
   dFechaRevision = models.DateTimeField('Fecha de Revisión', blank=True, null=True)
+
+
+
+class Archivo(models.Model):
+  class Meta:
+    verbose_name_plural = "8. Archivos"
+
+  evidencia = models.ForeignKey(Evidencia, on_delete=models.PROTECT)
+  idEscala = models.CharField('Escala', choices=ESCALA, default="Contextualizacion",  max_length=120)
+  archivoPdf = models.FileField(upload_to='pdf/', blank=True, null=True, default='')
+  usuario = models.ForeignKey(Usuario, related_name='evidencia_carga', on_delete=models.CASCADE, blank=True, null=True)
+  dFecha = models.DateTimeField('Cargado', blank=True, null=True)
+  usuarioMod = models.ForeignKey(Usuario, related_name='evidencia_actualiza', on_delete=models.CASCADE, blank=True, null=True)
+  dFechaMod = models.DateTimeField('Modificado', blank=True, null=True)
+  lVigente = models.BooleanField('Vigente',default=True, null=False)
