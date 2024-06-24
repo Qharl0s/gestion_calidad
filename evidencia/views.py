@@ -3,9 +3,9 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
-from evidencia.models import Categoria, Evidencia, Evidencia_Todo, MedioVerificacion, Periodo, Grupo
+from evidencia.models import Categoria, Evidencia, Evidencia_Todo, MedioVerificacion, Periodo, Grupo, Indicador
 from usuario.models import Oficina, Usuario
-from evidencia.funciones import resumen_grupos, resumen_indicadores
+from evidencia.funciones import resumen_grupos, resumen_indicadores, resumen_medios
 
 @login_required
 def estandares(request, oficina_id=0):
@@ -41,7 +41,9 @@ def condiciones(request, periodo_id=0):
   
   resumen = resumen_grupos(categoria, periodo_seleccionado, usuario.oficina, usuario)
 
-  context = {'datos_resumen':resumen, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado}
+  context = {'datos_resumen':resumen, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
+             , 'detalle_url':'indicadores', 'submenu':[]
+             }
   return render(request, 'resumen.html', context)
 
 @login_required
@@ -207,17 +209,30 @@ def indicadores(request, periodo_id, grupo_id):
   
   resumen = resumen_indicadores(grupos, periodo_seleccionado, usuario.oficina, usuario)
 
-  context = {'datos_resumen':resumen,'periodo_seleccionado':periodo_seleccionado}
+  context = {'datos_resumen':resumen,'periodo_seleccionado':periodo_seleccionado
+             , 'detalle_url':'medios', 
+             'submenu':[{'nombre':'Condiciones', 'url': 'http://'+request.get_host()+'/condiciones/'+str(periodo_seleccionado.id)}, ]
+            }
   return render(request, 'resumen.html', context)
 
 @login_required
-def indicadores(request, periodo_id, indicador_id):
+def medios_verificacion(request, periodo_id, indicador_id):
   usuario = Usuario.objects.get(username=request.user.username)
+  #indicador
+  indicador = Indicador.objects.get(id=indicador_id)
   #Periodo
   periodo_seleccionado = Periodo.objects.get(id=periodo_id)
-  #Categorias
-  medios = MedioVerificacion.objects.filter(indicador__id=indicador_id)
+  #medios
+  medios = MedioVerificacion.objects.filter(indicador__id=indicador_id, oficinaResponsable=usuario.oficina)
 
-  context = {'medios':medios,'periodo_seleccionado':periodo_seleccionado}
+  resumen = resumen_medios(medios, periodo_seleccionado, usuario.oficina, usuario)
+
+  context = {'medios':resumen,'periodo_seleccionado':periodo_seleccionado
+            , 'detalle_url':'', 
+             'submenu':[
+                {'nombre':'Condiciones', 'url': 'http://'+request.get_host()+'/condiciones/'+str(periodo_seleccionado.id)},
+                {'nombre':'Indicadores', 'url': 'http://'+request.get_host()+'/indicadores/'+str(periodo_seleccionado.id)+'/'+str(indicador.grupo.id)} 
+              ] 
+            }
 
   return render(request, 'medios_verificacion.html', context)

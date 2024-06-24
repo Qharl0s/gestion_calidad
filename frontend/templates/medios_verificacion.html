@@ -7,12 +7,11 @@
   <div class="col-md-8">
       <ul class="breadcrumb">
           <li class="breadcrumb-item">
-              <a href="index.html"> <i class="fa fa-home"></i> </a>
+              <a href="/"> <i class="fa fa-home"></i> </a>
           </li>
-          <li class="breadcrumb-item"><a href="#!">Grupos</a>
-          </li>
-          <li class="breadcrumb-item"><a href="#!">Indicadores</a>
-          </li>
+          {% for menu in submenu %}
+          <li class="breadcrumb-item"><a href="{{menu.url}}">{{menu.nombre}}</a></li>
+          {% endfor %}
       </ul>
   </div>
   <div class="col-md-4">
@@ -43,35 +42,19 @@
                 </div>
             </div>
             <div class="card-block">
-                {% comment %} <ul class="list-group">
-                    {% for medio in medios %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>
-                            <b>{{medio.cTitulo}}</b></br>
-                            {{medio.cMedioVerificacion}}
-                        </span>
-                        <span>{{medio.dFechaMaxEntrega}}</span>
-                        <button type="button" class="btn btn-success waves-effect waves-light">Evidencias <span class="badge badge-light">4</span></button>
-                      </li>
-                    {% endfor %}
-                </ul> {% endcomment %}
 
                 <table class="table table-hover table_archivos accordion-block">
                     <tbody>
-                        {% for medio in medios %}
+                        {% for medio in medios.grupos %}
                         <tr>
-                          <td><p><b>{{medio.cTitulo}}</b></p><i>{{medio.cMedioVerificacion}}</i></td>
+                          <td><p><b>{{medio.grupo}}</b></p><i>{{medio.grupo2}}</i></td>
                           <td class="text-right">
                             {% if lAcreditacion == 'true' %}
                               <span class="text-right label label-warning">Contextualización</span>
                             {% endif %}
                           </td>
                           <td class="text-right" style="width: 170px;">
-                            <div class="btn-group btn-group-sm">
-                              <button type="button" class="btn btn-primary btnRevisarArchivo" data-idevidencia="{{evi.id}}"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
-                              <button type="button" class="btn btn-primary btnRevisarArchivo" data-idevidencia="{{evi.id}}"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
-                              <button type="button" class="btn btn-primary btnRevisarArchivo" data-idevidencia="{{evi.id}}"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
-                            </div>
+                            <button type="button" class="btn btn-success">Evidencias <span class="badge badge-light">{{medio.archivos}}</span></button>
                           </td>
                         </tr>
                       {% endfor %}

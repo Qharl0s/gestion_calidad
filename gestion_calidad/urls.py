@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth.views import (LoginView, LogoutView,PasswordChangeView, PasswordResetDoneView)
 from frontend.views import actualizar_password, guardar_datos, inicio, perfil
-from evidencia.views import condiciones, estandares, MedioVerificacion, guardar_revision, guardar_evidencia, listar_revision, recomendaciones, requerimientos, obtener_evidencia, indicadores
+from evidencia.views import condiciones, estandares, guardar_revision, guardar_evidencia, listar_revision, recomendaciones, requerimientos, obtener_evidencia, indicadores, medios_verificacion
 
 urlpatterns = [
     url('admin/', admin.site.urls),
@@ -22,7 +22,7 @@ urlpatterns = [
     path('estandares/<int:oficina_id>/', estandares, name='estandares'),
 
     path('indicadores/<int:periodo_id>/<int:grupo_id>', indicadores, name='indicadores'),
-    path('medios/<int:periodo_id>/<int:indicador_id>', indicadores, name='medios'),
+    path('medios/<int:periodo_id>/<int:indicador_id>', medios_verificacion, name='medios'),
 
     url('guardar_revision/', guardar_revision, name='guardar_revision'),
     url('guardar_evidencia/', guardar_evidencia, name='guardar_evidencia'),

@@ -7,12 +7,11 @@
   <div class="col-md-8">
       <ul class="breadcrumb">
           <li class="breadcrumb-item">
-              <a href="index.html"> <i class="fa fa-home"></i> </a>
+              <a href="/"> <i class="fa fa-home"></i> </a>
           </li>
-          <li class="breadcrumb-item"><a href="#!">Basic Components</a>
-          </li>
-          <li class="breadcrumb-item"><a href="#!">Animated Tooltip</a>
-          </li>
+          {% for menu in submenu %}
+          <li class="breadcrumb-item"><a href="{{menu.url}}">{{menu.nombre}}</a></li>
+          {% endfor %}
       </ul>
   </div>
   <div class="col-md-4">
@@ -53,9 +52,10 @@
                             </ul>
                     </div>
                     <div class="col">
-                        <button class="btn btn-mini waves-effect waves-light btn-principal"
-                            style="position: absolute;bottom: 0;right: 10px;"
-                        ><i class="ti-eye"></i> Ver</button>
+                        <a  href="/{{detalle_url}}/{{periodo_seleccionado.id}}/{{resumen.id}}"
+                            class="btn btn-mini waves-effect waves-light btn-principal"
+                            style="position: absolute;bottom: 0;right: 10px; color: #fff !important;"
+                        ><i class="ti-eye"></i> Ver</a>
                     </div>
                 </div>
             </div>
