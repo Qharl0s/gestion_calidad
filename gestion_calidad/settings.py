@@ -165,3 +165,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+LANGUAGE_CODE = 'es-pe'
+
+TIME_ZONE = 'America/Lima'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+DATE_INPUT_FORMATS =  ['%Y/%m/%d']
+
+DATETIME_INPUT_FORMATS = ["%Y-%m-%d %H:%M:%S"]

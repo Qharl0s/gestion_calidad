@@ -1,44 +1,17 @@
 {% extends 'header_menu_body.html' %}
 <!--########################-->
 
-{% block pagebreadcrumb%}
-<!-- Page-header start -->
-<div class="row wave">
-  <div class="col-md-8">
-      <ul class="breadcrumb">
-          <li class="breadcrumb-item">
-              <a href="/"> <i class="fa fa-home"></i> </a>
-          </li>
-          {% for menu in submenu %}
-          <li class="breadcrumb-item"><a href="{{menu.url}}">{{menu.nombre}}</a></li>
-          {% endfor %}
-      </ul>
-  </div>
-  <div class="col-md-4">
-    <div class="page-header-title text-right pt-3 px-5">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}} - {{periodo_seleccionado.id}}</button>
-        <div class="dropdown-menu">
-            {% for periodo in periodos %}
-            <a class="dropdown-item" href="{{periodo.id}}">{{periodo.cPeriodo}} - {{periodo.id}}</a>  
-            {%endfor%}
-        </div>
-    </div>
-  </div>
-</div>  
-<!-- Page-header end -->
-{%endblock pagebreadcrumb%}
-
 <!-- Contenido -->
 {% block pagecontent %}
 <div class="row">
     <div class="col-md-12">
         <div class="card shadow">
-            <div class="card-header" style="background: #a4d2ff">
+            <div class="card-header">
                 <div class="card-header-left">
                     <h6>Medios de Verificación</h6>
                 </div>
                 <div class="card-header-right">
-                    <span style="font-sizes: 10px">Items: <label class="badge badge-default">20</label></span>
+                    <span style="font-sizes: 10px">Items: <label class="badge badge-default">{{medios.items}}</label></span>
                 </div>
             </div>
             <div class="card-block">
@@ -47,15 +20,34 @@
                     <tbody>
                         {% for medio in medios.grupos %}
                         <tr>
-                          <td><p><b>{{medio.grupo}}</b></p><i>{{medio.grupo2}}</i></td>
-                          <td class="text-right">
+                          <td>
+                            <div class="row">
+                              <div class="col-md-9">
+                                <p><b>{{medio.grupo}}</b></p><i>{{medio.grupo2}}</i>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="btn-group btn-group-sm text_body">
+                                  <button type="button" class="btn btn-primary btnModalCargarDetalleEvidencia" data-medioverificacion="{{medio.id}}" data-idperiodo="{{periodo_seleccionado.id}}" data-editar="{{medio.lEdita}}">
+                                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                                    <span class="badge badge-light">{{medio.detalles}}</span>
+                                  </button>
+                                  <button type="button" class="btn btn-success btnModalCargarArchivo" data-medioverificacion="{{medio.id}}" data-idperiodo="{{periodo_seleccionado.id}}" data-editar="{{medio.lEdita}}">
+                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    <span class="badge badge-light">{{medio.archivos}}</span>
+                                  </button>
+                                  <button type="button" class="btn btn-danger btnRevisarEvidencia" data-medioverificacion="{{medio.id}}" data-idperiodo="{{periodo_seleccionado.id}}">
+                                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                    <span class="badge badge-light">{{medio.revisiones}}</span>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          {% comment %} <td class="text-right">
                             {% if lAcreditacion == 'true' %}
                               <span class="text-right label label-warning">Contextualización</span>
                             {% endif %}
-                          </td>
-                          <td class="text-right" style="width: 170px;">
-                            <button type="button" class="btn btn-success">Evidencias <span class="badge badge-light">{{medio.archivos}}</span></button>
-                          </td>
+                          </td> {% endcomment %}
                         </tr>
                       {% endfor %}
                     </tbody>

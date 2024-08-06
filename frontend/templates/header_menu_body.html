@@ -247,19 +247,25 @@
                 <a href="#"><i class="icon-close icons"></i></a>
               </div>
               <div class="pcoded-inner-navbar main-menu">
-                <div>
+                <div class="shadows">
                   <div class="main-menu-header">
-                    <img
-                      class="img-80 img-radius fondo_celeste"
-                      src="{% static 'images/avatar-user.png' %}"
-                      alt="User-Profile-Image"
-                    />
+
+
+                    
+                    <div class="d-flex justify-content-center h-100">
+                      <div class="image_outer_container">
+                        <div class="green_icon"></div>
+                        <div class="image_inner_container">
+                          <img width="200px" height="100px" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh0T9SUEsXPSqg6yysKLt_uSQuWwf-9bQPFZP4mo-mRvaLxmTSPECYm9YQ8mRMjd0u33m-FuDh9MxL0QbnjZCM7lRaXP1io7BZQewg6FG8vXQJraNRQmLxomiGqwtEW63Yd_5iL37OC4YAv/s1600/a0103.jpg">
+                        </div>
+                      </div>
+                    </div>
+
+                    {% comment %} <img class="img-80 img-radius fondo_celeste shadow" src="{% static 'images/avatar-user.png' %}" alt="User-Profile-Image"/> {% endcomment %}
+                    
                     <div class="user-details">
-                      <span>{{usuario.oficina.cOficina}}</span>
-                      <span>{{usuario.cCargo}}</span>
-                      <span id="more-details" style="font-size:12px;"
-                        >{{usuario.email|slice:':34'}}<i class="fa fa-caret-down"></i
-                      ></span>
+                      <span ><i>{{usuario.cCargo|slice:':34'}}</i></span>
+                      <span id="more-details"><b>{{usuario.username}}</b> <i class="fa fa-caret-down"></i> </span>
                     </div>
                   </div>
                   <div class="main-menu-content">
@@ -276,7 +282,6 @@
                     </ul>
                   </div>
                 </div>
-                <ul class="pcoded-item pcoded-left-item"></ul>
                 <ul class="pcoded-item pcoded-left-item">
                   <li class="{{menu_inicio}}">
                     <a
@@ -347,6 +352,24 @@
                     </ul>
                   </li>
                 </ul>
+
+                <ul class="pcoded-item pcoded-left-item">
+                  <li class="pcoded-hasmenu {{menu_renovacion}}">
+                    <a
+                      href="javascript:void(0)"
+                      class="waves-effect waves-dark menu_renovacion"
+                    >
+                      <span class="pcoded-micon"
+                        ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
+                      >
+                      <span class="pcoded-mtext">Renovaciones</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                      {% block submenurenovaciones %} {% endblock %}
+                    </ul>
+                  </li>
+                </ul>
                 {%endif%}<!--##########-->
                 {% if usuario.oficina.lAcreditacion|lower == 'true' or usuario.lRevisor|lower == 'true' %}
                 <div class="pcoded-navigation-label">Acreditación</div>
@@ -370,10 +393,11 @@
                   </li>
                 </ul>
                 {%endif%}
+                {% if usuario.is_staff|lower == "true" %}
                 <div class="pcoded-navigation-label">Administración</div>
                 <ul class="pcoded-item pcoded-left-item">
                   <li class="">
-                    {% if usuario.is_staff|lower == "true" %}
+                    
                     <a
                       href="http://{{ request.get_host }}/admin/"
                       class="waves-effect waves-dark"
@@ -385,34 +409,42 @@
                       <span class="pcoded-mtext">Administrador</span>
                       <span class="pcoded-mcaret"></span>
                     </a>
-                    {% endif %} {% comment %}
-                    <ul class="pcoded-submenu">
-                      {% block submenucondiciones %} {% endblock %}
-                    </ul>
-                    {% endcomment %}
                   </li>
                 </ul>
+                {% endif %}
               </div>
             </nav>
             <div class="pcoded-content">
               
             <!-- Page-header start -->
-            {% block pagebreadcrumb %}{% endblock pagebreadcrumb %}
+            <div class="row wave">
+              <div class="col-md-8">
+                  <ul class="breadcrumb">
+                      <li class="breadcrumb-item">
+                          <a href="/"> <i class="fa fa-home"></i> Inicio</a>
+                      </li>
+                      {% for menu in submenu %}
+                      <li class="breadcrumb-item"><a href="{{menu.url}}">{{menu.nombre}}</a></li>
+                      {% endfor %}
+                  </ul>
+              </div>
+              <div class="col-md-4">
+                <div class="page-header-title text-right pt-3 px-5">
+                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}}</button>
+                  {% if periodos is not None %}
+                  <div class="dropdown-menu">
+                      {% for periodo in periodos %}
+                      <a class="dropdown-item" href="{{periodo.id}}">{{periodo.cPeriodo}}</a>  
+                      {%endfor%}
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>  
             <!-- Page-header end -->
              
               <div class="pcoded-inner-content">
-                <!-- Main-body start -->
-                <div class="main-body">
-                  <div class="page-wrapper">
-                    <!-- Page-body start -->
-                    <div class="page-body">
-                      <!-- Content body-->
-                      {% block pagecontent %}{% endblock pagecontent %}
-                    </div>
-                    <!-- Page-body end -->
-                  </div>
-                  <div id="styleSelector"></div>
-                </div>
+                {% block pagecontent %}{% endblock pagecontent %}
               </div>
             </div>
           </div>
@@ -420,6 +452,85 @@
       </div>
     </div>
     
+
+
+    <!--Modal para cargar Descripciones-->
+    <div
+      class="modal fade"
+      id="modalDetalleEvidencia"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              Detalle de Evidencia
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="form-material">
+              
+              <input type="hidden" id="idMedioVerificacion" value="0" />
+              <input type="hidden" id="idPeriodoEvi" value="0" />
+
+              <div class="row">
+                <div class="col-md-6">
+
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="card-header-left">
+                        <h6>Detalle</h6>
+                      </div>
+                    </div>
+                    <div class="card-block" style="padding: 0px !important;">
+                      <div class="">
+                        <textarea id="detalle1" class="form-control editor"></textarea>
+                        <textarea id="txtEditorContent1" name="txtEditorContent" hidden></textarea>
+                      </div>
+                    </div>
+                  </div>
+  
+                </div>
+
+
+                <div class="col-md-6">
+
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="card-header-left">
+                        <h6>Identificación de Brechas</h6>
+                      </div>
+                    </div>
+                    <div class="card-block" style="padding: 0px !important;">
+                      <div class="">
+                        <textarea id="detalle2" class="form-control editor"></textarea>
+                        <textarea id="txtEditorContent2" name="txtEditorContent" hidden></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              
+              </div>
+            </form>
+          </div>
+          {% if usuario.lRevisor|lower != 'true' %}
+          <div class="modal-footer footer_detalles"> <!--Ocultar si no es responsable y esta Aprobado-->
+            <button type="button" class="btn btn-success" id="btnGuardarDetalleEvi">Guardar</button>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <!--Fin de Modal para Cargar Descripciones-->
+
+
+
     <!--Modal para cargar archivos-->
     <div
       class="modal fade"
@@ -444,130 +555,99 @@
             </button>
           </div>
           <div class="modal-body">
-            <form class="form-material">
-              <input type="hidden" id="idMedioVerificacion" value="0" />
-              <div class="form-group form-default form-static-label">
-                <textarea id="detalle1" class="form-control editor"></textarea>
-                <textarea
-                  id="txtEditorContent1"
-                  name="txtEditorContent"
-                  hidden=""
-                ></textarea>
-                <span class="form-bar"></span>
-                <label class="float-label"> Detalle:</label>
-              </div>
-              <div class="form-group form-default form-static-label">
-                <textarea id="detalle2" class="form-control editor"></textarea>
-                <textarea
-                  id="txtEditorContent2"
-                  name="txtEditorContent"
-                  hidden=""
-                ></textarea>
-                <span class="form-bar"></span>
-                <label class="float-label"> Identificación de Brechas:</label>
+            <form class="form-material" id="formCargarArchivo">
+              
+              <input type="hidden" id="idMedioVerificacionArchivo" value="0" />
+              <input type="hidden" id="idPeriodoArchivo" value="0" />
+
+              <div class="row">
               </div>
               {% if usuario.lRevisor|lower != 'true' %}
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroupFileAddon01"
-                    >Cargar</span
-                  >
+                  <span class="input-group-text" id="inputGroupFileAddon01">Cargar</span>
                 </div>
                 <div class="custom-file">
-                  <input
-                    type="file"
-                    class="custom-file-input"
-                    id="fileEvidencia"
-                  />
-                  <label class="custom-file-label" for="fileEvidencia"
-                    >Seleccione pdf..</label
-                  >
+                  <input type="file" class="custom-file-input" id="fileEvidencia"/>
+                  <label class="custom-file-label" for="fileEvidencia" id="lblFileEvidencia">Seleccione pdf..</label>
                 </div>
               </div>
-              {%endif%}
+              {% endif %}
             </form>
+
+            <div class="card">
+              </div>
+              <div class="card-block">
+                
+                <div class="table-responsive ">
+                  <table class="table table-hover" style="border: 1px solid #CED4DA;">
+                      <thead style="background: #a4d2ff;color: #144273; height:40px;" class="shadow">
+                          <tr>
+                              <th>Nombre de archivo</th>
+                              <th>Fecha</th>
+                              <th>Usuario</th>
+                              <th>Acción</th>
+                          </tr>
+                      </thead>
+                      <tbody id="tBodyArchivos"></tbody>
+                  </table>
+                </div>
+                <input type="text" id="link_file" value="" style="width:100%; border: none; color:white;"/>
+              </div>
+            </div>
           </div>
-          <div class="modal-footer">
-            {% if usuario.lRevisor|lower != 'true' %}
-            <button
-              type="button"
-              class="btn btn-success"
-              id="btnCargarEvidencia"
-            >
-              Cargar
-            </button>
-            {%endif%}
-          </div>
+          
         </div>
       </div>
     </div>
     <!--Fin de Modal para Cargar Archivos-->
+
+
     
     <!--Modal para Revisar archivos-->
-    <div
-      class="modal fade"
-      id="modalRevisarArchivo"
-      tabindex="-1"
-      role="dialog"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="modalRevisarEvidencia" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">
-              Revisión de Medio de Verificación
+              Revisión/Aprobación de Evidencias
             </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
           <div class="modal-body">
             {% if usuario.lRevisor|lower == 'true' %}
             <div class="form-group">
-              <input type="hidden" id="idEvidenciaRevision" value="0" />
-              <textarea
-                class="form-control rounded-0 editor"
-                id="cComentarioRevision"
-                rows="3"
-              ></textarea>
-              <textarea
-                id="txtEditorContentRevision"
-                name="txtEditorContent"
-                hidden=""
-              ></textarea>
+              <input type="hidden" id="idMedioRevision" value="0" />
+              <input type="hidden" id="idPeriodoRevision" value="0" />
+
+              <textarea class="form-control rounded-0 editor" id="cComentarioRevision" rows="1" ></textarea>
+              <textarea id="txtEditorContentRevision" name="txtEditorContent" hidden="" ></textarea>
             </div>
 
-            <button
-              type="button"
-              class="btn btn-danger"
-              id="btnObservarRevision"
-            >
-              Observar
-            </button>
-            <button
-              type="button"
-              class="btn btn-success"
-              id="btnAprobarRevision"
-            >
-              Aprobar
-            </button>
+            <div class="float-right mb-2">
+              <button type="button" class="btn btn-danger" id="btnObservarRevision"> Observar </button>
+              <button type="button" class="btn btn-success" id="btnAprobarRevision"> Aprobar </button>
+            </div>
             {% endif %}
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Fecha</th>
-                  <th scope="col">Comentario</th>
-                </tr>
-              </thead>
-              <tbody id="tBodyRevision"></tbody>
-            </table>
+
+
+            <div class="table-responsive ">
+              <table class="table table-hover" style="border: 1px solid #CED4DA;">
+                  <thead style="background: #a4d2ff;color: #144273; height:40px;" class="shadow">
+                    <tr>
+                      <th scope="col">Estado</th>
+                      <th scope="col">Fecha</th>
+                      <th scope="col">Usuario</th>
+                      <th scope="col">Comentario</th>
+                      {% comment %} {% if usuario.lRevisor|lower == 'true' %}
+                      <th scope="col">Acción</th>
+                      {% endif %} {% endcomment %}
+                    </tr>
+                  </thead>
+                  <tbody id="tBodyRevision"></tbody>
+              </table>
+            </div>
           </div>
-          <div class="modal-footer"></div>
         </div>
       </div>
     </div>

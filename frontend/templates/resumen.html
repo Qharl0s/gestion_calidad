@@ -1,48 +1,21 @@
 {% extends 'header_menu_body.html' %}
 <!--########################-->
 
-{% block pagebreadcrumb%}
-<!-- Page-header start -->
-<div class="row wave">
-  <div class="col-md-8">
-      <ul class="breadcrumb">
-          <li class="breadcrumb-item">
-              <a href="/"> <i class="fa fa-home"></i> </a>
-          </li>
-          {% for menu in submenu %}
-          <li class="breadcrumb-item"><a href="{{menu.url}}">{{menu.nombre}}</a></li>
-          {% endfor %}
-      </ul>
-  </div>
-  <div class="col-md-4">
-    <div class="page-header-title text-right pt-3 px-5">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}} - {{periodo_seleccionado.id}}</button>
-        <div class="dropdown-menu">
-            {% for periodo in periodos %}
-            <a class="dropdown-item" href="{{periodo.id}}">{{periodo.cPeriodo}} - {{periodo.id}}</a>  
-            {%endfor%}
-        </div>
-    </div>
-  </div>
-</div>  
-<!-- Page-header end -->
-{%endblock pagebreadcrumb%}
-
 <!-- Contenido -->
 {% block pagecontent %}
 <div class="row">
     {% for resumen in datos_resumen.grupos %}
     <div class="col-md-4">
-        <div class="card shadow">
-            <div class="card-header" style="background: #a4d2ff">
+        <div class="card shadow card_resumen">
+            <div class="card-header">
                 <div class="card-header-left">
-                    <h6>{{resumen.grupo}} - {{resumen.id}}</h6>
+                    <h6>{{resumen.grupo}}</h6>
                 </div>
                 <div class="card-header-right">
                     <span style="font-sizes: 10px">Items: <label class="badge badge-default">{{resumen.items}}</label></span>
                 </div>
             </div>
-            <div class="card-block">
+            <div class="card-block text_body">
                 <div class="row">
                     <div class="col text-left">
                         <ul>

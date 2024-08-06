@@ -9,28 +9,30 @@ You should have received a copy of the GNU General Public License along with thi
 */
 
 @charset "utf-8";
+
 /* base styles */
 .jumbotron {
   background-color: #67a754;
   background-image: url(images/radial_bg.png);
   background-position: center center;
   background-repeat: no-repeat;
-  background: -webkit-gradient(
-    radial,
-    center center,
-    0,
-    center center,
-    460,
-    from(#b3ecff),
-    to(#7edeff)
-  ); /* Safari 4-5, Chrome 1-9 */ /* Can't specify a percentage size? Laaaaaame. */
-  background: -webkit-radial-gradient(
-    circle,
-    #b3ecff,
-    #7edeff
-  ); /* Safari 5.1+, Chrome 10+ */
-  background: -moz-radial-gradient(circle, #b3ecff, #7edeff); /* Firefox 3.6+ */
-  background: -ms-radial-gradient(circle, #b3ecff, #7edeff); /* IE 10 */
+  background: -webkit-gradient(radial,
+      center center,
+      0,
+      center center,
+      460,
+      from(#b3ecff),
+      to(#7edeff));
+  /* Safari 4-5, Chrome 1-9 */
+  /* Can't specify a percentage size? Laaaaaame. */
+  background: -webkit-radial-gradient(circle,
+      #b3ecff,
+      #7edeff);
+  /* Safari 5.1+, Chrome 10+ */
+  background: -moz-radial-gradient(circle, #b3ecff, #7edeff);
+  /* Firefox 3.6+ */
+  background: -ms-radial-gradient(circle, #b3ecff, #7edeff);
+  /* IE 10 */
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2) inset,
     0 -3px 7px rgba(0, 0, 0, 0.2) inset;
   color: #ffffff;
@@ -39,6 +41,7 @@ You should have received a copy of the GNU General Public License along with thi
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.4),
     0 0 30px rgba(255, 255, 255, 0.075);
 }
+
 .jumbotron h1 {
   font-family: 'Roboto', sans-serif !important;
   font-size: 45px;
@@ -46,9 +49,11 @@ You should have received a copy of the GNU General Public License along with thi
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   padding-bottom: 20px;
 }
+
 .jumbotron h1 span {
   color: rgba(0, 0, 0, 0.4);
 }
+
 .jumbotron p {
   font-family: 'Roboto', sans-serif !important;
   font-size: 30px;
@@ -61,9 +66,9 @@ You should have received a copy of the GNU General Public License along with thi
   position: relative;
   z-index: 2;
 }
+
 .jumbotron:after {
-  background: url('../images/pattern.png') repeat scroll center center
-    transparent;
+  background: url('../images/pattern.png') repeat scroll center center transparent;
   bottom: 0;
   content: '';
   display: block;
@@ -73,14 +78,17 @@ You should have received a copy of the GNU General Public License along with thi
   right: 0;
   top: 0;
 }
+
 .jumbotron:after {
   background-size: 400px 400px;
 }
+
 .masthead {
   color: #ffffff;
   margin-bottom: 0;
   padding: 30px 0 10px;
 }
+
 h2.demo-text {
   font-family: 'Roboto', sans-serif !important;
   font-size: 45px;
@@ -90,6 +98,7 @@ h2.demo-text {
   margin: 20px 0;
   line-height: 40px;
 }
+
 .features {
   padding: 20px 0 10px 0;
   background: #eee;
@@ -99,6 +108,7 @@ h2.demo-text {
   text-align: center;
   font-weight: 300;
 }
+
 .footer {
   border-top: 1px solid #ddd;
   margin: 20px 0 10px 0;
@@ -109,7 +119,7 @@ h2.demo-text {
 /* Editor Styles */
 
 .Editor-container {
-  margin-top: 10px;
+  margin-top: 0px;
   font-family: Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -117,13 +127,11 @@ h2.demo-text {
   background-color: #f5f5f5;
   *background-color: #e6e6e6;
   background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
-  background-image: -webkit-gradient(
-    linear,
-    0 0,
-    0 100%,
-    from(#ffffff),
-    to(#e6e6e6)
-  );
+  background-image: -webkit-gradient(linear,
+      0 0,
+      0 100%,
+      from(#ffffff),
+      to(#e6e6e6));
   background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
   background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
   background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
@@ -137,17 +145,16 @@ h2.demo-text {
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
   *zoom: 1;
 }
+
 .line-control-status-bar {
   background-color: #f5f5f5;
   *background-color: #e6e6e6;
   background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
-  background-image: -webkit-gradient(
-    linear,
-    0 0,
-    0 100%,
-    from(#ffffff),
-    to(#e6e6e6)
-  );
+  background-image: -webkit-gradient(linear,
+      0 0,
+      0 100%,
+      from(#ffffff),
+      to(#e6e6e6));
   background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
   background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
   background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
@@ -168,25 +175,31 @@ h2.demo-text {
   min-height: 25px;
   padding: 5px 0;
 }
+
 .line-control-menu-bar div:first-child {
   margin-left: 3px;
 }
+
 .line-control-menu-bar .dropdown {
   float: left;
 }
+
 .line-control-menu-bar .dropdown-toggle {
   font-size: 14px;
 }
+
 .line-control-menu-bar .dropdown-toggle .caret {
   margin-left: 5px;
   border-top-color: #999;
 }
+
 .line-control-menu-bar a.btn {
   position: relative;
   margin-bottom: 3px;
 }
-#paletteCntr {
-}
+
+#paletteCntr {}
+
 select,
 textarea,
 input[type='text'],
@@ -215,6 +228,7 @@ input[type='color'],
   line-height: 30px;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
 }
+
 .line-control-status-bar .label {
   float: right;
   margin: 6px 10px 0 0;
@@ -224,6 +238,7 @@ input[type='color'],
   font-size: 11.844px;
   line-height: 14px;
 }
+
 .Editor-editor {
   height: 100px;
   padding: 1%;
@@ -231,12 +246,14 @@ input[type='color'],
   border-radius: 0;
   word-wrap: break-word;
 }
+
 #paletteCntr ul {
   width: 145px;
   float: left;
   z-index: 999;
   margin: 0 10px;
 }
+
 #paletteCntr li {
   cursor: pointer;
   display: block;
@@ -247,11 +264,13 @@ input[type='color'],
   width: 16px;
   margin: 1px;
 }
+
 #paletteCntr li div {
   text-align: left;
   margin: 0;
   font-size: 12px;
 }
+
 div.activeColour {
   position: absolute;
   display: inline;
@@ -261,6 +280,7 @@ div.activeColour {
   padding-bottom: 10px;
   z-index: 10000;
 }
+
 #colorpellete,
 #bg_colorpellete {
   float: left;
@@ -280,6 +300,7 @@ div.activeColour {
   top: 30px;
   left: 0;
 }
+
 .specialCntr ul {
   float: left;
   margin: 10px;
@@ -287,6 +308,7 @@ div.activeColour {
   -webkit-padding-start: 0px;
   -moz-padding-start: 0px;
 }
+
 .specialCntr ul li {
   list-style: none;
   float: left;
@@ -300,21 +322,30 @@ div.activeColour {
   font-weight: bold;
   cursor: pointer;
 }
+
 .specialCntr ul li:hover {
   background: #666;
   color: #fff;
 }
+
 pre {
-  white-space: pre-wrap; /* css-3 */
-  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: -o-pre-wrap; /* Opera 7 */
-  word-wrap: break-word; /* Internet Explorer 5.5+ */
+  white-space: pre-wrap;
+  /* css-3 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
 }
+
 .on {
   display: block;
   position: relative;
 }
+
 .fullscreen {
   position: fixed;
   background: #fff;
@@ -325,111 +356,134 @@ pre {
   z-index: 2000;
   margin: 0;
 }
+
 .fullscreen .line-control-status-bar {
   position: fixed;
   bottom: 0;
   border-top: 1px solid #ddd;
 }
+
 .fullscreen #contentarea {
   border: none;
 }
 
 /***Custome Added Css for Left Tabs***/
-.tabs-below > .nav-tabs,
-.tabs-right > .nav-tabs,
-.tabs-left > .nav-tabs {
+.tabs-below>.nav-tabs,
+.tabs-right>.nav-tabs,
+.tabs-left>.nav-tabs {
   border-bottom: 0;
 }
+
 .tabs-left ul {
   -webkit-padding-start: 0px;
 }
-.tabs-left > .nav-tabs > li,
-.tabs-right > .nav-tabs > li {
+
+.tabs-left>.nav-tabs>li,
+.tabs-right>.nav-tabs>li {
   float: none;
 }
-.tabs-left > .nav-tabs > li > a,
-.tabs-right > .nav-tabs > li > a {
+
+.tabs-left>.nav-tabs>li>a,
+.tabs-right>.nav-tabs>li>a {
   min-width: 74px;
   margin-right: 0;
   margin-bottom: 3px;
 }
-.tabs-left > .nav-tabs {
+
+.tabs-left>.nav-tabs {
   float: left;
   margin-right: 19px;
   border-right: 1px solid #ddd;
 }
-.tabs-left > .nav-tabs > li > a {
+
+.tabs-left>.nav-tabs>li>a {
   margin-right: -1px;
   -webkit-border-radius: 4px 0 0 4px;
   -moz-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
 }
-.tabs-left > .nav-tabs > li > a:hover,
-.tabs-left > .nav-tabs > li > a:focus {
+
+.tabs-left>.nav-tabs>li>a:hover,
+.tabs-left>.nav-tabs>li>a:focus {
   border-color: #eeeeee #dddddd #eeeeee #eeeeee;
   outline: none;
 }
-.tabs-left > .nav-tabs .active > a,
-.tabs-left > .nav-tabs .active > a:hover,
-.tabs-left > .nav-tabs .active > a:focus {
+
+.tabs-left>.nav-tabs .active>a,
+.tabs-left>.nav-tabs .active>a:hover,
+.tabs-left>.nav-tabs .active>a:focus {
   border-color: #ddd transparent #ddd #ddd;
   *border-right-color: #ffffff;
   color: rgb(0, 176, 245) !important;
   outline: none;
 }
+
 /**form control width**/
 @-moz-document url-prefix() {
   .form-control {
     padding: 6px 12px 10px 12px;
   }
 }
+
 .form-control-width {
   width: 100px;
 }
+
 .form-control-link {
   width: 204px;
   display: inline-block;
   margin-bottom: 5px;
   margin-right: 5px;
 }
+
 .form-control-button-right {
   width: 204px;
 }
+
 .inline-form-control {
   display: inline !important;
 }
 
-.btn-group + .btn-group {
+.btn-group+.btn-group {
   margin-left: 5px;
 }
+
 .activeColour ul {
   -webkit-padding-start: 0px;
   -moz-padding-start: 0px;
 }
+
 h1 {
   margin-top: 10px;
   line-height: 40px;
 }
+
 .col-lg-6 nth:child(1) {
   margin-left: 0px;
 }
+
 .nopadding {
   padding: 0px;
 }
+
 .nopadding-right {
   padding-right: 0px;
 }
+
 .modal {
   overflow-y: auto;
 }
+
 .padding-top {
   padding-top: 10px;
 }
+
 /*** Drop Down Menu***/
 .dropdown-submenu {
   position: relative;
 }
-.dropdown-submenu > .dropdown-menu {
+
+.dropdown-submenu>.dropdown-menu {
   top: 0;
   left: 100%;
   margin-top: -6px;
@@ -438,10 +492,12 @@ h1 {
   -moz-border-radius: 0 6px 6px 6px;
   border-radius: 0 6px 6px 6px;
 }
-.dropdown-submenu:hover > .dropdown-menu {
+
+.dropdown-submenu:hover>.dropdown-menu {
   display: block;
 }
-.dropdown-submenu > a:after {
+
+.dropdown-submenu>a:after {
   display: block;
   content: ' ';
   float: right;
@@ -454,40 +510,43 @@ h1 {
   margin-top: 5px;
   margin-right: -10px;
 }
-.dropdown-submenu:hover > a:after {
+
+.dropdown-submenu:hover>a:after {
   border-left-color: #ffffff;
 }
+
 .dropdown-submenu.pull-left {
   float: none;
 }
-.dropdown-submenu.pull-left > .dropdown-menu {
+
+.dropdown-submenu.pull-left>.dropdown-menu {
   left: -100%;
   margin-left: 10px;
   -webkit-border-radius: 6px 0 6px 6px;
   -moz-border-radius: 6px 0 6px 6px;
   border-radius: 6px 0 6px 6px;
 }
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus,
-.dropdown-submenu:hover > a,
-.dropdown-submenu:focus > a {
+
+.dropdown-menu>li>a:hover,
+.dropdown-menu>li>a:focus,
+.dropdown-submenu:hover>a,
+.dropdown-submenu:focus>a {
   color: #fff;
   text-decoration: none;
   background-color: #0081c2;
   background-image: -moz-linear-gradient(top, #08c, #0077b3);
-  background-image: -webkit-gradient(
-    linear,
-    0 0,
-    0 100%,
-    from(#08c),
-    to(#0077b3)
-  );
+  background-image: -webkit-gradient(linear,
+      0 0,
+      0 100%,
+      from(#08c),
+      to(#0077b3));
   background-image: -webkit-linear-gradient(top, #08c, #0077b3);
   background-image: -o-linear-gradient(top, #08c, #0077b3);
   background-image: linear-gradient(to bottom, #08c, #0077b3);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='#ff0077b3',GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 }
-.dropdown-menu > li > a {
+
+.dropdown-menu>li>a {
   cursor: pointer;
 }

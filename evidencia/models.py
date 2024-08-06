@@ -90,10 +90,6 @@ class Evidencia(models.Model):
   cDetalle1 = models.TextField('Primer Detalle', default='', blank=True, null=True,)
   cDetalle2 = models.TextField('Segundo Detalle', default='', blank=True, null=True,)
   dFechaCarga = models.DateTimeField('Fecha de Carga', blank=True, null=True)
-  lRevisado = models.BooleanField('Revisado',default=False, null=False)
-  usuarioRevisor = models.ForeignKey(Usuario, related_name='evidencia_revisada', on_delete=models.CASCADE, blank=True, null=True)
-  cComentarioRevisor = models.CharField('Comentario de Revisor', max_length=360, blank=True, null=True)
-  dFechaRevision = models.DateTimeField('Fecha de Revisión', blank=True, null=True)
   
   def escala_desc(self):
     d = dict(ESCALA)
@@ -116,12 +112,6 @@ class Evidencia_Todo(models.Model):
   cDetalle1 = models.TextField('Primer Detalle', default='', blank=True, null=True,)
   cDetalle2 = models.TextField('Segundo Detalle', default='', blank=True, null=True,)
   dFechaCarga = models.DateTimeField('Fecha de Carga', blank=True, null=True)
-  lRevisado = models.BooleanField('Revisado',default=False, null=False)
-  usuarioRevisor = models.ForeignKey(Usuario, related_name='evidencia_revisado', on_delete=models.CASCADE, blank=True, null=True)
-  cComentarioRevisor = models.CharField('Comentario de Revisor', max_length=360, blank=True, null=True)
-  dFechaRevision = models.DateTimeField('Fecha de Revisión', blank=True, null=True)
-
-
 
 class Archivo(models.Model):
   class Meta:
@@ -134,4 +124,15 @@ class Archivo(models.Model):
   dFecha = models.DateTimeField('Cargado', blank=True, null=True)
   usuarioMod = models.ForeignKey(Usuario, related_name='evidencia_actualiza', on_delete=models.CASCADE, blank=True, null=True)
   dFechaMod = models.DateTimeField('Modificado', blank=True, null=True)
+  lVigente = models.BooleanField('Vigente',default=True, null=False)
+
+class Revision(models.Model):
+  class Meta:
+    verbose_name_plural = "9. Revisiones"
+
+  evidencia = models.ForeignKey(Evidencia, on_delete=models.PROTECT)
+  cRevision = models.CharField('Comentario de Revisor', max_length=360, blank=True, null=True)
+  idEstado = models.CharField('Estado', choices=ESTADO, default="Revisado",  max_length=20)
+  dFecha = models.DateTimeField('Fecha', blank=True, null=True)
+  usuario = models.ForeignKey(Usuario, related_name='evidencia_revision', on_delete=models.CASCADE, blank=True, null=True)
   lVigente = models.BooleanField('Vigente',default=True, null=False)
