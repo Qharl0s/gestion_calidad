@@ -180,12 +180,12 @@
                       </a>
                       <ul class="show-notification profile-notification">
                         <li class="waves-effect waves-light">
-                          <a href="http://{{ request.get_host }}/perfil/">
+                          <a href="https://{{ request.get_host }}:8000/perfil/">
                             <i class="ti-user"></i> Perfil
                           </a>
                         </li>
                         <li class="waves-effect waves-light">
-                          <a href="http://{{ request.get_host }}/logout/">
+                          <a href="https://{{ request.get_host }}:8000/logout/">
                             <i class="ti-layout-sidebar-left"></i> Cerrar Sesión
                           </a>
                         </li>
@@ -217,7 +217,7 @@
                         <div class="green_icon"></div>
                         <div class="image_inner_container">
                           {% if usuario.foto != '' %}
-                            <img src="http://{{ request.get_host }}/media/{{usuario.foto}}"
+                            <img src="https://{{ request.get_host }}:8000/media/{{usuario.foto}}"
                             width="100px" height="100px" />
                           {% else %}
                             <img src="{% static 'images/avatar-user.png' %}"
@@ -237,10 +237,10 @@
                   <div class="main-menu-content">
                     <ul>
                       <li class="more-details">
-                        <a href="http://{{ request.get_host }}/perfil/"
+                        <a href="https://{{ request.get_host }}:8000/perfil/"
                           ><i class="ti-user"></i>Perfil</a
                         >
-                        <a href="http://{{ request.get_host }}/logout/"
+                        <a href="http://{{ request.get_host }}:8000/logout/"
                           ><i class="ti-layout-sidebar-left"></i>Cerrar
                           Sesión</a
                         >
@@ -251,7 +251,7 @@
                 <ul class="pcoded-item pcoded-left-item">
                   <li class="{{menu_inicio}}">
                     <a
-                      href="http://{{ request.get_host }}/"
+                      href="https://{{ request.get_host }}:8000/"
                       class="waves-effect waves-dark"
                     >
                       <span class="pcoded-micon"><i class="fa fa-home"></i></span>

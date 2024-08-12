@@ -60,7 +60,7 @@ def indicadores_estandar(request, oficina_id, periodo_id, grupo_id):
   context = {'objetos':objetos,'periodo_seleccionado':periodo_seleccionado,
              'oficinas': oficinas, 'oficina_seleccionado':oficina_seleccionado,
              'detalle_url':'medios', 
-             'submenu':[{'nombre':'Estandares', 'url': 'http://'+request.get_host()+'/estandares/'+str(oficina_seleccionado.id)+'/'+str(periodo_seleccionado.id)}, ]
+             'submenu':[{'nombre':'Estandares', 'url': 'https://'+request.get_host()+':8000/estandares/'+str(oficina_seleccionado.id)+'/'+str(periodo_seleccionado.id)}, ]
              , 'usuario': usuario, 'mostrar_periodos':1, 'mostrar_oficinas': 1, 'estandar':1,
              'url':'indicadores'
             }
@@ -89,8 +89,8 @@ def medios_verificacion_estandar(request, oficina_id, periodo_id, indicador_id):
              'oficina_seleccionado':oficina_seleccionado
             , 'detalle_url':'', 
              'submenu':[
-                {'nombre':'estandares', 'url': 'http://'+request.get_host()+'/estandares/'+str(oficina_seleccionado.id)+'/'+str(periodo_seleccionado.id)},
-                {'nombre':'Indicadores', 'url': 'http://'+request.get_host()+'/indicadores/'+str(oficina_seleccionado.id)+'/'+str(periodo_seleccionado.id)+'/'+str(indicador.grupo.id)} 
+                {'nombre':'estandares', 'url': 'https://'+request.get_host()+':8000/estandares/'+str(oficina_seleccionado.id)+'/'+str(periodo_seleccionado.id)},
+                {'nombre':'Indicadores', 'url': 'https://'+request.get_host()+':8000/indicadores/'+str(oficina_seleccionado.id)+'/'+str(periodo_seleccionado.id)+'/'+str(indicador.grupo.id)} 
               ] 
             }
 
