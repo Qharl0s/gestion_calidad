@@ -339,9 +339,9 @@
                       <span class="pcoded-mcaret"></span>
                     </a>
                     <ul class="pcoded-submenu">
-                      <li><a href="http://localhost:8000/reportes1/">Cuadro de Condiciones</a></li>
-                      <li><a href="http://localhost:8000/reportes2/">Estado de Condiciones</a></li>
-                      <li><a href="http://localhost:8000/reportes3/">Condiciones Pendientes</a></li>
+                      <li><a href="http://{{ request.get_host }}/reportes1/">Cuadro de Condiciones</a></li>
+                      <li><a href="http://{{ request.get_host }}/reportes2/">Estado de Condiciones</a></li>
+                      {% comment %} <li><a href="http://{{ request.get_host }}/reportes3/">Condiciones Pendientes</a></li> {% endcomment %}
                     </ul>
                   </li>
                 </ul>
