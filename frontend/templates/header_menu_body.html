@@ -415,7 +415,7 @@
                   {% if oficinas is not None %}
                   <div class="dropdown-menu">
                       {% for oficina in oficinas %}
-                      <a class="dropdown-item" href="http://{{ request.get_host }}/{{url}}/{{oficina.id}}/{{periodo_seleccionado.id}}">{{oficina.cOficina}}</a>  
+                      <a class="dropdown-item" href="https://{{ request.get_host }}:8000/{{url}}/{{oficina.id}}/{{periodo_seleccionado.id}}">{{oficina.cOficina}}</a>  
                       {%endfor%}
                   </div>
                   {% endif %}
@@ -429,7 +429,7 @@
                   <div class="dropdown-menu">
                       {% for periodo in periodos %}
                         {% if estandar == 1 %}
-                          <a class="dropdown-item" href="http://{{ request.get_host }}/{{url}}/{{oficina_seleccionado.id}}/{{periodo.id}}">{{periodo.cPeriodo}}</a>  
+                          <a class="dropdown-item" href="https://{{ request.get_host }}:8000/{{url}}/{{oficina_seleccionado.id}}/{{periodo.id}}">{{periodo.cPeriodo}}</a>  
                         {% else %}
                           <a class="dropdown-item" href="{{periodo.id}}">{{periodo.cPeriodo}}</a>  
                         {% endif %}

@@ -114,7 +114,7 @@ def indicadores(request, periodo_id, grupo_id):
 
   context = {'objetos':objetos,'periodo_seleccionado':periodo_seleccionado
              , 'detalle_url':'medios', 
-             'submenu':[{'nombre':nombre_grupo, 'url': 'http://'+request.get_host()+'/'+nombre_grupo+'/'+str(periodo_seleccionado.id)}, ]
+             'submenu':[{'nombre':nombre_grupo, 'url': 'https://'+request.get_host()+':8000/'+nombre_grupo+'/'+str(periodo_seleccionado.id)}, ]
              , 'usuario': usuario, 'mostrar_periodos':1, 'mostrar_oficinas': 0
             }
   return render(request, 'resumen.html', context)
@@ -137,8 +137,8 @@ def medios_verificacion(request, periodo_id, indicador_id):
              'mostrar_periodos':1, 'mostrar_oficinas': 1 if nombre_grupo=='Estandares' else 0
             , 'detalle_url':'', 
              'submenu':[
-                {'nombre':nombre_grupo, 'url': 'http://'+request.get_host()+'/'+nombre_grupo+'/'+str(periodo_seleccionado.id)},
-                {'nombre':'Indicadores', 'url': 'http://'+request.get_host()+'/indicadores/'+str(periodo_seleccionado.id)+'/'+str(indicador.grupo.id)} 
+                {'nombre':nombre_grupo, 'url': 'https://'+request.get_host()+':8000/'+nombre_grupo+'/'+str(periodo_seleccionado.id)},
+                {'nombre':'Indicadores', 'url': 'https://'+request.get_host()+':8000/indicadores/'+str(periodo_seleccionado.id)+'/'+str(indicador.grupo.id)} 
               ] 
             }
 
