@@ -15,3 +15,4 @@ class Usuario(AbstractUser):
     cCargo = models.CharField('Cargo', max_length=120, null=True)
     lRevisor = models.BooleanField('Revisor', null=True)
     lVigente = models.BooleanField('Vigente', default=True)
+    foto = models.ImageField(upload_to='foto/', blank=True, null=True, default='')

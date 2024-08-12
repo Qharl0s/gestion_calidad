@@ -1,0 +1,22 @@
+{% extends 'header_menu_body.html' %}
+<!--########################-->
+
+<!-- Contenido -->
+{% block pagecontent %}
+<div class="row">
+    <div class="col-md-6 card shadow p-2">
+        <figure class="highcharts-figure">
+            <div id="container"></div>
+            <p class="highcharts-description"></p>
+        </figure>
+    </div>
+
+    <div class="col-md-6 card shadow p-2">
+        <figure class="highcharts-figure">
+            <div id="pieChart"></div>
+        </figure>
+    </div>
+    
+</div>
+
+{% endblock pagecontent %}

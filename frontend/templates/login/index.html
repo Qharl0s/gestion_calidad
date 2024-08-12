@@ -8,6 +8,8 @@
     <title>LOGIN</title>
     <link rel="stylesheet" href="{% static 'css/estilos2.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
+    <!--Animaciones-->
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}"/>
   </head>
   <body>
     
@@ -16,8 +18,8 @@
       <div class="screen shadow shadow-lg">
         <div class="screen__content">
           <div class="form-header">
-            <img src="{% static 'img/UNAMAD.png' %}" alt="UNMAD-OGC" />
-            <h1>BIENVENIDO</h1>
+            <img src="{% static 'img/UNAMAD.png' %}" alt="UNMAD-OGC" class="animate__animated animate__flipInY" />
+            <h1 class="animate__animated animate__flipInX">BIENVENIDO</h1>
           </div>
           <form class="login" id="form-login" method="POST">
             {% csrf_token %}
@@ -30,7 +32,7 @@
               <i class="login__icon fa fa-lock"></i>
               <input type="password" class="login__input" placeholder="Password" id="id_password" name="password">
             </div>
-            <button class="button login__submit">
+            <button class="button login__submit animate__animated animate__fadeInDown">
               <span class="button__text">Iniciar Sesión</span>
               <i class="button__icon fa fa-chevron-right"></i>
             </button>				
@@ -38,8 +40,8 @@
           
         </div>
         <div class="screen__background">
-          <span class="screen__background__shape screen__background__shape4"></span>
-          <span class="screen__background__shape screen__background__shape3"></span>		
+          <span class="screen__background__shape screen__background__shape4 "></span>
+          <span class="screen__background__shape screen__background__shape3 "></span>		
           <span class="screen__background__shape screen__background__shape2"></span>
           <span class="screen__background__shape screen__background__shape1"></span>
         </div>		

@@ -4,31 +4,33 @@
 <!-- Contenido -->
 {% block pagecontent %}
 <div class="row">
-    {% for resumen in datos_resumen.grupos %}
+    {% for objeto in objetos %}
     <div class="col-md-4">
         <div class="card shadow card_resumen">
-            <div class="card-header">
-                <div class="card-header-left">
-                    <h6>{{resumen.grupo}}</h6>
-                </div>
-                <div class="card-header-right">
-                    <span style="font-sizes: 10px">Items: <label class="badge badge-default">{{resumen.items}}</label></span>
-                </div>
+            <div class="card-header card-header-resumen d-flex align-items-center justify-content-center text-center">
+                
+                    <h6 class="">{{objeto.descripcion}}</h6>
+                
             </div>
             <div class="card-block text_body">
                 <div class="row">
                     <div class="col text-left">
                         <ul>
-                            <li><label class="label" style="background: #A7FDCB; color: #05A147"><b>Aprobados: {{resumen.aprobados}}</b></label></li>
-                            <li><label class="label" style="background: #FFE7F0; color: #FF4187"><b>Observados: {{resumen.observados}}</b></label></li>
-                            <li><label class="label" style="background: #FFF3B8; color: #F2C619"><b>Pendientes: {{resumen.pendientes}}</b></label></li>
-                            </ul>
+                            <li><label class="label lbl_aprobados" ><b>Aprobados:  {{objeto.datos_objeto.aprobados}}</b></label></li>
+                            <li><label class="label lbl_observados"><b>Observados: {{objeto.datos_objeto.observados}}</b></label></li>
+                            <li><label class="label lbl_pendientes"><b>Pendientes: {{objeto.datos_objeto.pendientes}}</b></label></li>
+                        </ul>
                     </div>
-                    <div class="col">
-                        <a  href="/{{detalle_url}}/{{periodo_seleccionado.id}}/{{resumen.id}}"
-                            class="btn btn-mini waves-effect waves-light btn-principal"
-                            style="position: absolute;bottom: 0;right: 10px; color: #fff !important;"
-                        ><i class="ti-eye"></i> Ver</a>
+                    <div class="col text-right">
+                            <label><b>Asignados:</b> <span class="badge badge-primary">{{objeto.datos_objeto.asignados}}</span></label>
+                            <label><b>Total Items:</b> <span class="badge badge-primary">{{objeto.datos_objeto.items}}</span></label>
+                        {% if estandar == 1 %}
+                        <a  href="/{{detalle_url}}/{{oficina_seleccionado.id}}/{{periodo_seleccionado.id}}/{{objeto.id}}"
+                            class="btn btn-mini waves-effect waves-light btn-principal"><i class="ti-eye"></i> Ver </a>
+                        {% else %}
+                        <a  href="/{{detalle_url}}/{{periodo_seleccionado.id}}/{{objeto.id}}"
+                            class="btn btn-mini waves-effect waves-light btn-principal"><i class="fa fa-eye"></i> Ver </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

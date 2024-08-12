@@ -8,22 +8,22 @@ class periodoAdmin(admin.ModelAdmin):
         return self.periodo
 
 class categoriaAdmin(admin.ModelAdmin):
-    list_display = ('cCategoria', 'lVigente')
+    list_display = ('id', 'cCategoria', 'lVigente')
 
     def __str__(self):
         return self.categoria
     
 class grupoAdmin(admin.ModelAdmin):
-    list_display = ('cGrupo', 'categoria', 'lVigente')
+    list_display = ('id', 'cGrupo', 'categoria', 'lVigente')
 
     def __str__(self):
         return self.grupo
 
 class indicadorAdmin(admin.ModelAdmin):
-    list_display = ('cTitulo','cIndicador', 'grupo')
+    list_display = ('id', 'cTitulo','cIndicador', 'grupo')
 
 class medioVerificacionAdmin(admin.ModelAdmin):
-    list_display = ('cTitulo', 'cMedioVerificacion', 'get_indicador', 'get_oficina', 'lVigente', 'nOrden')
+    list_display = ('id', 'cTitulo', 'cMedioVerificacion', 'get_indicador', 'get_oficina', 'lVigente', 'nOrden')
     
     def get_indicador(self, obj):
         return obj.indicador.cTitulo

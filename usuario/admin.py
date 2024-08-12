@@ -9,7 +9,7 @@ class UsuarioAdmin(UserAdmin):
     list_display = ('username', 'oficina','cNombres', 'cCargo', 'email', 'lRevisor', 'is_staff','is_active', 'is_superuser')
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        (_('Suscription dates'), {'fields': ('oficina','cNombres', 'cCargo', 'email', 'lRevisor','is_active', 'is_staff', 'is_superuser')}),
+        (_('Suscription dates'), {'fields': ('oficina','cNombres', 'cCargo', 'email', 'lRevisor', 'foto','is_active', 'is_staff', 'is_superuser')}),
     )
     list_filter = ()
 

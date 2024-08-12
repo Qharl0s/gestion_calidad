@@ -8,70 +8,74 @@ clasesoloparacompletar" {% endblock classsubmenucondiciones%}
 <!--########################-->
 
 {% block pagecontent %}
+
+
+
 <div class="row">
-  <div class="d-block d-sm-block d-md-none text-center">
-    <h3>Sistema Informático de Calidad</h3>
-  </div>
-  <!-- Project< statustic start -->
-  <div class="col-xl-12 text-center">
-    <img
-      src="{% static 'images/logo-unamad-portal.png' %}"
-      class="img-fluid"
-      alt="Responsive image"
-    />
-    {% comment %}
-    <div class="card proj-progress-card">
-      <div class="card-block">
-        <div class="row">
-          <div class="col-xl-3 col-md-6">
-            <h6>Condiciones Básicas</h6>
-            <h5 class="m-b-30 f-w-700">
-              20
-              <span class="text-c-green m-l-10">5</span>
-              <span class="text-c-red m-l-10">8</span>
-            </h5>
-            <div class="progress">
-              <div class="progress-bar bg-c-red" style="width: 25%"></div>
+  <div class="col-md-4 col-xl-4">
+    <div class="card mb-3 widget-content azul1">
+        <div class="widget-content-wrapper text-white">
+            <div class="widget-content-left">
+                <div class="widget-heading">Aprobados</div>
+                <div class="widget-subheading">Evidencias aprobadas</div>
             </div>
-          </div>
-          <div class="col-xl-3 col-md-6">
-            <h6>Requerimientos</h6>
-            <h5 class="m-b-30 f-w-700">
-              8
-              <span class="text-c-green m-l-10">5</span>
-              <span class="text-c-red m-l-10">0</span>
-            </h5>
-            <div class="progress">
-              <div class="progress-bar bg-c-blue" style="width: 65%"></div>
+            <div class="widget-content-right">
+                <div class="widget-numbers text-white animate__animated animate__bounceInDown"><span>12</span></div>
             </div>
-          </div>
-          <div class="col-xl-3 col-md-6">
-            <h6>Recomendaciones</h6>
-            <h5 class="m-b-30 f-w-700">
-              10
-              <span class="text-c-green m-l-10">9</span>
-              <span class="text-c-red m-l-10">1</span>
-            </h5>
-            <div class="progress">
-              <div class="progress-bar bg-c-green" style="width: 85%"></div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-md-6">
-            <h6>Acreditación</h6>
-            <h5 class="m-b-30 f-w-700">
-              34
-              <span class="text-c-green m-l-10">18</span>
-              <span class="text-c-red m-l-10">2</span>
-            </h5>
-            <div class="progress">
-              <div class="progress-bar bg-c-yellow" style="width: 45%"></div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-    {% endcomment %}
   </div>
-  <!-- Project statustic end -->
+
+  <div class="col-md-4 col-xl-4">
+      <div class="card mb-3 widget-content rosado1">
+          <div class="widget-content-wrapper text-white">
+              <div class="widget-content-left">
+                  <div class="widget-heading">Observados</div>
+                  <div class="widget-subheading">Observados por el aprobador</div>
+              </div>
+              <div class="widget-content-right">
+                  <div class="widget-numbers text-white animate__animated animate__bounceInDown"><span>3</span></div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  <div class="col-md-4 col-xl-4">
+    <div class="card mb-3 widget-content amarillo1">
+        <div class="widget-content-wrapper text-white">
+            <div class="widget-content-left">
+                <div class="widget-heading">Pendientes</div>
+                <div class="widget-subheading">Por cargar o aprobar</div>
+            </div>
+            <div class="widget-content-right">
+                <div class="widget-numbers text-white animate__animated animate__bounceInDown"><span>4</span></div>
+            </div>
+        </div>
+    </div>
+  </div>
+
 </div>
+
+<br><br><br>
+
+
+<div class="row">
+  <div class="col-md-6 card shadow">
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+        <p class="highcharts-description"></p>
+    </figure>
+  </div>
+
+  <div class="col-md-6 card shadow">
+    <figure class="highcharts-figure">
+      <div id="pieChart"></div>
+    </figure>
+  </div>  
+</div>
+
 {% endblock pagecontent %}
+
+{% block script_extra %}
+<script type="text/javascript" src="{% static 'js/reporte_inicio.js' %} "></script>
+{% endblock script_extra %}

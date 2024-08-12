@@ -1,0 +1,21 @@
+{% extends 'header_menu_body.html' %}
+<!--########################-->
+{% load static %}
+<!-- Contenido -->
+{% block pagecontent %}
+<div class="row">
+    <div class="col-md-12 card shadow p-2">
+        <figure class="highcharts-figure">
+            <div id="condiciones_barras"></div>
+            <p class="highcharts-description"></p>
+        </figure>
+    </div>
+
+    
+</div>
+
+{% endblock pagecontent %}
+
+{% block script_extra %}
+<script type="text/javascript" src="{% static 'js/reporte_1.js' %} "></script>
+{% endblock script_extra %}

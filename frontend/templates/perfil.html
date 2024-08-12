@@ -1,65 +1,114 @@
+
 {% extends 'header_menu_body.html' %}
 <!--########################-->
-
+{% load static %}
 <!--######################## -->
 {% block classsubmenucondiciones %} class="pcoded-hasmenu
 clasesoloparacompletar" {% endblock classsubmenucondiciones%}
 <!--########################-->
 
 {% block pagecontent %}
-<div class="row">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-content">
-                <form id="form_guardar_datos">
-                    <div class="form-group">
-                        <label for="oficina">Oficina</label>
-                        <input type="text" class="form-control" id="oficina" value="{{usuario.oficina}}" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="cargo">Cargo</label>
-                        <input type="text" class="form-control" id="cargo" value="{{usuario.cCargo}}" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="cargo">Email</label>
-                        <input type="email" class="form-control" id="email" value="{{usuario.email}}">
-                    </div>
-                    <div class="form-group">
-                        <label for="cargo">Nombres</label>
-                        <input type="text" class="form-control" id="nombres" value="{{usuario.cNombres}}" >
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">Actualizar Datos</button>
-                </form>
-            </div>
-        </div>
-    </div>
+<div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col col-lg-10 mb-4 mb-lg-0">
+      <div class="card mb-3 shadow" style="border-radius: .5rem;">
+        <div class="row g-0">
+          <div class="col-md-4 gradient-custom text-center"
+            style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem; background: #a4d2ff;"
+            >
+            
+            {% if usuario.foto != '' %}
+                <img src="http://{{ request.get_host }}/media/{{usuario.foto}}"
+                    class="mt-5 animate__animated animate__backInDown" width="100px" height="100px"
+                    id="foto_usuario" style="border-radius: 50%;" />
+            {% else %}
+                <img src="{% static 'images/avatar-user.png' %}"
+                class="mt-5 animate__animated animate__backInDown" width="100px" height="100px"
+                id="foto_usuario" style="border-radius: 50%;" />
+            {% endif %}
 
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-content">
-                <form id="form_actualizar_password">
-                    <div class="form-group">
-                        <label for="usuario">Usuario:</label>
-                        <input type="text" class="form-control" id="usuario" value="{{usuario.username}}" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="password_actual">Actual Password:</label>
-                        <input type="password" class="form-control" id="password_actual">
-                    </div>
-                    <div class="form-group">
-                        <label for="nuevo_password1">Nuevo Password:</label>
-                        <input type="password" class="form-control" name="nuevo_password1" id="nuevo_password1">
-                    </div>
-                    <div class="form-group">
-                        <label for="nuevo_password2">Repita Password:</label>
-                        <input type="password" class="form-control" name="nuevo_password2" id="nuevo_password2">
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">Actualizar Password</button>
-                </form>
+                
+            <input type="file" id="foto_file" style="display: none;" 
+                accept="image/png, image/jpg, image/jpeg"
+                onchange="document.getElementById('foto_usuario').src = window.URL.createObjectURL( $('#foto_file')[0].files[0]); console.log('aaaaaa');">
+            
+                
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="btn-group btn-group-sm">
+                        <button 
+                            onclick="$('#foto_file').removeAttr('disabled'); 
+                            $('#btnGuardarFoto').removeAttr('disabled');
+                            document.getElementById('foto_file').click();
+                            "
+                            type="button" class="btn btn-principal">
+                          <i class="fa fa-edit" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-success" disabled id="btnGuardarFoto">
+                          <i class="fa fa-save" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                </div>
             </div>
+            <br>
+            <h5 class="animate__animated animate__backInDown">{{usuario.cCargo}}</h5>
+            <p class="animate__animated animate__backInDown">{{usuario.username}}</p>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body p-4">
+                <h6 class="">Datos de Usuario</h6>
+                <hr class="mt-0 mb-4">
+                <form id="form_guardar_datos">
+                    <div class="row pt-1">
+                        <div class="form-group col-md-6">
+                            <label for="oficina">Oficina</label>
+                            <input type="text" class="form-control" id="oficina" value="{{usuario.oficina}}" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="cargo">Cargo</label>
+                            <input type="text" class="form-control" id="cargo" value="{{usuario.cCargo}}" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="cargo">Email</label>
+                            <input type="email" class="form-control" id="email" value="{{usuario.email}}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="cargo">Nombres</label>
+                            <input type="text" class="form-control" id="nombres" value="{{usuario.cNombres}}" >
+                        </div>
+                        <div class="col-md-12 text-right">
+                            <button type="submit" class="btn btn-primary animate__animated animate__backInDown">Actualizar Datos</button>
+                        </div>
+                    </div>
+                </form>
+
+                <br>
+                <h6 class="">Cambiar Password</h6>
+                <hr class="mt-0 mb-4">
+
+                <form id="form_actualizar_password">
+                    <div class="row pt-1">
+                        <div class="form-group col-md-6">
+                            <label for="nuevo_password1">Nuevo Password:</label>
+                            <input type="password" class="form-control" name="nuevo_password1" id="nuevo_password1">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nuevo_password2">Repita Password:</label>
+                            <input type="password" class="form-control" name="nuevo_password2" id="nuevo_password2">
+                        </div>
+                        
+                        <div class="col-md-12 text-right">
+                            <button type="submit" class="btn btn-primary animate__animated animate__backInDown">Actualizar Password</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock pagecontent %}

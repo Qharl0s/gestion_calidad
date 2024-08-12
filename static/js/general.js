@@ -1,5 +1,20 @@
 $(function () {
 
+  new DataTable('#tableCondicionesRpt');
+
+  $("#btnExport").click(function () {
+    let table = document.getElementsByTagName("table");
+    // let table = document.getElementById("tableCondicionesRpt");
+    console.log(table);
+
+    TableToExcel.convert(table[0], {
+      name: 'Reporte de Condiciones.xlsx',
+      sheet: {
+        name: 'Condiciones'
+      }
+    });
+  });
+
   $('#form_guardar_datos').submit(function (e) {
     e.preventDefault();
     if ($('#email').val() == "") {
@@ -68,7 +83,8 @@ $(function () {
   $('.menu_estandar').click(function (e) {
     var id_oficina = $(this).data('idoficina');
     if (!$(this).parent().hasClass('active')) {
-      $(location).attr('href', base_url + 'estandares/' + id_oficina + '/');
+      // $(location).attr('href', base_url + 'estandares/' + id_oficina + '/');
+      $(location).attr('href', base_url + 'estandares/0/0/');
     }
   });
 
@@ -429,6 +445,41 @@ $(function () {
       textArea.val("");
     }, "3000");
   }
+
+  $('#btnGuardarFoto').click(function () {
+    $this = $(this);
+    $this.attr('disabled', 'disabled');
+    var parametros = new FormData();
+    parametros.append('foto', $('#foto_file')[0].files[0]);
+
+    $.ajax({
+      url: base_url + 'guardar_foto/',
+      data: parametros,
+      // dataType: 'Json',
+      processData: false,
+      contentType: false,
+      type: 'POST',
+      success: function (response) {
+        if (response.state == 'success') {
+          notify('Guardar Foto', response.cMensaje);
+          setTimeout(function () {
+            location.reload();
+          }, 2000);
+
+        } else {
+          notify('Guardar Foto', response.cMensaje, 'danger');
+          $this.removeAttr('disabled');
+        }
+      },
+      error: function (jqXhr, textStatus, errorMessage) {
+        console.log(errorMessage);
+        $this.removeAttr('disabled');
+      },
+    });
+
+    // $('#foto_usuario').attr('src', $('#foto_file')[0].files[0]);
+
+  });
 
   $('.btnVerArchivo').click(function (e) {
     window.open(base_url + 'media/' + $(this).data('urlpdf'), '_blank');

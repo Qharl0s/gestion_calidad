@@ -4,7 +4,8 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth.views import (LoginView, LogoutView,PasswordChangeView, PasswordResetDoneView)
-from frontend.views import actualizar_password, guardar_datos, inicio, perfil
+from frontend.views import actualizar_password, guardar_datos, inicio, perfil, guardar_foto
+from evidencia.views_estandar import *
 from evidencia.views import * #, condiciones, estandares, guardar_revision, guardar_evidencia, listar_revision, recomendaciones, requerimientos, obtener_evidencia, indicadores, medios_verificacion, evidencias
 
 urlpatterns = [
@@ -22,8 +23,6 @@ urlpatterns = [
     path('recomendaciones/<int:periodo_id>', recomendaciones, name='recomendaciones'),
     path('renovaciones/', renovaciones, name='renovaciones'),
     path('renovaciones/<int:periodo_id>', renovaciones, name='renovaciones'),
-    # url('estandares/(?P<oficina>[0-9]{4})/', estandares, name='estandares'),
-    path('estandares/<int:oficina_id>/', estandares, name='estandares'),
 
     path('indicadores/<int:periodo_id>/<int:grupo_id>', indicadores, name='indicadores'),
     path('medios/<int:periodo_id>/<int:indicador_id>', medios_verificacion, name='medios'),
@@ -33,13 +32,25 @@ urlpatterns = [
     url('guardar_evidencia/', guardar_evidencia, name='guardar_evidencia'),
     url('guardar_archivo/', guardar_archivo, name='guardar_archivo'),
     url('listar_archivos/', listar_archivos, name='listar_archivos'),
-    url('eliminar_archivo/', eliminar_archivo, name='eliminar_archivo'),
-    
+    url('eliminar_archivo/', eliminar_archivo, name='eliminar_archivo'),    
     url('guardar_revision/', guardar_revision, name='guardar_revision'),
     url('listar_revision/', listar_revision, name='listar_revision'),
 
+    path('estandares/', estandares, name='estandares'),
+    path('estandares/<int:oficina_id>/<int:periodo_id>/', estandares, name='estandares'),
+    path('indicadores/<int:oficina_id>/<int:periodo_id>/<int:grupo_id>', indicadores_estandar, name='indicadores_estandar'),
+    path('medios/<int:oficina_id>/<int:periodo_id>/<int:indicador_id>', medios_verificacion_estandar, name='medios_estandar'),
+
+    path('reportes1/', reportes1, name='reportes1'),
+    path('reportes2/', reportes2, name='reportes2'),
+    path('reportes3/', reportes3, name='reportes3'),
+
     
     url('guardar_datos/', guardar_datos, name='guardar_datos'),
+    url('guardar_foto/', guardar_foto, name='guardar_foto'),
     url('actualizar_password/', actualizar_password, name='actualizar_password'),
+
+
+    
     # url('evidencia/(?P<id_medio_verificacion>[0-9]+)/', evidencia, name='evidencia'),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

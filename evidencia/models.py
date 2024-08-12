@@ -90,6 +90,7 @@ class Evidencia(models.Model):
   cDetalle1 = models.TextField('Primer Detalle', default='', blank=True, null=True,)
   cDetalle2 = models.TextField('Segundo Detalle', default='', blank=True, null=True,)
   dFechaCarga = models.DateTimeField('Fecha de Carga', blank=True, null=True)
+  lFinalizado = models.BooleanField('Finalizado', default=False, null=True)
   
   def escala_desc(self):
     d = dict(ESCALA)

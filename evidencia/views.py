@@ -6,27 +6,25 @@ from datetime import datetime
 from django.core.files.storage import FileSystemStorage
 from evidencia.models import Categoria, Evidencia, Evidencia_Todo, MedioVerificacion, Periodo, Grupo, Indicador, Archivo, Revision
 from usuario.models import Oficina, Usuario
-from evidencia.funciones import resumen_grupos, resumen_indicadores, resumen_medios, nombre_grupo_func
+from evidencia.funciones import nombre_grupo_func, listar_objetos
 
 @login_required
-def estandares(request, oficina_id=0):
+def reportes1(request):
   user = Usuario.objects.get(username=request.user.username)
-  
-  oficina = user.oficina
-  oficinas = Oficina()
-  if user.lRevisor:
-    try:
-      oficina = Oficina.objects.get(id=oficina_id)
-    except Oficina.DoesNotExist:
-      oficina = Oficina()
-      oficina.id = 0
-      oficina.cOficina = 'Seleccione Oficina..'
-    oficinas = Oficina.objects.filter(lVigente=True, lAcreditacion=True)
-  
-  categoria = Categoria.objects.filter(id=4)
-  
-  context = {'categoria' : categoria, 'usuario':user, 'oficina': oficina, 'oficinas': oficinas, 'menu_estandar':"pcoded-trigger active", 'lAcreditacion':'true'}
-  return render(request, 'resumen.html', context)
+  context = {'usuario':user, 'menu_inicio':"active"}
+  return render(request, 'reporte1.html', context)
+
+@login_required
+def reportes2(request):
+  user = Usuario.objects.get(username=request.user.username)
+  context = {'usuario':user, 'menu_inicio':"active"}
+  return render(request, 'reporte2.html', context)
+
+@login_required
+def reportes3(request):
+  user = Usuario.objects.get(username=request.user.username)
+  context = {'usuario':user, 'menu_inicio':"active"}
+  return render(request, 'reporte3.html', context)
 
 @login_required
 def condiciones(request, periodo_id=0):
@@ -37,13 +35,12 @@ def condiciones(request, periodo_id=0):
     periodo_seleccionado = periodos[0]  
   else:
     periodo_seleccionado = Periodo.objects.get(id=periodo_id)
-  #Categorias
-  categoria = Categoria.objects.filter(id=1)
   
-  resumen = resumen_grupos(categoria, periodo_seleccionado, usuario.oficina, usuario)
+  objetos = listar_objetos(categoria_id=1, grupo_id=0, indicador_id=0, medio_id=0, periodo_id=periodo_seleccionado.id,
+                           oficina_id=usuario.oficina.id, es_estandar=0, es_revisor=usuario.lRevisor)
 
-  context = {'datos_resumen':resumen, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
-             , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario
+  context = {'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
+             , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario, 'mostrar_periodos':1
              }
   return render(request, 'resumen.html', context)
 
@@ -56,13 +53,12 @@ def requerimientos(request, periodo_id=0):
     periodo_seleccionado = periodos[0]  
   else:
     periodo_seleccionado = Periodo.objects.get(id=periodo_id)
-  #Categorias
-  categoria = Categoria.objects.filter(id=2)
   
-  resumen = resumen_grupos(categoria, periodo_seleccionado, usuario.oficina, usuario)
+  objetos = listar_objetos(categoria_id=2, grupo_id=0, indicador_id=0, medio_id=0, periodo_id=periodo_seleccionado.id,
+                           oficina_id=usuario.oficina.id, es_estandar=0, es_revisor=usuario.lRevisor)
 
-  context = {'datos_resumen':resumen, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
-             , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario
+  context = {'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
+             , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario, 'mostrar_periodos':1
              }
   return render(request, 'resumen.html', context)
 
@@ -75,13 +71,12 @@ def recomendaciones(request, periodo_id=0):
     periodo_seleccionado = periodos[0]  
   else:
     periodo_seleccionado = Periodo.objects.get(id=periodo_id)
-  #Categorias
-  categoria = Categoria.objects.filter(id=3)
-  
-  resumen = resumen_grupos(categoria, periodo_seleccionado, usuario.oficina, usuario)
+ 
+  objetos = listar_objetos(categoria_id=3, grupo_id=0, indicador_id=0, medio_id=0, periodo_id=periodo_seleccionado.id,
+                           oficina_id=usuario.oficina.id, es_estandar=0, es_revisor=usuario.lRevisor)
 
-  context = {'datos_resumen':resumen, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
-             , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario
+  context = {'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
+             , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario, 'mostrar_periodos':1
              }
   return render(request, 'resumen.html', context)
 
@@ -94,13 +89,12 @@ def renovaciones(request, periodo_id=0):
     periodo_seleccionado = periodos[0]  
   else:
     periodo_seleccionado = Periodo.objects.get(id=periodo_id)
-  #Categorias
-  categoria = Categoria.objects.filter(id=5)
   
-  resumen = resumen_grupos(categoria, periodo_seleccionado, usuario.oficina, usuario)
+  objetos = listar_objetos(categoria_id=5, grupo_id=0, indicador_id=0, medio_id=0, periodo_id=periodo_seleccionado.id,
+                           oficina_id=usuario.oficina.id, es_estandar=0, es_revisor=usuario.lRevisor)
 
-  context = {'datos_resumen':resumen, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
-             , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario
+  context = {'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
+             , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario, 'mostrar_periodos':1
              }
   return render(request, 'resumen.html', context)
 
@@ -112,14 +106,16 @@ def indicadores(request, periodo_id, grupo_id):
   periodo_seleccionado = Periodo.objects.get(id=periodo_id)
   #Categorias
   grupos = Grupo.objects.get(id=grupo_id)
+
+  objetos = listar_objetos(categoria_id=0, grupo_id=grupo_id, indicador_id=0, medio_id=0, periodo_id=periodo_seleccionado.id,
+                           oficina_id=usuario.oficina.id, es_estandar=0, es_revisor=usuario.lRevisor)
   
-  resumen = resumen_indicadores(grupos, periodo_seleccionado, usuario.oficina, usuario)
   nombre_grupo = nombre_grupo_func(grupos, 1)
 
-  context = {'datos_resumen':resumen,'periodo_seleccionado':periodo_seleccionado
+  context = {'objetos':objetos,'periodo_seleccionado':periodo_seleccionado
              , 'detalle_url':'medios', 
-             'submenu':[{'nombre':nombre_grupo, 'url': 'http://'+request.get_host()+'/condiciones/'+str(periodo_seleccionado.id)}, ]
-             , 'usuario': usuario
+             'submenu':[{'nombre':nombre_grupo, 'url': 'http://'+request.get_host()+'/'+nombre_grupo+'/'+str(periodo_seleccionado.id)}, ]
+             , 'usuario': usuario, 'mostrar_periodos':1, 'mostrar_oficinas': 0
             }
   return render(request, 'resumen.html', context)
 
@@ -130,18 +126,18 @@ def medios_verificacion(request, periodo_id, indicador_id):
   indicador = Indicador.objects.get(id=indicador_id)
   #Periodo
   periodo_seleccionado = Periodo.objects.get(id=periodo_id)
-  #medios
-  medios = MedioVerificacion.objects.filter(indicador__id=indicador_id)
-  # if not usuario.lRevisor:
-  #   medios = medios.filter(indicador__id=indicador_id, oficinaResponsable=usuario.oficina)
 
-  resumen = resumen_medios(medios, periodo_seleccionado, usuario.oficina, usuario)
+  objetos = listar_objetos(categoria_id=0, grupo_id=0, indicador_id=indicador_id, medio_id=0, periodo_id=periodo_seleccionado.id,
+                           oficina_id=usuario.oficina.id, es_estandar=0, es_revisor=usuario.lRevisor)
+  
+  # resumen = resumen_medios(medios, periodo_seleccionado, usuario.oficina, usuario)
   nombre_grupo = nombre_grupo_func(indicador, 2)
 
-  context = {'usuario':usuario, 'medios':resumen,'periodo_seleccionado':periodo_seleccionado
+  context = {'usuario':usuario, 'medios':objetos,'periodo_seleccionado':periodo_seleccionado, 
+             'mostrar_periodos':1, 'mostrar_oficinas': 1 if nombre_grupo=='Estandares' else 0
             , 'detalle_url':'', 
              'submenu':[
-                {'nombre':nombre_grupo, 'url': 'http://'+request.get_host()+'/condiciones/'+str(periodo_seleccionado.id)},
+                {'nombre':nombre_grupo, 'url': 'http://'+request.get_host()+'/'+nombre_grupo+'/'+str(periodo_seleccionado.id)},
                 {'nombre':'Indicadores', 'url': 'http://'+request.get_host()+'/indicadores/'+str(periodo_seleccionado.id)+'/'+str(indicador.grupo.id)} 
               ] 
             }

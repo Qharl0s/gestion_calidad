@@ -6,38 +6,38 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card shadow">
-            <div class="card-header">
-                <div class="card-header-left">
+            <div class="card-header card-header-resumen">
+                <div class="card-header-left animate__animated animate__bounceInDown">
                     <h6>Medios de Verificación</h6>
                 </div>
-                <div class="card-header-right">
-                    <span style="font-sizes: 10px">Items: <label class="badge badge-default">{{medios.items}}</label></span>
+                <div class="card-header-right animate__animated animate__bounceInDown">
+                    <span style="font-sizes: 10px">Items: <label class="badge badge-default">{{medios|length}}</label></span>
                 </div>
             </div>
             <div class="card-block">
 
-                <table class="table table-hover table_archivos accordion-block">
+                <table class="table table-hover accordion-block">
                     <tbody>
-                        {% for medio in medios.grupos %}
+                        {% for medio in medios %}
                         <tr>
                           <td>
                             <div class="row">
                               <div class="col-md-9">
-                                <p><b>{{medio.grupo}}</b></p><i>{{medio.grupo2}}</i>
+                                <label>{{medio.descripcion}}</label>
                               </div>
                               <div class="col-md-3">
-                                <div class="btn-group btn-group-sm text_body">
-                                  <button type="button" class="btn btn-primary btnModalCargarDetalleEvidencia" data-medioverificacion="{{medio.id}}" data-idperiodo="{{periodo_seleccionado.id}}" data-editar="{{medio.lEdita}}">
+                                <div class="btn-group btn-group-sm animate__animated animate__bounceInDown">
+                                  <button type="button" class="btn btn-primary btnModalCargarDetalleEvidencia" data-medioverificacion="{{medio.id}}" data-idperiodo="{{periodo_seleccionado.id}}" data-editar="{{medio.datos_objeto.se_edita}}">
                                     <i class="fa fa-comment-o" aria-hidden="true"></i>
-                                    <span class="badge badge-light">{{medio.detalles}}</span>
+                                    <span class="badge badge-light">{{medio.datos_objeto.detalles}}</span>
                                   </button>
-                                  <button type="button" class="btn btn-success btnModalCargarArchivo" data-medioverificacion="{{medio.id}}" data-idperiodo="{{periodo_seleccionado.id}}" data-editar="{{medio.lEdita}}">
+                                  <button type="button" class="btn btn-success btnModalCargarArchivo" data-medioverificacion="{{medio.id}}" data-idperiodo="{{periodo_seleccionado.id}}" data-editar="{{medio.datos_objeto.se_edita}}">
                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                    <span class="badge badge-light">{{medio.archivos}}</span>
+                                    <span class="badge badge-light">{{medio.datos_objeto.archivos}}</span>
                                   </button>
                                   <button type="button" class="btn btn-danger btnRevisarEvidencia" data-medioverificacion="{{medio.id}}" data-idperiodo="{{periodo_seleccionado.id}}">
-                                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                                    <span class="badge badge-light">{{medio.revisiones}}</span>
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                    <span class="badge badge-light">{{medio.datos_objeto.revisiones}}</span>
                                   </button>
                                 </div>
                               </div>

@@ -1,120 +1,130 @@
-class grupo_resumen(object):
-  grupo = ''
-  grupo2 = ''
+from evidencia.models import Categoria, Grupo, Indicador, MedioVerificacion
+
+class datos_object(object):
+    items = 0
+    asignados = 0
+    aprobados = 0
+    observados = 0
+    pendientes = 0
+    archivos = 0
+    detalles = 0
+    revisiones = 0
+    se_edita = 0
+
+class objeto(object):
   id = 0
-  cargados = 0
-  aprobados = 0
-  observados = 0
-  pendientes = 0
-  items = 0
-  archivos = 0
-  detalles = 0
-  revisiones = 0
-  lEdita = 0
+  descripcion = ''
+  datos_objeto = datos_object()
 
-class resumen(object):
-  grupos = []
-  items = 0
 
-def resumen_grupos(categorias, periodo, oficina, usuario):
-    grupos = categorias.first().grupo_set.all()
-    resumen_obj = resumen()
-    resumen_obj.grupos = []
-    for grupo in grupos:
-        grupo_obj = grupo_resumen()
-        grupo_obj.grupo = grupo.cGrupo
-        grupo_obj.id = grupo.id
-        indicadores = grupo.indicador_set.filter(lVigente=True).order_by('nOrden')
-        for indicador in indicadores:
-            # Listar todos los medios de verificación
-            medios = indicador.medioverificacion_set.filter(lVigente=True).order_by('nOrden')
-            # if not usuario.lRevisor:
-            #     # Si no es revisor se filtra por oficina responsable
-            #     medios = medios.filter(lVigente=True, oficinaResponsable=oficina).order_by('nOrden')
-            items_medios = medios.count()
-            for medio in medios:
-                # Se lista las evidencias del periodo seleccionado
-                evidencias = medio.evidencia_set.filter(periodo=periodo)
-                grupo_obj.aprobados += evidencias.filter(idEstado='Aprobado').count()
-                grupo_obj.observados += evidencias.filter(idEstado='Observado').count()
-      
-            resumen_obj.items += items_medios
-            grupo_obj.items += items_medios#grupo_obj.pendientes + grupo_obj.aprobados + grupo_obj.observados
-        grupo_obj.pendientes += grupo_obj.items - grupo_obj.aprobados - grupo_obj.observados
+def datos_objeto(categoria_id=0, grupo_id=0, indicador_id=0, medio_id=0, periodo_id=0, 
+                  oficina_id=0, es_estandar=0, es_revisor=0):
+    medios = MedioVerificacion.objects.all()
+    #Categoria
+    if categoria_id>0:
+        medios = medios.filter(indicador__grupo__categoria__id=categoria_id)
+    #Grupo
+    if grupo_id>0:
+        medios = medios.filter(indicador__grupo__id=grupo_id)
+    #Indicador
+    if indicador_id>0:
+        medios = medios.filter(indicador__id=indicador_id)
+    #Medio verificacion
+    if medio_id>0:
+        medios = medios.get(id=medio_id)
     
-        if grupo_obj.items>0:
-            resumen_obj.grupos.append(grupo_obj)
-    return resumen_obj
-
-def resumen_indicadores(grupos, periodo, oficina, usuario):
-    resumen_obj = resumen()
-    resumen_obj.grupos = []
-    
-    indicadores = grupos.indicador_set.filter(lVigente=True).order_by('nOrden')
-    for indicador in indicadores:
-        grupo_obj = grupo_resumen()
-        grupo_obj.grupo = indicador.cIndicador
-        grupo_obj.id = indicador.id
-        # Listar todos los medios de verificación
-        medios = indicador.medioverificacion_set.filter(lVigente=True).order_by('nOrden')
-        # if not usuario.lRevisor:
-        #     # Si no es revisor se filtra por oficina responsable
-        #     medios = medios.filter(lVigente=True, oficinaResponsable=oficina).order_by('nOrden')
-        items_medios = medios.count()
-        for medio in medios:
-            # Se lista las evidencias del periodo seleccionado
-            evidencias = medio.evidencia_set.filter(periodo=periodo)
-            grupo_obj.cargados += evidencias.filter(idEstado='Pendiente').count()
-            grupo_obj.aprobados += evidencias.filter(idEstado='Aprobado').count()
-            grupo_obj.observados += evidencias.filter(idEstado='Observado').count()
-    
-        resumen_obj.items += items_medios
-        grupo_obj.pendientes += items_medios - grupo_obj.aprobados - grupo_obj.observados
-        grupo_obj.items = grupo_obj.pendientes + grupo_obj.aprobados + grupo_obj.observados
-
-        if grupo_obj.items > 0:
-            resumen_obj.grupos.append(grupo_obj)
-    return resumen_obj
-
-def resumen_medios(medios, periodo, oficina, usuario):
-    resumen_obj = resumen()
-    resumen_obj.grupos = []
-
-    # Listar todos los medios de verificación
-    medios = medios.filter(lVigente=True).order_by('nOrden')
-    # if not usuario.lRevisor:
-    #     # Si no es revisor se filtra por oficina responsable
-    #     medios = medios.filter(lVigente=True, oficinaResponsable=oficina).order_by('nOrden')
-    resumen_obj.items = medios.count()
-    
-    for medio in medios:
-        grupo_obj = grupo_resumen()
-        grupo_obj.id = medio.id
-        grupo_obj.grupo = medio.cTitulo
-        grupo_obj.grupo2 = medio.cMedioVerificacion
-        grupo_obj.lEdita = 0
-        if medio.oficinaResponsable == oficina:
-            grupo_obj.lEdita = 1
-        
-        # Se lista las evidencias del periodo seleccionado
-        nDetalles=0
-        if medio.evidencia_set.filter(periodo=periodo).count()>0:
-            evidencias = medio.evidencia_set.filter(periodo=periodo)
-            grupo_obj.archivos = evidencias.first().archivo_set.all().count()
-            grupo_obj.revisiones = evidencias.first().revision_set.all().count()
-            
-            if evidencias.first().cDetalle1 != '':
-                nDetalles=nDetalles+1
-            if evidencias.first().cDetalle2 != '':
-                nDetalles=nDetalles+1
-            grupo_obj.detalles=nDetalles
+    objeto = datos_object()
+    objeto.items = 1 if medio_id>0 else medios.count()
+    #Asignados todo para Estandar y Revisor, si no por oficinaResponsable
+    objeto.asignados = 1 if medio_id>0 else medios.count()
+    if es_estandar==0 and not es_revisor:
+        if medio_id>0:
+            objeto.asignados = 1 if medios.oficinaResponsable_id==oficina_id else 0
+            objeto.se_edita = 1 if medios.oficinaResponsable_id==oficina_id else 0
         else:
-            grupo_obj.archivos = 0
-            grupo_obj.detalles=0
+            objeto.asignados = medios.filter(oficinaResponsable_id=oficina_id).count()
 
-        resumen_obj.grupos.append(grupo_obj)
-    
-    return resumen_obj
+    #si no es nivel MedioVerificacion
+    if medio_id==0:
+        for medio in medios:
+            evidencia = medio.evidencia_set.filter(periodo__id=periodo_id, lFinalizado=False)
+            if es_estandar==1 or not es_revisor:
+                evidencia = evidencia.filter(oficina__id=oficina_id)
+
+            objeto.aprobados += evidencia.filter(idEstado='Aprobado').count()
+            objeto.observados += evidencia.filter(idEstado='Observado').count()
+        objeto.pendientes += (objeto.asignados - objeto.aprobados - objeto.observados)
+    # si es nivel de MedioVerificacion se lee los detalles, archivos y aprobaciones
+    if medio_id>0:
+        evidencia = medios.evidencia_set.filter(periodo__id=periodo_id)
+        if es_estandar==1 or not es_revisor:
+            evidencia = evidencia.filter(lFinalizado=False, oficina__id=oficina_id)
+
+        objeto.aprobados += evidencia.filter(idEstado='Aprobado').count()
+        objeto.observados += evidencia.filter(idEstado='Observado').count()
+        objeto.pendientes += (objeto.items - objeto.aprobados - objeto.observados)
+        if evidencia.count()>0:
+            #detalles
+            if evidencia.first().cDetalle1 != '':
+                objeto.detalles += 1
+            if evidencia.first().cDetalle2 != '':
+                objeto.detalles += 1
+            #archivos
+            objeto.archivos = evidencia.first().archivo_set.all().count()
+            #revisiones
+            objeto.revisiones = evidencia.first().revision_set.all().count()
+
+    return objeto
+
+def listar_objetos(categoria_id=0, grupo_id=0, indicador_id=0, medio_id=0, periodo_id=0, oficina_id=0, es_estandar=0, es_revisor=0):
+    objetos = []
+    if categoria_id>0 and grupo_id>0 and indicador_id>0 and medio_id>0:
+        objetos = lista_categorias(periodo_id, oficina_id, es_estandar, es_revisor)
+    elif categoria_id>0:
+        objetos = lista_grupos(categoria_id, periodo_id, oficina_id, es_estandar, es_revisor)
+    elif grupo_id>0:
+        objetos = lista_indicadores(grupo_id, periodo_id, oficina_id, es_estandar, es_revisor)
+    elif indicador_id>0:
+        objetos = lista_medios(indicador_id, periodo_id, oficina_id, es_estandar, es_revisor)
+
+    return objetos
+
+def lista_categorias(periodo_id, oficina_id, es_estandar, usuario):
+    return []
+
+def lista_grupos(categoria_id, periodo_id, oficina_id, es_estandar, es_revisor):
+    objetos = []
+    grupos = Grupo.objects.filter(categoria__id=categoria_id)
+    for grupo in grupos:
+        obj = objeto()
+        obj.id = grupo.id
+        obj.descripcion = grupo.cGrupo
+        obj.datos_objeto = datos_objeto(categoria_id, grupo.id, 0, 0, periodo_id, oficina_id, es_estandar, es_revisor)
+        objetos.append(obj)
+    return objetos
+
+def lista_indicadores(grupo_id, periodo_id, oficina_id, es_estandar, es_revisor):
+    objetos = []
+    indicadores = Indicador.objects.filter(grupo__id=grupo_id)
+    for indicador in indicadores:
+        obj = objeto()
+        obj.id = indicador.id
+        obj.descripcion = indicador.cIndicador
+        obj.datos_objeto = datos_objeto(0, 0, indicador.id, 0, periodo_id, oficina_id, es_estandar, es_revisor)
+        objetos.append(obj)
+    return objetos
+
+def lista_medios(indicador_id, periodo_id, oficina_id, es_estandar, es_revisor):
+    objetos = []
+    medios = MedioVerificacion.objects.filter(indicador__id=indicador_id)
+    for medio in medios:
+        obj = objeto()
+        obj.id = medio.id
+        obj.descripcion = medio.cMedioVerificacion
+        obj.datos_objeto = datos_objeto(0, 0, 0, medio.id, periodo_id, oficina_id, es_estandar, es_revisor)
+        objetos.append(obj)
+    return objetos
+
 
 def nombre_grupo_func(grupo, tipo):
     id=0
@@ -124,14 +134,15 @@ def nombre_grupo_func(grupo, tipo):
         id = grupo.grupo.categoria_id
 
     if id==1:
-        return 'Condiciones'
+        return 'condiciones'
     elif id==2:
-        return 'Requerimientos'
+        return 'requerimientos'
     elif id==3:
-        return 'Recomendaciones'
+        return 'recomendaciones'
     elif id==4:
-        return 'Estandares'
+        return 'estandares'
     elif id==5:
-        return 'Renovaciones'
+        return 'renovaciones'
     else:
         return 'Otro Grupo'
+    

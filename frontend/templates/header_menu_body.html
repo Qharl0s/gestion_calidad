@@ -10,76 +10,36 @@
     />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <meta
-      name="keywords"
-      content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive"
-    />
-    <meta name="author" content="Codedthemes" />
+    <meta name="keywords" content="lecenciamiento, acreditación, unamad"/>
+    <meta name="author" content="Alex Larico" />
     <!-- Favicon icon -->
-    <link
-      rel="icon"
-      href="{% static 'images/favicon_sinc.ico' %}"
-      type="image/x-icon"
-    />
+    <link rel="icon" href="{% static 'images/favicon_sinc.ico' %}" type="image/x-icon"/>
     <!-- Google font-->
-    <link
-      href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700"
-      rel="stylesheet"
-    />
+    {% comment %} <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet" /> {% endcomment %}
     <!-- waves.css -->
-    <link
-      rel="stylesheet"
-      href="{% static 'pages/waves/css/waves.min.css' %}"
-      type="text/css"
-      media="all"
-    />
+    <link rel="stylesheet" href="{% static 'pages/waves/css/waves.min.css' %}" type="text/css" media="all"/>
     <!-- Required Fremwork -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/bootstrap/css/bootstrap.min.css' %}"
-    />
-    <!-- waves.css -->
-    <link
-      rel="stylesheet"
-      href="{% static 'pages/waves/css/waves.min.css' %}"
-      type="text/css"
-      media="all"
-    />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap/css/bootstrap.min.css' %}"/>
     <!-- themify icon -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'icon/themify-icons/themify-icons.css' %}"
-    />
+    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'icon/themify-icons/themify-icons.css' %}"/> {% endcomment %}
     <!-- font-awesome-n -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/font-awesome-n.min.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/font-awesome.min.css' %}"
-    />
+    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome-n.min.css' %}"/> {% endcomment %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}" />
     <!-- scrollbar.css -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/jquery.mCustomScrollbar.css' %}"
-    />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.mCustomScrollbar.css' %}" />
     <!-- Style.css -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/style.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'editor/editor.css' %}"
-    />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'editor/editor.css' %}" />
+    
+    <!--Animaciones-->
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}"/>
+
+    <!--DataTable-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.bootstrap4.css"/>
+    
+
+
+
     <script>
       var base_url = 'http://{{ request.get_host }}/';
     </script>
@@ -210,13 +170,13 @@
                   <ul class="nav-right">
                     <li class="user-profile header-notification">
                       <a href="#!" class="waves-effect waves-light">
-                        <img
+                        {% comment %} <img
                           src="{% static 'images/avatar-user.png' %}"
                           class="img-radius fondo_celeste"
                           alt="User-Profile-Image"
-                        />
+                        /> {% endcomment %}
                         <span style="font-size:12px;">{{usuario.email|slice:':34'}}</span>
-                        <i class="ti-angle-down"></i>
+                        <i class="fa fa-angle-down"></i>
                       </a>
                       <ul class="show-notification profile-notification">
                         <li class="waves-effect waves-light">
@@ -256,7 +216,13 @@
                       <div class="image_outer_container">
                         <div class="green_icon"></div>
                         <div class="image_inner_container">
-                          <img width="200px" height="100px" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh0T9SUEsXPSqg6yysKLt_uSQuWwf-9bQPFZP4mo-mRvaLxmTSPECYm9YQ8mRMjd0u33m-FuDh9MxL0QbnjZCM7lRaXP1io7BZQewg6FG8vXQJraNRQmLxomiGqwtEW63Yd_5iL37OC4YAv/s1600/a0103.jpg">
+                          {% if usuario.foto != '' %}
+                            <img src="http://{{ request.get_host }}/media/{{usuario.foto}}"
+                            width="100px" height="100px" />
+                          {% else %}
+                            <img src="{% static 'images/avatar-user.png' %}"
+                            width="100px" height="100px" />
+                          {% endif %}
                         </div>
                       </div>
                     </div>
@@ -288,9 +254,7 @@
                       href="http://{{ request.get_host }}/"
                       class="waves-effect waves-dark"
                     >
-                      <span class="pcoded-micon"
-                        ><i class="ti-home"></i><b>D</b></span
-                      >
+                      <span class="pcoded-micon"><i class="fa fa-home"></i></span>
                       <span class="pcoded-mtext">Inicio</span>
                       <span class="pcoded-mcaret"></span>
                     </a>
@@ -305,9 +269,7 @@
                       href="javascript:void(0)"
                       class="waves-effect waves-dark menu_condicion"
                     >
-                      <span class="pcoded-micon"
-                        ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
-                      >
+                      <span class="pcoded-micon"><i class="fa fa-th-large"></i></span>
                       <span class="pcoded-mtext">Condiciones Básicas</span>
                       <span class="pcoded-mcaret"></span>
                     </a>
@@ -323,9 +285,7 @@
                       href="javascript:void(0)"
                       class="waves-effect waves-dark menu_requerimiento"
                     >
-                      <span class="pcoded-micon"
-                        ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
-                      >
+                      <span class="pcoded-micon"><i class="fa fa-th-large"></i></span>
                       <span class="pcoded-mtext">Requerimientos</span>
                       <span class="pcoded-mcaret"></span>
                     </a>
@@ -341,9 +301,7 @@
                       href="javascript:void(0)"
                       class="waves-effect waves-dark menu_recomendacion"
                     >
-                      <span class="pcoded-micon"
-                        ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
-                      >
+                      <span class="pcoded-micon"><i class="fa fa-th-large"></i></span>
                       <span class="pcoded-mtext">Recomendadiones</span>
                       <span class="pcoded-mcaret"></span>
                     </a>
@@ -359,14 +317,31 @@
                       href="javascript:void(0)"
                       class="waves-effect waves-dark menu_renovacion"
                     >
-                      <span class="pcoded-micon"
-                        ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
-                      >
+                      <span class="pcoded-micon"><i class="fa fa-th-large"></i></span>
                       <span class="pcoded-mtext">Renovaciones</span>
                       <span class="pcoded-mcaret"></span>
                     </a>
                     <ul class="pcoded-submenu">
                       {% block submenurenovaciones %} {% endblock %}
+                    </ul>
+                  </li>
+                </ul>
+
+
+                <ul class="pcoded-item pcoded-left-item">
+                  <li class="pcoded-hasmenu">
+                    <a
+                     href="javascript:void(0)"
+                      class="waves-effect waves-dark"
+                    >
+                      <span class="pcoded-micon"><i class="fa fa-bar-chart"></i></span>
+                      <span class="pcoded-mtext">Reportes</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                      <li><a href="http://localhost:8000/reportes1/">Cuadro de Condiciones</a></li>
+                      <li><a href="http://localhost:8000/reportes2/">Estado de Condiciones</a></li>
+                      <li><a href="http://localhost:8000/reportes3/">Condiciones Pendientes</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -381,9 +356,7 @@
                       class="waves-effect waves-dark menu_estandar"
                       data-idoficina="{% if user.lRevisor|lower == "true" %}0{% else %}{{user.oficina.id}}{% endif %}"
                     >
-                      <span class="pcoded-micon"
-                        ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
-                      >
+                      <span class="pcoded-micon"><i class="fa fa-th-large"></i></span>
                       <span class="pcoded-mtext">Estandares</span>
                       <span class="pcoded-mcaret"></span>
                     </a>
@@ -403,9 +376,7 @@
                       class="waves-effect waves-dark"
                       target="_blank"
                     >
-                      <span class="pcoded-micon"
-                        ><i class="ti-layout-grid2-alt"></i><b>BC</b></span
-                      >
+                      <span class="pcoded-micon"><i class="fa fa-user"></i></span>
                       <span class="pcoded-mtext">Administrador</span>
                       <span class="pcoded-mcaret"></span>
                     </a>
@@ -418,7 +389,7 @@
               
             <!-- Page-header start -->
             <div class="row wave">
-              <div class="col-md-8">
+              <div class="col-md-6">
                   <ul class="breadcrumb">
                       <li class="breadcrumb-item">
                           <a href="/"> <i class="fa fa-home"></i> Inicio</a>
@@ -428,17 +399,45 @@
                       {% endfor %}
                   </ul>
               </div>
-              <div class="col-md-4">
-                <div class="page-header-title text-right pt-3 px-5">
-                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}}</button>
-                  {% if periodos is not None %}
+              
+              <div class="col-md-6 d-inline-flex text-right">
+                <!--Mostrar Oficinas-->
+                {% if mostrar_oficinas == 1 %}
+                <div class="mt-2">
+                  {% if oficina_seleccionado is None %}
+                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+                    aria-haspopup="true" aria-expanded="false">Seleccione Oficina</button>
+                  {% else %}
+                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+                    aria-haspopup="true" aria-expanded="false">{{oficina_seleccionado.cOficina|slice:":35"}}</button>
+                  {% endif %}
+                  
+                  {% if oficinas is not None %}
                   <div class="dropdown-menu">
-                      {% for periodo in periodos %}
-                      <a class="dropdown-item" href="{{periodo.id}}">{{periodo.cPeriodo}}</a>  
+                      {% for oficina in oficinas %}
+                      <a class="dropdown-item" href="http://{{ request.get_host }}/{{url}}/{{oficina.id}}/{{periodo_seleccionado.id}}">{{oficina.cOficina}}</a>  
                       {%endfor%}
                   </div>
                   {% endif %}
                 </div>
+                {%endif %}
+                <!--Mostrar Periodos-->
+                {% if mostrar_periodos is not none %}
+                <div class="mt-2 mx-2">
+                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}}</button>
+                  {% if periodos is not None %}
+                  <div class="dropdown-menu">
+                      {% for periodo in periodos %}
+                        {% if estandar == 1 %}
+                          <a class="dropdown-item" href="http://{{ request.get_host }}/{{url}}/{{oficina_seleccionado.id}}/{{periodo.id}}">{{periodo.cPeriodo}}</a>  
+                        {% else %}
+                          <a class="dropdown-item" href="{{periodo.id}}">{{periodo.cPeriodo}}</a>  
+                        {% endif %}
+                      {%endfor%}
+                  </div>
+                  {% endif %}
+                </div>
+                {% endif %}
               </div>
             </div>  
             <!-- Page-header end -->
@@ -464,8 +463,8 @@
     >
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">
+          <div class="modal-header card-header-resumen">
+            <h5 class="modal-title animate__animated animate__backInDown">
               Detalle de Evidencia
             </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -541,8 +540,8 @@
     >
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">
+          <div class="modal-header card-header-resumen">
+            <h5 class="modal-title animate__animated animate__backInDown" id="exampleModalLongTitle">
               Cargar Evidencia
             </h5>
             <button
@@ -575,26 +574,22 @@
               {% endif %}
             </form>
 
-            <div class="card">
-              </div>
-              <div class="card-block">
-                
-                <div class="table-responsive ">
-                  <table class="table table-hover" style="border: 1px solid #CED4DA;">
-                      <thead style="background: #a4d2ff;color: #144273; height:40px;" class="shadow">
-                          <tr>
-                              <th>Nombre de archivo</th>
-                              <th>Fecha</th>
-                              <th>Usuario</th>
-                              <th>Acción</th>
-                          </tr>
-                      </thead>
-                      <tbody id="tBodyArchivos"></tbody>
-                  </table>
-                </div>
-                <input type="text" id="link_file" value="" style="width:100%; border: none; color:white;"/>
-              </div>
+            <div class="table-responsive ">
+              <table class="table">
+                  <thead class="line-control-status-bar">
+                      <tr>
+                          <th scope="col">Nombre de archivo</th>
+                          <th scope="col">Fecha</th>
+                          <th scope="col">Usuario</th>
+                          <th scope="col">Acción</th>
+                      </tr>
+                  </thead>
+                  <tbody id="tBodyArchivos"></tbody>
+              </table>
             </div>
+            <input type="text" id="link_file" value="" style="width:100%; border: none; color:white;"/>
+
+
           </div>
           
         </div>
@@ -608,8 +603,8 @@
     <div class="modal fade" id="modalRevisarEvidencia" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">
+          <div class="modal-header card-header-resumen">
+            <h5 class="modal-title animate__animated animate__backInDown" id="exampleModalLongTitle">
               Revisión/Aprobación de Evidencias
             </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -632,8 +627,8 @@
 
 
             <div class="table-responsive ">
-              <table class="table table-hover" style="border: 1px solid #CED4DA;">
-                  <thead style="background: #a4d2ff;color: #144273; height:40px;" class="shadow">
+              <table class="table table-hover">
+                  <thead class="line-control-status-bar">
                     <tr>
                       <th scope="col">Estado</th>
                       <th scope="col">Fecha</th>
@@ -702,5 +697,20 @@
     ></script>
     <script type="text/javascript" src="{% static 'js/script.js' %} "></script>
     <script type="text/javascript" src="{% static 'js/general.js' %} "></script>
+
+    <!--DataTable-->
+    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.bootstrap4.js"></script>
+    <!--Exportar a Excel-->
+    <script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+    
+
+    <!--Reportes  Highcharts Demos-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    
+    {% block script_extra %}{% endblock script_extra %}
   </body>
 </html>
