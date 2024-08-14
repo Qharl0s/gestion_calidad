@@ -28,8 +28,8 @@
                         </ul>
                     </div>
                     <div class="col text-right">
-                            <label><b>Asignados:</b> <span class="badge badge-primary">{{objeto.datos_objeto.asignados}}</span></label>
-                            <label><b>Total Items:</b> <span class="badge badge-primary">{{objeto.datos_objeto.items}}</span></label>
+                            <b style="font-size:11px;">Asignados:</b> <span class="badge badge-primary">{{objeto.datos_objeto.asignados}}</span><br>
+                            <b style="font-size:11px;">Total Items:</b> <span class="badge badge-primary">{{objeto.datos_objeto.items}}</span><br>
                         {% if estandar == 1 %}
                         <a  href="/{{detalle_url}}/{{oficina_seleccionado.id}}/{{periodo_seleccionado.id}}/{{objeto.id}}"
                             class="btn btn-mini waves-effect waves-light btn-principal"><i class="ti-eye"></i> Ver </a>
