@@ -221,6 +221,11 @@ code {
   height: 80px;
 }
 
+.card-header-resumen2 {
+  background-color: #a4d2ff;
+  height: 110px;
+}
+
 .card .card-header .card-header-left {
   display: inline-block;
 }

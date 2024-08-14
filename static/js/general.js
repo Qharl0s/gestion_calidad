@@ -136,10 +136,14 @@ $(function () {
         }
       },
     });
-    if ($(this).data('editar') == 1)
+    if ($(this).data('editar') == 1) {
       $('.footer_detalles').show();
-    else
+      $('.Editor-editor').attr('contenteditable', 'true');
+    }
+    else {
       $('.footer_detalles').hide();
+      $('.Editor-editor').attr('contenteditable', 'false');
+    }
     $('#modalDetalleEvidencia').modal('show');
   });
 

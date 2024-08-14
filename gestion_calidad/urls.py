@@ -26,7 +26,6 @@ urlpatterns = [
 
     path('indicadores/<int:periodo_id>/<int:grupo_id>', indicadores, name='indicadores'),
     path('medios/<int:periodo_id>/<int:indicador_id>', medios_verificacion, name='medios'),
-    path('evidencias/<int:periodo_id>/<int:medio_id>', evidencias, name='evidencias'),
 
     url('obtener_evidencia/', obtener_evidencia, name='obtener_evidencia'),
     url('guardar_evidencia/', guardar_evidencia, name='guardar_evidencia'),

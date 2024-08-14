@@ -7,7 +7,13 @@
     {% for objeto in objetos %}
     <div class="col-md-4">
         <div class="card shadow card_resumen">
-            <div class="card-header card-header-resumen d-flex align-items-center justify-content-center text-center">
+            {% if detalle_url != "indicadores" %}
+            <div class="card-header d-flex align-items-center justify-content-center text-center
+            card-header-resumen2">
+            {% else %}
+            <div class="card-header d-flex align-items-center justify-content-center text-center
+            card-header-resumen">
+            {% endif %}
                 
                     <h6 class="">{{objeto.descripcion}}</h6>
                 

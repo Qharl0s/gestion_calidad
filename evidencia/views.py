@@ -299,23 +299,3 @@ def listar_revision(request):
       return JsonResponse({"state":"success","revisiones": list(revisiones), 'lRevisor':request.user.lRevisor})
     except Evidencia.DoesNotExist:
       return JsonResponse({"state":"error", "revisiones": list()})
-
-@login_required
-def evidencias(request, periodo_id, medio_id):
-  usuario = Usuario.objects.get(username=request.user.username)
-  #Periodo
-  periodo_seleccionado = Periodo.objects.get(id=periodo_id)
-  #medios
-  medios = MedioVerificacion.objects.filter(id=medio_id, oficinaResponsable=usuario.oficina)
-
-  resumen = resumen_medios(medios, periodo_seleccionado, usuario.oficina, usuario)
-
-  context = {'medios':resumen,'periodo_seleccionado':periodo_seleccionado
-            , 'detalle_url':'', 
-             'submenu':[
-                # {'nombre':'Condiciones', 'url': 'http://'+request.get_host()+'/condiciones/'+str(periodo_seleccionado.id)},
-                # {'nombre':'Indicadores', 'url': 'http://'+request.get_host()+'/indicadores/'+str(periodo_seleccionado.id)+'/'+str(indicador.grupo.id)} 
-              ] 
-            }
-
-  return render(request, 'evidencias.html', context)
