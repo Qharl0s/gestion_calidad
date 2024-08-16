@@ -1,5 +1,14 @@
 $(function () {
 
+  $('.btnTodos').click(function () {
+    $('.tarjeta').show();
+  });
+
+  $('.btnAsignados').click(function () {
+    $('.tarjeta').hide();
+    $('.tarjeta-asignado').show();
+  });
+
   new DataTable('#tableCondicionesRpt');
 
   $("#btnExport").click(function () {

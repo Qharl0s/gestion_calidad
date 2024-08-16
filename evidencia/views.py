@@ -134,8 +134,8 @@ def medios_verificacion(request, periodo_id, indicador_id):
   nombre_grupo = nombre_grupo_func(indicador, 2)
 
   context = {'usuario':usuario, 'medios':objetos,'periodo_seleccionado':periodo_seleccionado, 
-             'mostrar_periodos':1, 'mostrar_oficinas': 1 if nombre_grupo=='Estandares' else 0
-            , 'detalle_url':'', 
+             'mostrar_periodos':1, 'mostrar_oficinas': 0, 'indicador':indicador,
+             'detalle_url':'', 
              'submenu':[
                 {'nombre':nombre_grupo, 'url': 'https://'+request.get_host()+':8000/'+nombre_grupo+'/'+str(periodo_seleccionado.id)},
                 {'nombre':'Indicadores', 'url': 'https://'+request.get_host()+':8000/indicadores/'+str(periodo_seleccionado.id)+'/'+str(indicador.grupo.id)} 

@@ -389,56 +389,58 @@
               
             <!-- Page-header start -->
             <div class="row wave">
-              <div class="col-md-6">
-                  <ul class="breadcrumb">
-                      <li class="breadcrumb-item">
-                          <a href="/"> <i class="fa fa-home"></i> Inicio</a>
-                      </li>
+              <div class="col-md-12">
+                  <div class="btn-group btn-group-sm text-right">
+                    {% if mostrar_periodos is not none %}
+                      <a href="/" type="button" class="btn btn-secondary"><i class="fa fa-home"></i> Inicio</a>
                       {% for menu in submenu %}
-                      <li class="breadcrumb-item"><a href="{{menu.url}}">{{menu.nombre}}</a></li>
+                      <a href="{{menu.url}}" type="button" class="btn btn-secondary text-capitalize"><i class="fa fa-arrow-left"></i> {{menu.nombre}}</a>
                       {% endfor %}
-                  </ul>
-              </div>
-              
-              <div class="col-md-6 d-inline-flex text-right">
-                <!--Mostrar Oficinas-->
-                {% if mostrar_oficinas == 1 %}
-                <div class="mt-2">
-                  {% if oficina_seleccionado is None %}
-                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-                    aria-haspopup="true" aria-expanded="false">Seleccione Oficina</button>
-                  {% else %}
-                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-                    aria-haspopup="true" aria-expanded="false">{{oficina_seleccionado.cOficina|slice:":35"}}</button>
-                  {% endif %}
-                  
-                  {% if oficinas is not None %}
-                  <div class="dropdown-menu">
-                      {% for oficina in oficinas %}
-                      <a class="dropdown-item" href="https://{{ request.get_host }}:8000/{{url}}/{{oficina.id}}/{{periodo_seleccionado.id}}">{{oficina.cOficina}}</a>  
-                      {%endfor%}
-                  </div>
-                  {% endif %}
-                </div>
-                {%endif %}
-                <!--Mostrar Periodos-->
-                {% if mostrar_periodos is not none %}
-                <div class="mt-2 mx-2">
-                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}}</button>
-                  {% if periodos is not None %}
-                  <div class="dropdown-menu">
-                      {% for periodo in periodos %}
-                        {% if estandar == 1 %}
-                          <a class="dropdown-item" href="https://{{ request.get_host }}:8000/{{url}}/{{oficina_seleccionado.id}}/{{periodo.id}}">{{periodo.cPeriodo}}</a>  
+                      <button type="button" class="btn btn-secondary btnTodos"><i class="fa fa-th"></i> Todos</button>
+                      <button type="button" class="btn btn-secondary btnAsignados"><i class="fa fa-check-square"></i> Asignados</button>
+                    {% endif %}
+                    <!--Mostrar Oficinas-->
+                    {% if mostrar_oficinas == 1 %}
+                      <div class="btn-group btn-group-sm" role="group">
+                        {% if oficina_seleccionado is None %}
+                          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" 
+                            aria-haspopup="true" aria-expanded="false">Seleccione Oficina</button>
                         {% else %}
-                          <a class="dropdown-item" href="{{periodo.id}}">{{periodo.cPeriodo}}</a>  
+                          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" 
+                            aria-haspopup="true" aria-expanded="false">{{oficina_seleccionado.cOficina|slice:":35"}}</button>
                         {% endif %}
-                      {%endfor%}
+                        {% if oficinas is not None %}
+                          <div class="dropdown-menu">
+                              {% for oficina in oficinas %}
+                              <a class="dropdown-item" href="https://{{ request.get_host }}:8000/{{url}}/{{oficina.id}}/{{periodo_seleccionado.id}}">{{oficina.cOficina}}</a>  
+                              {%endfor%}
+                          </div>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                    <!--End Mostrar Oficinas-->
+                    <!--Mostrar Periodo-->
+                    {% if mostrar_periodos is not none %}
+                      <div class="btn-group btn-group-sm" role="group" style="margin-left: -4px;">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}}</button>
+                        {% if periodos is not None %}
+                          <div class="dropdown-menu">
+                              {% for periodo in periodos %}
+                                {% if estandar == 1 %}
+                                  <a class="dropdown-item" href="https://{{ request.get_host }}:8000/{{url}}/{{oficina_seleccionado.id}}/{{periodo.id}}">{{periodo.cPeriodo}}</a>  
+                                {% else %}
+                                  <a class="dropdown-item" href="{{periodo.id}}">{{periodo.cPeriodo}}</a>  
+                                {% endif %}
+                              {%endfor%}
+                          </div>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                    <!--End Mostrar Periodo-->
                   </div>
-                  {% endif %}
-                </div>
-                {% endif %}
               </div>
+
+
             </div>  
             <!-- Page-header end -->
              

@@ -57,7 +57,7 @@ def datos_objeto(categoria_id=0, grupo_id=0, indicador_id=0, medio_id=0, periodo
     # si es nivel de MedioVerificacion se lee los detalles, archivos y aprobaciones
     if medio_id>0:
         evidencia = medios.evidencia_set.filter(periodo__id=periodo_id)
-        if es_estandar==1 or not es_revisor:
+        if es_estandar==1:
             evidencia = evidencia.filter(lFinalizado=False, oficina__id=oficina_id)
 
         objeto.aprobados += evidencia.filter(idEstado='Aprobado').count()

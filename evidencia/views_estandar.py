@@ -86,8 +86,8 @@ def medios_verificacion_estandar(request, oficina_id, periodo_id, indicador_id):
 
   context = {'usuario':usuario, 'medios':objetos,'periodo_seleccionado':periodo_seleccionado,
              'mostrar_periodos':1, 'mostrar_oficinas': 1, 'url':'medios', 'estandar':1,
-             'oficina_seleccionado':oficina_seleccionado
-            , 'detalle_url':'', 
+             'oficina_seleccionado':oficina_seleccionado, 'indicador': indicador,
+             'detalle_url':'', 
              'submenu':[
                 {'nombre':'estandares', 'url': 'https://'+request.get_host()+':8000/estandares/'+str(oficina_seleccionado.id)+'/'+str(periodo_seleccionado.id)},
                 {'nombre':'Indicadores', 'url': 'https://'+request.get_host()+':8000/indicadores/'+str(oficina_seleccionado.id)+'/'+str(periodo_seleccionado.id)+'/'+str(indicador.grupo.id)} 
