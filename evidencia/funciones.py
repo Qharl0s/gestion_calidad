@@ -1,4 +1,4 @@
-from evidencia.models import Categoria, Grupo, Indicador, MedioVerificacion
+from evidencia.models import Categoria, Grupo, Indicador, MedioVerificacion, Evidencia
 
 class datos_object(object):
     items = 0
@@ -10,11 +10,14 @@ class datos_object(object):
     detalles = 0
     revisiones = 0
     se_edita = 0
+    id = 0
+    escala = ''
 
 class objeto(object):
   id = 0
   descripcion = ''
   datos_objeto = datos_object()
+  evidencias_finalizados = datos_object()
 
 
 def datos_objeto(categoria_id=0, grupo_id=0, indicador_id=0, medio_id=0, periodo_id=0, 
@@ -43,6 +46,8 @@ def datos_objeto(categoria_id=0, grupo_id=0, indicador_id=0, medio_id=0, periodo
             objeto.se_edita = 1 if medios.oficinaResponsable_id==oficina_id else 0
         else:
             objeto.asignados = medios.filter(oficinaResponsable_id=oficina_id).count()
+    elif es_estandar==1 and not es_revisor:
+        objeto.se_edita = 1
 
     #si no es nivel MedioVerificacion
     if medio_id==0:
@@ -58,12 +63,17 @@ def datos_objeto(categoria_id=0, grupo_id=0, indicador_id=0, medio_id=0, periodo
     if medio_id>0:
         evidencia = medios.evidencia_set.filter(periodo__id=periodo_id)
         if es_estandar==1:
-            evidencia = evidencia.filter(lFinalizado=False, oficina__id=oficina_id)
+            evidencia = evidencia.filter(oficina__id=oficina_id, lFinalizado=False)
 
         objeto.aprobados += evidencia.filter(idEstado='Aprobado').count()
         objeto.observados += evidencia.filter(idEstado='Observado').count()
         objeto.pendientes += (objeto.items - objeto.aprobados - objeto.observados)
         if evidencia.count()>0:
+            #escala
+            objeto.escala = evidencia.first().get_idEscala_display()
+            # Si ya está aprobado no se puede editar
+            if evidencia.first().idEstado == 'Aprobado':
+                objeto.se_edita = 0
             #detalles
             if evidencia.first().cDetalle1 != '':
                 objeto.detalles += 1
@@ -122,10 +132,30 @@ def lista_medios(indicador_id, periodo_id, oficina_id, es_estandar, es_revisor):
         obj.id = medio.id
         obj.descripcion = medio.cMedioVerificacion
         obj.datos_objeto = datos_objeto(0, 0, 0, medio.id, periodo_id, oficina_id, es_estandar, es_revisor)
+        if es_estandar:
+            obj.evidencias_finalizados = datos_evidencia_finalizado(medio, periodo_id, oficina_id)
         objetos.append(obj)
     return objetos
 
+#Datos o Lista de evidencias finalizados
+def datos_evidencia_finalizado(medio, periodo_id, oficina_id):
+    evidencias = Evidencia.objects.filter(medioVerificacion=medio, periodo__id=periodo_id, oficina__id=oficina_id, lFinalizado=True).order_by('-id')
+    objetos = []
+    for evidencia in evidencias:
+        objeto = datos_object()
+        objeto.id = evidencia.id
+        objeto.escala = evidencia.get_idEscala_display()
+        objeto.archivos = evidencia.archivo_set.count()
+        objeto.revisiones = evidencia.revision_set.count()
+        if evidencia.cDetalle1 != '':
+            objeto.detalles += 1
+        if evidencia.cDetalle2 != '':
+            objeto.detalles += 1
+        objeto.se_edita = 0
+        objetos.append(objeto)
+    return objetos
 
+#Nombre de grupo
 def nombre_grupo_func(grupo, tipo):
     id=0
     if tipo==1:
@@ -145,4 +175,3 @@ def nombre_grupo_func(grupo, tipo):
         return 'renovaciones'
     else:
         return 'Otro Grupo'
-    

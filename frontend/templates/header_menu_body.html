@@ -41,7 +41,7 @@
 
 
     <script>
-      var base_url = 'https://{{ request.get_host }}:8000/';
+      var base_url = '{{URL_BASE}}';
     </script>
   </head>
 
@@ -180,12 +180,12 @@
                       </a>
                       <ul class="show-notification profile-notification">
                         <li class="waves-effect waves-light">
-                          <a href="https://{{ request.get_host }}:8000/perfil/">
+                          <a href="{{URL_BASE}}perfil/">
                             <i class="ti-user"></i> Perfil
                           </a>
                         </li>
                         <li class="waves-effect waves-light">
-                          <a href="https://{{ request.get_host }}:8000/logout/">
+                          <a href="{{URL_BASE}}logout/">
                             <i class="ti-layout-sidebar-left"></i> Cerrar Sesión
                           </a>
                         </li>
@@ -217,7 +217,7 @@
                         <div class="green_icon"></div>
                         <div class="image_inner_container">
                           {% if usuario.foto != '' %}
-                            <img src="https://{{ request.get_host }}:8000/media/{{usuario.foto}}"
+                            <img src="{{URL_BASE}}media/{{usuario.foto}}"
                             width="100px" height="100px" />
                           {% else %}
                             <img src="{% static 'images/avatar-user.png' %}"
@@ -237,10 +237,10 @@
                   <div class="main-menu-content">
                     <ul>
                       <li class="more-details">
-                        <a href="https://{{ request.get_host }}:8000/perfil/"
+                        <a href="{{URL_BASE}}perfil/"
                           ><i class="ti-user"></i>Perfil</a
                         >
-                        <a href="http://{{ request.get_host }}:8000/logout/"
+                        <a href="{{URL_BASE}}logout/"
                           ><i class="ti-layout-sidebar-left"></i>Cerrar
                           Sesión</a
                         >
@@ -251,7 +251,7 @@
                 <ul class="pcoded-item pcoded-left-item">
                   <li class="{{menu_inicio}}">
                     <a
-                      href="https://{{ request.get_host }}:8000/"
+                      href="{{URL_BASE}}"
                       class="waves-effect waves-dark"
                     >
                       <span class="pcoded-micon"><i class="fa fa-home"></i></span>
@@ -339,8 +339,8 @@
                       <span class="pcoded-mcaret"></span>
                     </a>
                     <ul class="pcoded-submenu">
-                      <li><a href="https://{{ request.get_host }}:8000/reportes1/">Cuadro de Condiciones</a></li>
-                      <li><a href="https://{{ request.get_host }}:8000/reportes2/">Estado de Condiciones</a></li>
+                      <li><a href="{{URL_BASE}}reportes1/">Cuadro de Condiciones</a></li>
+                      <li><a href="{{URL_BASE}}reportes2/">Estado de Condiciones</a></li>
                       {% comment %} <li><a href="http://{{ request.get_host }}/reportes3/">Condiciones Pendientes</a></li> {% endcomment %}
                     </ul>
                   </li>
@@ -372,7 +372,7 @@
                   <li class="">
                     
                     <a
-                      href="https://{{ request.get_host }}:8000/admin/"
+                      href="{{URL_BASE}}admin/"
                       class="waves-effect waves-dark"
                       target="_blank"
                     >
@@ -402,17 +402,17 @@
                     <!--Mostrar Oficinas-->
                     {% if mostrar_oficinas == 1 %}
                       <div class="btn-group btn-group-sm" role="group">
-                        {% if oficina_seleccionado is None %}
+                        {% if oficinas.count > 0%}
                           <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" 
-                            aria-haspopup="true" aria-expanded="false">Seleccione Oficina</button>
-                        {% else %}
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" 
-                            aria-haspopup="true" aria-expanded="false">{{oficina_seleccionado.cOficina|slice:":35"}}</button>
-                        {% endif %}
-                        {% if oficinas is not None %}
+                            aria-haspopup="true" aria-expanded="false">{{oficina_seleccionado.cOficina|slice:":35"|default:"Seleccione"}}</button>
+                        {%else%}
+                          <button class="btn btn-secondary dropdown-toggle" type="button" 
+                            aria-haspopup="true" aria-expanded="false">{{oficina_seleccionado.cOficina|slice:":35"|default:"Seleccione"}}</button>
+                        {%endif%}
+                        {% if oficinas is not None and oficinas.count > 0 %}
                           <div class="dropdown-menu">
                               {% for oficina in oficinas %}
-                              <a class="dropdown-item" href="https://{{ request.get_host }}:8000/{{url}}/{{oficina.id}}/{{periodo_seleccionado.id}}">{{oficina.cOficina}}</a>  
+                              <a class="dropdown-item" href="{{URL_BASE}}{{url}}/{{oficina.id}}/{{periodo_seleccionado.id}}">{{oficina.cOficina}}</a>  
                               {%endfor%}
                           </div>
                         {% endif %}
@@ -422,12 +422,16 @@
                     <!--Mostrar Periodo-->
                     {% if mostrar_periodos is not none %}
                       <div class="btn-group btn-group-sm" role="group" style="margin-left: -4px;">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}}</button>
+                        {%if periodos.count > 0%}
+                          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}}</button>
+                        {%else%}
+                          <button class="btn btn-secondary dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}}</button>
+                        {%endif%}
                         {% if periodos is not None %}
                           <div class="dropdown-menu">
                               {% for periodo in periodos %}
                                 {% if estandar == 1 %}
-                                  <a class="dropdown-item" href="https://{{ request.get_host }}:8000/{{url}}/{{oficina_seleccionado.id}}/{{periodo.id}}">{{periodo.cPeriodo}}</a>  
+                                  <a class="dropdown-item" href="{{URL_BASE}}{{url}}/{{oficina_seleccionado.id}}/{{periodo.id}}">{{periodo.cPeriodo}}</a>  
                                 {% else %}
                                   <a class="dropdown-item" href="{{periodo.id}}">{{periodo.cPeriodo}}</a>  
                                 {% endif %}

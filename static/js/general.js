@@ -122,13 +122,16 @@ $(function () {
   });
 
   $('.btnModalCargarDetalleEvidencia').click(function () {
+    $('.Editor-editor').attr('contenteditable', 'true');
     var id = $(this).data('medioverificacion');
     var id_periodo = $(this).data('idperiodo');
+    var id_oficina = $(this).data('idoficina');
     $.ajax({
       url: base_url + 'obtener_evidencia/',
       data: {
         idMedioVerificacion: id,
         idPeriodo: id_periodo,
+        idOficina: id_oficina,
       },
       dataType: 'Json',
       type: 'POST',
@@ -160,6 +163,7 @@ $(function () {
   $('.btnModalCargarArchivo').click(function () {
     var id = $(this).data('medioverificacion');
     var id_periodo = $(this).data('idperiodo');
+    var id_oficina = $(this).data('idoficina');
     var lEditar = $(this).data('editar');
     $('#idMedioVerificacionArchivo').val(id);
     $('#idPeriodoArchivo').val(id_periodo);
@@ -168,6 +172,7 @@ $(function () {
       data: {
         idMedioVerificacion: id,
         idPeriodo: id_periodo,
+        idOficina: id_oficina,
       },
       dataType: 'Json',
       type: 'POST',
@@ -242,6 +247,7 @@ $(function () {
   });
 
   $('.btnRevisarEvidencia').click(function () {
+    $('.Editor-editor').attr('contenteditable', 'true');
     $('#idMedioRevision').val(0);
     $('#idPeriodoRevision').val(0);
     $('#tBodyRevision').html('');

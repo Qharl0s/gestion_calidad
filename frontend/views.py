@@ -2,6 +2,7 @@ from django.http.response import HttpResponse
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from evidencia.models import MedioVerificacion
 from usuario.models import Usuario
 from django.http import JsonResponse
@@ -9,13 +10,13 @@ from django.http import JsonResponse
 @login_required
 def inicio(request):
   user = Usuario.objects.get(username=request.user.username)
-  context = {'usuario':user, 'menu_inicio':"active"}
+  context = {'URL_BASE':settings.URL_BASE,'usuario':user, 'menu_inicio':"active"}
   return render(request, 'inicio.html', context)
 
 @login_required
 def perfil(request):
   user = Usuario.objects.get(username=request.user.username)
-  context = {'usuario':user}
+  context = {'URL_BASE':settings.URL_BASE,'usuario':user}
   return render(request, 'perfil.html', context)
 
 @login_required

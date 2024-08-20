@@ -86,9 +86,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'gestion_calidad.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+# URL_BASE = 'http://localhost:8000/'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -96,6 +94,7 @@ WSGI_APPLICATION = 'gestion_calidad.wsgi.application'
 #     }
 # }
 
+URL_BASE = 'https://sinc.unamad.edu.pe:8000/'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

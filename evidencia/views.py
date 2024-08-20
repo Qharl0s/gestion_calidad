@@ -3,6 +3,7 @@ from django.core import serializers
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from evidencia.models import Categoria, Evidencia, Evidencia_Todo, MedioVerificacion, Periodo, Grupo, Indicador, Archivo, Revision
 from usuario.models import Oficina, Usuario
@@ -11,19 +12,19 @@ from evidencia.funciones import nombre_grupo_func, listar_objetos
 @login_required
 def reportes1(request):
   user = Usuario.objects.get(username=request.user.username)
-  context = {'usuario':user, 'menu_inicio':"active"}
+  context = {'URL_BASE':settings.URL_BASE,'usuario':user, 'menu_inicio':"active"}
   return render(request, 'reporte1.html', context)
 
 @login_required
 def reportes2(request):
   user = Usuario.objects.get(username=request.user.username)
-  context = {'usuario':user, 'menu_inicio':"active"}
+  context = {'URL_BASE':settings.URL_BASE,'usuario':user, 'menu_inicio':"active"}
   return render(request, 'reporte2.html', context)
 
 @login_required
 def reportes3(request):
   user = Usuario.objects.get(username=request.user.username)
-  context = {'usuario':user, 'menu_inicio':"active"}
+  context = {'URL_BASE':settings.URL_BASE,'usuario':user, 'menu_inicio':"active"}
   return render(request, 'reporte3.html', context)
 
 @login_required
@@ -39,7 +40,7 @@ def condiciones(request, periodo_id=0):
   objetos = listar_objetos(categoria_id=1, grupo_id=0, indicador_id=0, medio_id=0, periodo_id=periodo_seleccionado.id,
                            oficina_id=usuario.oficina.id, es_estandar=0, es_revisor=usuario.lRevisor)
 
-  context = {'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
+  context = {'URL_BASE':settings.URL_BASE,'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
              , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario, 'mostrar_periodos':1
              }
   return render(request, 'resumen.html', context)
@@ -57,7 +58,7 @@ def requerimientos(request, periodo_id=0):
   objetos = listar_objetos(categoria_id=2, grupo_id=0, indicador_id=0, medio_id=0, periodo_id=periodo_seleccionado.id,
                            oficina_id=usuario.oficina.id, es_estandar=0, es_revisor=usuario.lRevisor)
 
-  context = {'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
+  context = {'URL_BASE':settings.URL_BASE,'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
              , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario, 'mostrar_periodos':1
              }
   return render(request, 'resumen.html', context)
@@ -75,7 +76,7 @@ def recomendaciones(request, periodo_id=0):
   objetos = listar_objetos(categoria_id=3, grupo_id=0, indicador_id=0, medio_id=0, periodo_id=periodo_seleccionado.id,
                            oficina_id=usuario.oficina.id, es_estandar=0, es_revisor=usuario.lRevisor)
 
-  context = {'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
+  context = {'URL_BASE':settings.URL_BASE,'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
              , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario, 'mostrar_periodos':1
              }
   return render(request, 'resumen.html', context)
@@ -93,7 +94,7 @@ def renovaciones(request, periodo_id=0):
   objetos = listar_objetos(categoria_id=5, grupo_id=0, indicador_id=0, medio_id=0, periodo_id=periodo_seleccionado.id,
                            oficina_id=usuario.oficina.id, es_estandar=0, es_revisor=usuario.lRevisor)
 
-  context = {'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
+  context = {'URL_BASE':settings.URL_BASE,'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
              , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario, 'mostrar_periodos':1
              }
   return render(request, 'resumen.html', context)
@@ -112,9 +113,9 @@ def indicadores(request, periodo_id, grupo_id):
   
   nombre_grupo = nombre_grupo_func(grupos, 1)
 
-  context = {'objetos':objetos,'periodo_seleccionado':periodo_seleccionado
+  context = {'URL_BASE':settings.URL_BASE,'objetos':objetos,'periodo_seleccionado':periodo_seleccionado
              , 'detalle_url':'medios', 
-             'submenu':[{'nombre':nombre_grupo, 'url': 'https://'+request.get_host()+':8000/'+nombre_grupo+'/'+str(periodo_seleccionado.id)}, ]
+             'submenu':[{'nombre':nombre_grupo, 'url': settings.URL_BASE+nombre_grupo+'/'+str(periodo_seleccionado.id)}, ]
              , 'usuario': usuario, 'mostrar_periodos':1, 'mostrar_oficinas': 0
             }
   return render(request, 'resumen.html', context)
@@ -133,12 +134,12 @@ def medios_verificacion(request, periodo_id, indicador_id):
   # resumen = resumen_medios(medios, periodo_seleccionado, usuario.oficina, usuario)
   nombre_grupo = nombre_grupo_func(indicador, 2)
 
-  context = {'usuario':usuario, 'medios':objetos,'periodo_seleccionado':periodo_seleccionado, 
+  context = {'URL_BASE':settings.URL_BASE,'usuario':usuario, 'medios':objetos,'periodo_seleccionado':periodo_seleccionado, 
              'mostrar_periodos':1, 'mostrar_oficinas': 0, 'indicador':indicador,
              'detalle_url':'', 
              'submenu':[
-                {'nombre':nombre_grupo, 'url': 'https://'+request.get_host()+':8000/'+nombre_grupo+'/'+str(periodo_seleccionado.id)},
-                {'nombre':'Indicadores', 'url': 'https://'+request.get_host()+':8000/indicadores/'+str(periodo_seleccionado.id)+'/'+str(indicador.grupo.id)} 
+                {'nombre':nombre_grupo, 'url': settings.URL_BASE+nombre_grupo+'/'+str(periodo_seleccionado.id)},
+                {'nombre':'Indicadores', 'url': settings.URL_BASE+'indicadores/'+str(periodo_seleccionado.id)+'/'+str(indicador.grupo.id)} 
               ] 
             }
 
@@ -150,14 +151,14 @@ def medios_verificacion(request, periodo_id, indicador_id):
 def guardar_evidencia(request):
   if request.method=="POST":
     try:
-      user = Usuario.objects.get(username=request.user.username)
+      usuario = Usuario.objects.get(username=request.user.username)
       medio_verificacion = MedioVerificacion.objects.get(id=request.POST['idMedioVerificacion'])
       periodo = Periodo.objects.get(id=request.POST['idPeriodo'])
 
-      if medio_verificacion.oficinaResponsable != request.user.oficina:
+      if not usuario.oficina.lAcreditacion and medio_verificacion.oficinaResponsable != usuario.oficina:
         return JsonResponse({"state":"error","cMensaje":'No perteneces a la oficina responsable'})
       
-      evidencia = guarda_detalle_evi(medio_verificacion, periodo, request.POST['cDetalle1'], request.POST['cDetalle2'], user, guardar_existe=1)
+      evidencia = guarda_detalle_evi(medio_verificacion, periodo, request.POST['cDetalle1'], request.POST['cDetalle2'], usuario, guardar_existe=1)
       
       return JsonResponse({"state":"success","cMensaje":'Operación exitosa'})
     except ValueError as e:
@@ -167,20 +168,20 @@ def guardar_evidencia(request):
 def guardar_archivo(request):
   if request.method=="POST":
     try:
-      user = Usuario.objects.get(username=request.user.username)
+      usuario = Usuario.objects.get(username=request.user.username)
       medio_verificacion = MedioVerificacion.objects.get(id=request.POST['idMedioVerificacion'])
       periodo = Periodo.objects.get(id=request.POST['idPeriodo'])
 
-      if medio_verificacion.oficinaResponsable != request.user.oficina:
+      if not usuario.oficina.lAcreditacion and medio_verificacion.oficinaResponsable != usuario.oficina:
         return JsonResponse({"state":"error","cMensaje":'No perteneces a la oficina responsable'})
       
-      evidencia = guarda_detalle_evi(medio_verificacion, periodo, '', '', user, guardar_existe=0)
+      evidencia = guarda_detalle_evi(medio_verificacion, periodo, '', '', usuario, guardar_existe=0)
 
       if 'fileEvidencia' in request.FILES:
         archivo = Archivo()
         archivo.evidencia = evidencia
         archivo.archivoPdf = request.FILES['fileEvidencia']
-        archivo.usuario = user
+        archivo.usuario = usuario
         archivo.dFecha = datetime.now()
         archivo.lVigente = True
         archivo.save()
@@ -206,9 +207,9 @@ def eliminar_archivo(request):
     except ValueError as e:
         return JsonResponse({"state":"error","cMensaje":'Ocurrió un error al intentar eliminar el archivo, intente de nuevo.'})
 
-def guarda_detalle_evi(medio_verificacion, periodo, detalle1, detalle2, user, guardar_existe):
+def guarda_detalle_evi(medio_verificacion, periodo, detalle1, detalle2, user, guardar_existe, escala_id=0):
   try:
-    evidencia = Evidencia.objects.get(medioVerificacion=medio_verificacion, oficina=user.oficina, periodo=periodo)
+    evidencia = Evidencia.objects.get(medioVerificacion=medio_verificacion, oficina=user.oficina, periodo=periodo, lFinalizado=False)
     existe=1
   except Evidencia.DoesNotExist:
     evidencia = Evidencia()
@@ -228,6 +229,8 @@ def guarda_detalle_evi(medio_verificacion, periodo, detalle1, detalle2, user, gu
     evidencia.dFechaCarga = datetime.now()
     evidencia.cDetalle1 = detalle1
     evidencia.cDetalle2 = detalle2
+    if escala_id>0:
+      evidencia.idEscala = escala_id
     evidencia.save()
 
   return evidencia
@@ -236,8 +239,14 @@ def guarda_detalle_evi(medio_verificacion, periodo, detalle1, detalle2, user, gu
 def obtener_evidencia(request):
   if request.method=="POST":
     user = Usuario.objects.get(username=request.user.username)
+    oficina_id = int(request.POST['idOficina'])
+    medio = MedioVerificacion.objects.get(id=request.POST['idMedioVerificacion'])
+    if not request.user.lRevisor and medio.oficinaResponsable is None:
+      oficina_id = request.user.oficina.id
     try:
-      evidencia = Evidencia.objects.get(medioVerificacion__id = request.POST['idMedioVerificacion'], periodo__id=request.POST['idPeriodo'])
+      evidencia = Evidencia.objects.get(medioVerificacion__id = request.POST['idMedioVerificacion'], periodo__id=request.POST['idPeriodo'], lFinalizado=False)
+      if oficina_id>0:
+        evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedioVerificacion'], periodo__id=request.POST['idPeriodo'], oficina__id=oficina_id, lFinalizado=False)
       
       return JsonResponse({"state":"success", "cMensaje":"","cDetalle1":evidencia.cDetalle1, "cDetalle2":evidencia.cDetalle2})
     except Evidencia.DoesNotExist:
@@ -247,8 +256,15 @@ def obtener_evidencia(request):
 def listar_archivos(request):
   if request.method=="POST":
     try:
+      oficina_id = int(request.POST['idOficina'])
+      medio = MedioVerificacion.objects.get(id=request.POST['idMedioVerificacion'])
+      if not request.user.lRevisor and medio.oficinaResponsable is None:
+        oficina_id = request.user.oficina.id
+      
       try:
-        evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedioVerificacion'], periodo__id=request.POST['idPeriodo'])
+        evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedioVerificacion'], periodo__id=request.POST['idPeriodo'], lFinalizado=False)
+        if oficina_id>0:
+          evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedioVerificacion'], periodo__id=request.POST['idPeriodo'], oficina__id=oficina_id, lFinalizado=False)
       except Evidencia.DoesNotExist:
         return JsonResponse({"state":"error","cMensaje":'No hay evidenicia cargada', 'archivos':list()})
       try:
@@ -267,13 +283,21 @@ def guardar_revision(request):
       user = Usuario.objects.get(username=request.user.username)
       if not user.lRevisor:
         return JsonResponse({"state":"error","cMensaje":'No tiene perfil de revisor.'})
+      
+      try:
+        medio = MedioVerificacion.objects.get(id=request.POST['idMedio'])
+      except Evidencia.DoesNotExist:
+        return JsonResponse({"state":"error","cMensaje":'No se encontró el Medio de Verificación.'})
 
       try:
-        evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedio'], periodo__id=request.POST['idPeriodo'])
+        evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedio'], periodo__id=request.POST['idPeriodo'], lFinalizado=False)
       except Evidencia.DoesNotExist:
         return JsonResponse({"state":"error","cMensaje":'No se encontró evidencia cargada.'})
-
+      
       evidencia.idEstado = request.POST['cEstado']
+      #Si es Estandar al aprobarse se actualiza a Finalizado
+      if medio.indicador.grupo.categoria.id == 4 and request.POST['cEstado']=='Aprobado':
+        evidencia.lFinalizado = True
       evidencia.save()
 
       revision = Revision()
@@ -284,6 +308,12 @@ def guardar_revision(request):
       revision.usuario = user
       revision.lVigente = True
       revision.save()
+
+      #Al ser aprobado se registra nueva evidencia en vacio
+      if medio.indicador.grupo.categoria.id == 4 and request.POST['cEstado']=='Aprobado':
+        escala_id = int(evidencia.idEscala) + 1
+        if escala_id < 10:
+          evidencia2 = guarda_detalle_evi(medio, evidencia.periodo, '', '', evidencia.usuarioCarga, guardar_existe=0, escala_id=escala_id)
       
       return JsonResponse({"state":"success","cMensaje":'Operación exitosa'})
     except ValueError:
@@ -293,7 +323,7 @@ def guardar_revision(request):
 def listar_revision(request):
   if request.method == "POST":
     try:
-      evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedio'], periodo__id=request.POST['idPeriodo'])
+      evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedio'], periodo__id=request.POST['idPeriodo'], lFinalizado=False)
       revisiones = Revision.objects.filter(evidencia=evidencia).values('id', 'cRevision', 'dFecha', 'idEstado', 'usuario__username').order_by('-dFecha')
       # evidencia.dFechaRevision.strftime("%m/%d/%Y, %H:%M:%S")
       return JsonResponse({"state":"success","revisiones": list(revisiones), 'lRevisor':request.user.lRevisor})

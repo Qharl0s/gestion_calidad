@@ -38,7 +38,7 @@ class medioVerificacionAdmin(admin.ModelAdmin):
     
 class evidenciaAdmin(admin.ModelAdmin):
     # list_display = ('id',)
-    list_display = ('get_id', 'get_oficina', 'get_medio', 'dFechaCarga')
+    list_display = ('get_medio', 'periodo', 'get_oficina', 'idEscala', 'dFechaCarga', 'lFinalizado')
     
     def get_id(self, obj):
         return 'Evd. %s' % (obj.id)
@@ -55,7 +55,7 @@ class evidenciaAdmin(admin.ModelAdmin):
         if obj.medioVerificacion == None:
             return '-'
         else:
-            return obj.medioVerificacion.cTitulo
+            return obj.medioVerificacion.cMedioVerificacion
     get_medio.short_description = 'Medio Verficacion'
     
 class evidenciatodoAdmin(admin.ModelAdmin):
