@@ -480,8 +480,9 @@
           <div class="modal-body">
             <form class="form-material">
               
-              <input type="hidden" id="idMedioVerificacion" value="0" />
-              <input type="hidden" id="idPeriodoEvi" value="0" />
+              <input type="hidden" id="idMedioDetalle" value="0" />
+              <input type="hidden" id="idPeriodoDetalle" value="0" />
+              <input type="hidden" id="idEvidenciaDetalle" value="0" />
 
               <div class="row">
                 <div class="col-md-6">
@@ -562,8 +563,9 @@
           <div class="modal-body">
             <form class="form-material" id="formCargarArchivo">
               
-              <input type="hidden" id="idMedioVerificacionArchivo" value="0" />
+              <input type="hidden" id="idMedioArchivo" value="0" />
               <input type="hidden" id="idPeriodoArchivo" value="0" />
+              <input type="hidden" id="idEvidenciaArchivo" value="0" />
 
               <div class="row">
               </div>
@@ -618,8 +620,8 @@
           <div class="modal-body">
             {% if usuario.lRevisor|lower == 'true' %}
             <div class="form-group">
-              <input type="hidden" id="idMedioRevision" value="0" />
-              <input type="hidden" id="idPeriodoRevision" value="0" />
+              {% comment %} <input type="hidden" id="idMedioRevision" value="0" /> {% endcomment %}
+              <input type="hidden" id="idEvidenciaRevision" value="0" />
 
               <textarea class="form-control rounded-0 editor" id="cComentarioRevision" rows="1" ></textarea>
               <textarea id="txtEditorContentRevision" name="txtEditorContent" hidden="" ></textarea>
@@ -712,11 +714,23 @@
     
 
     <!--Reportes  Highcharts Demos-->
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="{% static 'js/highcharts/highcharts.js' %}"></script>
+    <script src="{% static 'js/highcharts/exporting.js' %}"></script>
+    <script src="{% static 'js/highcharts/export-data.js' %}"></script>
+    <script src="{% static 'js/highcharts/accessibility.js' %}"></script>
     
     {% block script_extra %}{% endblock script_extra %}
+
+    {% if chart_barra_asignados_inicio is not none%}
+    <script>
+      {{chart_barra_asignados_inicio|safe}}
+    </script>
+    {%endif%}
+
+    {% if chart_pie_asignados_inicio is not none%}
+    <script>
+      {{chart_pie_asignados_inicio|safe}}
+    </script>
+    {%endif%}
   </body>
 </html>

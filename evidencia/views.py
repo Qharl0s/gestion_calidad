@@ -158,7 +158,7 @@ def guardar_evidencia(request):
       if not usuario.oficina.lAcreditacion and medio_verificacion.oficinaResponsable != usuario.oficina:
         return JsonResponse({"state":"error","cMensaje":'No perteneces a la oficina responsable'})
       
-      evidencia = guarda_detalle_evi(medio_verificacion, periodo, request.POST['cDetalle1'], request.POST['cDetalle2'], usuario, guardar_existe=1)
+      evidencia = guarda_detalle_evi(medio_verificacion, periodo, request.POST['cDetalle1'], request.POST['cDetalle2'], usuario, request.POST['idEvidencia'])
       
       return JsonResponse({"state":"success","cMensaje":'Operación exitosa'})
     except ValueError as e:
@@ -175,7 +175,10 @@ def guardar_archivo(request):
       if not usuario.oficina.lAcreditacion and medio_verificacion.oficinaResponsable != usuario.oficina:
         return JsonResponse({"state":"error","cMensaje":'No perteneces a la oficina responsable'})
       
-      evidencia = guarda_detalle_evi(medio_verificacion, periodo, '', '', usuario, guardar_existe=0)
+      if int(request.POST['idEvidencia'])>0:
+        evidencia = Evidencia.objects.get(id=request.POST['idEvidencia'])
+      else:
+        evidencia = guarda_detalle_evi(medio_verificacion, periodo, '', '', usuario, 0, 0)
 
       if 'fileEvidencia' in request.FILES:
         archivo = Archivo()
@@ -207,47 +210,32 @@ def eliminar_archivo(request):
     except ValueError as e:
         return JsonResponse({"state":"error","cMensaje":'Ocurrió un error al intentar eliminar el archivo, intente de nuevo.'})
 
-def guarda_detalle_evi(medio_verificacion, periodo, detalle1, detalle2, user, guardar_existe, escala_id=0):
+def guarda_detalle_evi(medio_verificacion, periodo, detalle1, detalle2, user, evidencia_id, escala_id=0):
   try:
-    evidencia = Evidencia.objects.get(medioVerificacion=medio_verificacion, oficina=user.oficina, periodo=periodo, lFinalizado=False)
-    existe=1
+    evidencia = Evidencia.objects.get(id=evidencia_id)
   except Evidencia.DoesNotExist:
     evidencia = Evidencia()
     evidencia.idEstado = 'Cargado'
-    existe=0
-  
-  # Guarda si viene de detalle, pero, si viene de archivo inserta solo si no existe
-  if guardar_existe==0 and existe==0:
-    guardar_existe=1
-  
-  if guardar_existe==1:
-    evidencia.oficina = user.oficina
-    evidencia.medioVerificacion = medio_verificacion
-    evidencia.periodo = periodo
-    evidencia.lRevisado = False
-    evidencia.usuarioCarga = user
-    evidencia.dFechaCarga = datetime.now()
-    evidencia.cDetalle1 = detalle1
-    evidencia.cDetalle2 = detalle2
-    if escala_id>0:
-      evidencia.idEscala = escala_id
-    evidencia.save()
+
+  evidencia.oficina = user.oficina
+  evidencia.medioVerificacion = medio_verificacion
+  evidencia.periodo = periodo
+  evidencia.lRevisado = False
+  evidencia.usuarioCarga = user
+  evidencia.dFechaCarga = datetime.now()
+  evidencia.cDetalle1 = detalle1
+  evidencia.cDetalle2 = detalle2
+  if escala_id>0:
+    evidencia.idEscala = escala_id
+  evidencia.save()
 
   return evidencia
 
 @login_required
 def obtener_evidencia(request):
   if request.method=="POST":
-    user = Usuario.objects.get(username=request.user.username)
-    oficina_id = int(request.POST['idOficina'])
-    medio = MedioVerificacion.objects.get(id=request.POST['idMedioVerificacion'])
-    if not request.user.lRevisor and medio.oficinaResponsable is None:
-      oficina_id = request.user.oficina.id
-    try:
-      evidencia = Evidencia.objects.get(medioVerificacion__id = request.POST['idMedioVerificacion'], periodo__id=request.POST['idPeriodo'], lFinalizado=False)
-      if oficina_id>0:
-        evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedioVerificacion'], periodo__id=request.POST['idPeriodo'], oficina__id=oficina_id, lFinalizado=False)
-      
+    try:    
+      evidencia = Evidencia.objects.get(id=request.POST['id_evidencia'])
       return JsonResponse({"state":"success", "cMensaje":"","cDetalle1":evidencia.cDetalle1, "cDetalle2":evidencia.cDetalle2})
     except Evidencia.DoesNotExist:
         return JsonResponse({"state":"error","cMensaje":'No se ha encontrado evidencia cargada.'})
@@ -256,24 +244,14 @@ def obtener_evidencia(request):
 def listar_archivos(request):
   if request.method=="POST":
     try:
-      oficina_id = int(request.POST['idOficina'])
-      medio = MedioVerificacion.objects.get(id=request.POST['idMedioVerificacion'])
-      if not request.user.lRevisor and medio.oficinaResponsable is None:
-        oficina_id = request.user.oficina.id
-      
-      try:
-        evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedioVerificacion'], periodo__id=request.POST['idPeriodo'], lFinalizado=False)
-        if oficina_id>0:
-          evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedioVerificacion'], periodo__id=request.POST['idPeriodo'], oficina__id=oficina_id, lFinalizado=False)
-      except Evidencia.DoesNotExist:
-        return JsonResponse({"state":"error","cMensaje":'No hay evidenicia cargada', 'archivos':list()})
-      try:
-        archivos = evidencia.archivo_set.all().values('archivoPdf', 'dFecha', 'usuario__username', 'id').order_by('-id')
-      except Archivo.DoesNotExist:
-        return JsonResponse({"state":"error","cMensaje":'No hay archivos cargados', 'archivos':list()})
-      return JsonResponse({"state":"success", "archivos":list(archivos)})
-    except ValueError as e:
-        return JsonResponse({"state":"error","cMensaje":'Ocurrió un error al intentar listar los archivos, intente de nuevo.'})
+      evidencia = Evidencia.objects.get(id=request.POST['id_evidencia'])
+    except Evidencia.DoesNotExist:
+      return JsonResponse({"state":"error","cMensaje":'No hay evidenicia cargada', 'archivos':list()})
+    try:
+      archivos = evidencia.archivo_set.all().values('archivoPdf', 'dFecha', 'usuario__username', 'id').order_by('-id')
+    except Archivo.DoesNotExist:
+      return JsonResponse({"state":"error","cMensaje":'No hay archivos cargados', 'archivos':list()})
+    return JsonResponse({"state":"success", "archivos":list(archivos)})
 
     
 @login_required
@@ -285,18 +263,13 @@ def guardar_revision(request):
         return JsonResponse({"state":"error","cMensaje":'No tiene perfil de revisor.'})
       
       try:
-        medio = MedioVerificacion.objects.get(id=request.POST['idMedio'])
-      except Evidencia.DoesNotExist:
-        return JsonResponse({"state":"error","cMensaje":'No se encontró el Medio de Verificación.'})
-
-      try:
-        evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedio'], periodo__id=request.POST['idPeriodo'], lFinalizado=False)
+        evidencia = Evidencia.objects.get(id=request.POST['idEvidencia'], lFinalizado=False)
       except Evidencia.DoesNotExist:
         return JsonResponse({"state":"error","cMensaje":'No se encontró evidencia cargada.'})
       
       evidencia.idEstado = request.POST['cEstado']
       #Si es Estandar al aprobarse se actualiza a Finalizado
-      if medio.indicador.grupo.categoria.id == 4 and request.POST['cEstado']=='Aprobado':
+      if evidencia.medioVerificacion.indicador.grupo.categoria.id == 4 and request.POST['cEstado']=='Aprobado':
         evidencia.lFinalizado = True
       evidencia.save()
 
@@ -310,10 +283,10 @@ def guardar_revision(request):
       revision.save()
 
       #Al ser aprobado se registra nueva evidencia en vacio
-      if medio.indicador.grupo.categoria.id == 4 and request.POST['cEstado']=='Aprobado':
+      if evidencia.medioVerificacion.indicador.grupo.categoria.id == 4 and request.POST['cEstado']=='Aprobado':
         escala_id = int(evidencia.idEscala) + 1
         if escala_id < 10:
-          evidencia2 = guarda_detalle_evi(medio, evidencia.periodo, '', '', evidencia.usuarioCarga, guardar_existe=0, escala_id=escala_id)
+          evidencia2 = guarda_detalle_evi(evidencia.medioVerificacion, evidencia.periodo, '', '', evidencia.usuarioCarga, 0, escala_id=escala_id)
       
       return JsonResponse({"state":"success","cMensaje":'Operación exitosa'})
     except ValueError:
@@ -322,10 +295,9 @@ def guardar_revision(request):
 @login_required
 def listar_revision(request):
   if request.method == "POST":
-    try:
-      evidencia = Evidencia.objects.get(medioVerificacion__id=request.POST['idMedio'], periodo__id=request.POST['idPeriodo'], lFinalizado=False)
+    try:  
+      evidencia = Evidencia.objects.get(id=request.POST['idEvidencia'])
       revisiones = Revision.objects.filter(evidencia=evidencia).values('id', 'cRevision', 'dFecha', 'idEstado', 'usuario__username').order_by('-dFecha')
-      # evidencia.dFechaRevision.strftime("%m/%d/%Y, %H:%M:%S")
       return JsonResponse({"state":"success","revisiones": list(revisiones), 'lRevisor':request.user.lRevisor})
     except Evidencia.DoesNotExist:
       return JsonResponse({"state":"error", "revisiones": list()})

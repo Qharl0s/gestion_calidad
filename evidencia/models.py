@@ -25,6 +25,7 @@ class Periodo(models.Model):
     verbose_name_plural = "7. Periodos"
   categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, blank=True, null=True, default=1)
   cPeriodo = models.CharField('Periodo', max_length=360, default='')
+  lFinalizado = models.BooleanField('Finalizado',default=False)
   lVigente = models.BooleanField('Vigente',default=True)
 
   def __str__(self):

@@ -123,21 +123,25 @@ $(function () {
 
   $('.btnModalCargarDetalleEvidencia').click(function () {
     $('.Editor-editor').attr('contenteditable', 'true');
-    var id = $(this).data('medioverificacion');
-    var id_periodo = $(this).data('idperiodo');
-    var id_oficina = $(this).data('idoficina');
+    var id_medio = $(this).parent().data('idmedioverificacion');
+    var id_periodo = $(this).parent().data('idperiodo');
+    var id_evidencia = $(this).parent().data('idevidencia');
+
+
+    // var id_oficina = $(this).data('idoficina');
     $.ajax({
       url: base_url + 'obtener_evidencia/',
       data: {
-        idMedioVerificacion: id,
-        idPeriodo: id_periodo,
-        idOficina: id_oficina,
+        id_evidencia: id_evidencia,
       },
       dataType: 'Json',
       type: 'POST',
       success: function (response) {
-        $('#idMedioVerificacion').val(id);
-        $('#idPeriodoEvi').val(id_periodo);
+        // $('#idMedioVerificacion').val(id);
+        // $('#idPeriodoEvi').val(id_periodo);
+        $('#idMedioDetalle').val(id_medio);
+        $('#idPeriodoDetalle').val(id_periodo);
+        $('#idEvidenciaDetalle').val(id_evidencia);
         if (response.state == 'success') {
           $('#detalle1').Editor('setText', response.cDetalle1 === undefined ? '' : response.cDetalle1);
           $('#detalle2').Editor('setText', response.cDetalle2 === undefined ? '' : response.cDetalle2);
@@ -148,7 +152,7 @@ $(function () {
         }
       },
     });
-    if ($(this).data('editar') == 1) {
+    if ($(this).parent().data('editar') == 1) {
       $('.footer_detalles').show();
       $('.Editor-editor').attr('contenteditable', 'true');
     }
@@ -161,18 +165,18 @@ $(function () {
 
 
   $('.btnModalCargarArchivo').click(function () {
-    var id = $(this).data('medioverificacion');
-    var id_periodo = $(this).data('idperiodo');
-    var id_oficina = $(this).data('idoficina');
-    var lEditar = $(this).data('editar');
-    $('#idMedioVerificacionArchivo').val(id);
+    var id = $(this).parent().data('idmedioverificacion');
+    var id_periodo = $(this).parent().data('idperiodo');
+    var id_evidencia = $(this).parent().data('idevidencia');
+    var lEditar = $(this).parent().data('editar');
+    /* Seteo para modal */
+    $('#idMedioArchivo').val(id);
     $('#idPeriodoArchivo').val(id_periodo);
+    $('#idEvidenciaArchivo').val(id_evidencia);
     $.ajax({
       url: base_url + 'listar_archivos/',
       data: {
-        idMedioVerificacion: id,
-        idPeriodo: id_periodo,
-        idOficina: id_oficina,
+        id_evidencia: id_evidencia,
       },
       dataType: 'Json',
       type: 'POST',
@@ -201,7 +205,7 @@ $(function () {
         $('#cantidadArchivos').html(response.archivos.length);
       },
     });
-    if ($(this).data('editar') == 1)
+    if (lEditar == 1)
       $('#formCargarArchivo').show();
     else
       $('#formCargarArchivo').hide();
@@ -213,8 +217,9 @@ $(function () {
     $this = $(this);
     $this.attr('disabled', 'disabled');
     var parametros = new FormData();
-    parametros.append('idMedioVerificacion', $('#idMedioVerificacionArchivo').val());
+    parametros.append('idMedioVerificacion', $('#idMedioArchivo').val());
     parametros.append('idPeriodo', $('#idPeriodoArchivo').val());
+    parametros.append('idEvidencia', $('#idEvidenciaArchivo').val());
     parametros.append('fileEvidencia', $('#fileEvidencia')[0].files[0]);
     $('#lblFileEvidencia').html('Guardando archivo..');
 
@@ -248,17 +253,13 @@ $(function () {
 
   $('.btnRevisarEvidencia').click(function () {
     $('.Editor-editor').attr('contenteditable', 'true');
-    $('#idMedioRevision').val(0);
-    $('#idPeriodoRevision').val(0);
-    $('#tBodyRevision').html('');
-    var idMedio = $(this).data('medioverificacion');
-    var idPeriodo = $(this).data('idperiodo');
+    $('#idEvidenciaRevision').val(0);
+    var idEvidencia = $(this).parent().data('idevidencia');
     /** Listar Revision por Evidencia */
     $.ajax({
       url: base_url + 'listar_revision/',
       data: {
-        'idMedio': idMedio,
-        'idPeriodo': idPeriodo,
+        'idEvidencia': idEvidencia,
       },
       dataType: 'Json',
       type: 'POST',
@@ -266,17 +267,6 @@ $(function () {
         if (response.state == "success") {
           var tBody = '';
           for (var i = 0; i < response.revisiones.length; i++) {
-            // var td = ''
-            // if (response.lRevisor) {
-            //   td = '<td>' +
-            //     '<div class="btn-group btn-group-sm text_body">' +
-            //     '<button type="button" class="btn btn-danger btnEliminarRevision" data-id="' + response.revisiones[i].id + '">' +
-            //     '<i class="fa fa-trash" aria-hidden="true"></i>' +
-            //     '</button>' +
-            //     '</div>' +
-            //     '</td>';
-            // }
-
             var estado = '<span class="text-danger">' + response.revisiones[i].idEstado + '</span>';
             if (response.revisiones[i].idEstado == 'Aprobado')
               estado = '<span class="text-success">' + response.revisiones[i].idEstado + '</span>';
@@ -288,7 +278,6 @@ $(function () {
               '<td>' + mydate.toLocaleDateString() + '</td>' +
               '<td>' + response.revisiones[i].usuario__username + '</td>' +
               '<td>' + response.revisiones[i].cRevision + '</td>' +
-              // td +
               '</tr>';
           }
 
@@ -298,8 +287,7 @@ $(function () {
       },
     });
     /**Fin */
-    $('#idMedioRevision').val(idMedio);
-    $('#idPeriodoRevision').val(idPeriodo);
+    $('#idEvidenciaRevision').val(idEvidencia);
     $('#modalRevisarEvidencia').modal('show');
   });
 
@@ -309,13 +297,12 @@ $(function () {
   });
 
   /* Revision de Evidencia */
-  guardar_revision = function (idMedio, idPeriodo, cEstado, cComentario, $this) {
+  guardar_revision = function (idEvidencia, cEstado, cComentario, $this) {
     $this.prop("disabled", true);
     $.ajax({
       url: base_url + 'guardar_revision/',
       data: {
-        idMedio: idMedio,
-        idPeriodo: idPeriodo,
+        idEvidencia: idEvidencia,
         cEstado: cEstado,
         cComentario: cComentario,
       },
@@ -341,8 +328,7 @@ $(function () {
 
   $('#btnObservarRevision').click(function () {
     guardar_revision(
-      $('#idMedioRevision').val(),
-      $('#idPeriodoRevision').val(),
+      $('#idEvidenciaRevision').val(),
       'Observado',
       $(
         $('#txtEditorContentRevision').text(
@@ -355,8 +341,7 @@ $(function () {
 
   $('#btnAprobarRevision').click(function () {
     guardar_revision(
-      $('#idMedioRevision').val(),
-      $('#idPeriodoRevision').val(),
+      $('#idEvidenciaRevision').val(),
       'Aprobado',
       $(
         $('#txtEditorContentRevision').text(
@@ -373,8 +358,10 @@ $(function () {
     $this.prop("disabled", true);
     var fd = new FormData();
     // var files = $('#fileEvidencia')[0].files;
-    fd.append('idMedioVerificacion', $('#idMedioVerificacion').val());
-    fd.append('idPeriodo', $('#idPeriodoEvi').val());
+    fd.append('idMedioVerificacion', $('#idMedioDetalle').val());
+    fd.append('idPeriodo', $('#idPeriodoDetalle').val());
+    fd.append('idEvidencia', $('#idEvidenciaDetalle').val());
+
     fd.append(
       'cDetalle1',
       $($('#txtEditorContent1').text($('#detalle1').Editor('getText'))[0]).val()

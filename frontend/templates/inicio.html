@@ -20,7 +20,7 @@ clasesoloparacompletar" {% endblock classsubmenucondiciones%}
                 <div class="widget-subheading">Evidencias aprobadas</div>
             </div>
             <div class="widget-content-right">
-                <div class="widget-numbers text-white animate__animated animate__bounceInDown"><span>12</span></div>
+                <div class="widget-numbers text-white animate__animated animate__bounceInDown"><span>{{aprobados}}</span></div>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@ clasesoloparacompletar" {% endblock classsubmenucondiciones%}
                   <div class="widget-subheading">Observados por el aprobador</div>
               </div>
               <div class="widget-content-right">
-                  <div class="widget-numbers text-white animate__animated animate__bounceInDown"><span>3</span></div>
+                  <div class="widget-numbers text-white animate__animated animate__bounceInDown"><span>{{observados}}</span></div>
               </div>
           </div>
       </div>
@@ -48,7 +48,7 @@ clasesoloparacompletar" {% endblock classsubmenucondiciones%}
                 <div class="widget-subheading">Por cargar o aprobar</div>
             </div>
             <div class="widget-content-right">
-                <div class="widget-numbers text-white animate__animated animate__bounceInDown"><span>4</span></div>
+                <div class="widget-numbers text-white animate__animated animate__bounceInDown"><span>{{pendientes}}</span></div>
             </div>
         </div>
     </div>
@@ -62,14 +62,14 @@ clasesoloparacompletar" {% endblock classsubmenucondiciones%}
 <div class="row">
   <div class="col-md-6 card shadow">
     <figure class="highcharts-figure">
-        <div id="container"></div>
+        <div id="grafico_barra_asignados"></div>
         <p class="highcharts-description"></p>
     </figure>
   </div>
 
   <div class="col-md-6 card shadow">
     <figure class="highcharts-figure">
-      <div id="pieChart"></div>
+      <div id="grafico_piechart_asignados"></div>
     </figure>
   </div>  
 </div>

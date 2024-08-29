@@ -12,6 +12,7 @@ class datos_object(object):
     se_edita = 0
     id = 0
     escala = ''
+    id_evidencia = 0
 
 class objeto(object):
   id = 0
@@ -83,6 +84,7 @@ def datos_objeto(categoria_id=0, grupo_id=0, indicador_id=0, medio_id=0, periodo
             objeto.archivos = evidencia.first().archivo_set.all().count()
             #revisiones
             objeto.revisiones = evidencia.first().revision_set.all().count()
+            objeto.id_evidencia = evidencia.first().id
 
     return objeto
 
@@ -99,8 +101,47 @@ def listar_objetos(categoria_id=0, grupo_id=0, indicador_id=0, medio_id=0, perio
 
     return objetos
 
-def lista_categorias(periodo_id, oficina_id, es_estandar, usuario):
-    return []
+def lista_categorias(periodos_all, oficina_id, es_estandar, es_revisor):
+    objetos = []
+    if es_estandar==0:
+        #condiciones
+        condicion = objeto()
+        condicion.id=1
+        condicion.descripcion = 'Condiciones'
+        periodo = periodos_all.filter(categoria_id=1).order_by('-id').first()
+        condicion.datos_objeto = datos_objeto(1, 0, 0, 0, periodo.id, oficina_id, es_estandar, es_revisor)
+        objetos.append(condicion)
+        #requerimientos
+        requerimiento = objeto()
+        requerimiento.id=2
+        requerimiento.descripcion = 'Requerimientos'
+        periodo = periodos_all.filter(categoria_id=2).order_by('-id').first()
+        requerimiento.datos_objeto = datos_objeto(2, 0, 0, 0, periodo.id, oficina_id, es_estandar, es_revisor)
+        objetos.append(requerimiento)
+        #recomendaciones
+        recomendacion = objeto()
+        recomendacion.id=3
+        recomendacion.descripcion = 'Recomendaciones'
+        periodo = periodos_all.filter(categoria_id=3).order_by('-id').first()
+        recomendacion.datos_objeto = datos_objeto(3, 0, 0, 0, periodo.id, oficina_id, es_estandar, es_revisor)
+        objetos.append(recomendacion)
+        #renovaciones
+        renovacion = objeto()
+        renovacion.id=5
+        renovacion.descripcion = 'Renovaciones'
+        periodo = periodos_all.filter(categoria_id=5).order_by('-id').first()
+        renovacion.datos_objeto = datos_objeto(5, 0, 0, 0, periodo.id, oficina_id, es_estandar, es_revisor)
+        objetos.append(renovacion)
+    else:
+        #estandares
+        estandar = objeto()
+        estandar.id=4
+        estandar.descripcion = 'Estandares'
+        periodo = periodos_all.filter(categoria_id=4).order_by('-id').first()
+        estandar.datos_objeto = datos_objeto(4, 0, 0, 0, periodo.id, oficina_id, es_estandar, es_revisor)
+        objetos.append(estandar)
+
+    return objetos
 
 def lista_grupos(categoria_id, periodo_id, oficina_id, es_estandar, es_revisor):
     objetos = []

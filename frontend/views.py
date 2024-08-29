@@ -3,14 +3,37 @@ from django.contrib.auth.hashers import check_password
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from evidencia.models import MedioVerificacion
+from evidencia.models import MedioVerificacion, Periodo
 from usuario.models import Usuario
+from evidencia.funciones import *
 from django.http import JsonResponse
+from evidencia.graficos import get_grafico_barra, get_grafico_pie
 
 @login_required
 def inicio(request):
-  user = Usuario.objects.get(username=request.user.username)
-  context = {'URL_BASE':settings.URL_BASE,'usuario':user, 'menu_inicio':"active"}
+  usuario = Usuario.objects.get(username=request.user.username)
+  periodos = Periodo.objects.filter(lFinalizado=False, lVigente=True)
+  es_estandar = 0
+  if usuario.oficina.lAcreditacion:
+    es_estandar = 1
+  objetos = lista_categorias(periodos, oficina_id=usuario.oficina.id, es_estandar=es_estandar, es_revisor=usuario.lRevisor)
+
+  aprobados = 0
+  observados = 0
+  pendientes = 0
+  for obj in objetos:
+    aprobados += obj.datos_objeto.aprobados
+    observados += obj.datos_objeto.observados
+    pendientes += obj.datos_objeto.pendientes
+  
+  chart_barra_asignados_inicio = get_grafico_barra('Estado de Evidencias', objetos, 'grafico_barra_asignados')
+  chart_pie_asignados_inicio = get_grafico_pie('Medios de Verificación Asignados', objetos, 'grafico_piechart_asignados')
+
+  context = {'URL_BASE':settings.URL_BASE,'usuario':usuario, 'menu_inicio':"active", 'objetos': objetos,
+             'es_estandar':es_estandar, 
+             'chart_barra_asignados_inicio':chart_barra_asignados_inicio, 
+             'chart_pie_asignados_inicio':chart_pie_asignados_inicio
+             , 'aprobados': aprobados, 'observados': observados, 'pendientes':pendientes}
   return render(request, 'inicio.html', context)
 
 @login_required
