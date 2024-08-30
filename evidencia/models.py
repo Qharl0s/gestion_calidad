@@ -22,7 +22,7 @@ class Grupo(models.Model):
 
 class Periodo(models.Model):
   class Meta:
-    verbose_name_plural = "7. Periodos"
+    verbose_name_plural = "8. Periodos"
   categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, blank=True, null=True, default=1)
   cPeriodo = models.CharField('Periodo', max_length=360, default='')
   lFinalizado = models.BooleanField('Finalizado',default=False)
@@ -35,20 +35,17 @@ class Indicador(models.Model):
   class Meta:
     verbose_name_plural = "3. Indicadores"
   grupo = models.ForeignKey(Grupo, on_delete=models.PROTECT)
-  cTitulo = models.CharField('Titulo', max_length=120, default='')
   cIndicador = models.CharField('Indicador', max_length=360, default='')
-  cDescripcion = models.CharField('Descripción', max_length=360, default='')
   nOrden = models.IntegerField('Orden', default=0, null=False)
   lVigente = models.BooleanField('Vigente',default=True)
 
   def __str__(self):
-        return self.cTitulo
+        return self.cIndicador
 
 class MedioVerificacion(models.Model):
   class Meta:
     verbose_name_plural = "4. Medios de Verficación"
   indicador = models.ForeignKey(Indicador, on_delete=models.PROTECT)
-  cTitulo = models.CharField('Titulo', max_length=500, default='')
   cMedioVerificacion = models.CharField('Medio de Verificación', max_length=700, null=False)
   nOrden = models.IntegerField('Orden', default=0, null=False)
   dFechaMaxEntrega = models.DateField('Fecha Max Entrega', blank=True, null=True)
@@ -117,7 +114,7 @@ class Evidencia_Todo(models.Model):
 
 class Archivo(models.Model):
   class Meta:
-    verbose_name_plural = "8. Archivos"
+    verbose_name_plural = "6. Archivos"
 
   evidencia = models.ForeignKey(Evidencia, on_delete=models.PROTECT)
   idEscala = models.CharField('Escala', choices=ESCALA, default="Contextualizacion",  max_length=120)
@@ -130,7 +127,7 @@ class Archivo(models.Model):
 
 class Revision(models.Model):
   class Meta:
-    verbose_name_plural = "9. Revisiones"
+    verbose_name_plural = "7. Revisiones"
 
   evidencia = models.ForeignKey(Evidencia, on_delete=models.PROTECT)
   cRevision = models.CharField('Comentario de Revisor', max_length=360, blank=True, null=True)
