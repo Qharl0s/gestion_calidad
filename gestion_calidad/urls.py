@@ -4,7 +4,7 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth.views import (LoginView, LogoutView,PasswordChangeView, PasswordResetDoneView)
-from frontend.views import actualizar_password, guardar_datos, inicio, perfil, guardar_foto
+from frontend.views import actualizar_password, guardar_datos, inicio, perfil, guardar_foto, reporte_avance, reporte_detalle
 from evidencia.views_estandar import *
 from evidencia.views import * #, condiciones, estandares, guardar_revision, guardar_evidencia, listar_revision, recomendaciones, requerimientos, obtener_evidencia, indicadores, medios_verificacion, evidencias
 
@@ -39,12 +39,12 @@ urlpatterns = [
     path('estandares/<int:oficina_id>/<int:periodo_id>/', estandares, name='estandares'),
     path('indicadores/<int:oficina_id>/<int:periodo_id>/<int:grupo_id>', indicadores_estandar, name='indicadores_estandar'),
     path('medios/<int:oficina_id>/<int:periodo_id>/<int:indicador_id>', medios_verificacion_estandar, name='medios_estandar'),
-
-    path('reportes1/', reportes1, name='reportes1'),
-    path('reportes2/', reportes2, name='reportes2'),
-    path('reportes3/', reportes3, name='reportes3'),
-
     
+    #Reportes
+    path('reporte-avance/<int:categoria_id>/<int:periodo_id>', reporte_avance, name='reportes_avance'),
+    path('reporte-detalle/<int:categoria_id>/<int:periodo_id>', reporte_detalle, name='reportes_detalle'),
+
+    #Mantenimiento usuario
     url('guardar_datos/', guardar_datos, name='guardar_datos'),
     url('guardar_foto/', guardar_foto, name='guardar_foto'),
     url('actualizar_password/', actualizar_password, name='actualizar_password'),

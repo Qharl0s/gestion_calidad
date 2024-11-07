@@ -197,8 +197,7 @@ def datos_evidencia_finalizado(medio, periodo_id, oficina_id):
     return objetos
 
 #Nombre de grupo
-def nombre_grupo_func(grupo, tipo):
-    id=0
+def nombre_grupo_func(grupo, tipo, id=0):
     if tipo==1:
         id = grupo.categoria_id
     elif tipo==2:

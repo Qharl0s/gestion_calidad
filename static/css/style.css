@@ -6711,7 +6711,7 @@ body[themebg-pattern='theme1'] {
 
 .pcoded .pcoded-navbar[active-item-theme='theme1'] .pcoded-item>li.active>a,
 .pcoded .pcoded-navbar[active-item-theme='theme1'] .pcoded-item>li:hover>a {
-  background: #448aff;
+  background: #FF4187;
   color: #fff !important;
 }
 
@@ -14741,6 +14741,36 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
 .lbl_pendientes {
   background: #FFF3B8;
   color: #F2C619;
+}
+
+.estado-False::before {
+  display: inline-block;
+  padding: .25em .4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+  color: #fff;
+  background-color: #2DBF64;
+  content: "Activo";
+}
+
+.estado-True::before {
+  display: inline-block;
+  padding: .25em .4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+  color: #fff;
+  background-color: #FF4187;
+  content: "Finalizado";
 }
 
 @-webkit-keyframes pulse {

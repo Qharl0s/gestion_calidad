@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Periodo, Categoria, Evidencia, Evidencia_Todo, Grupo, Indicador, MedioVerificacion, Archivo, Revision
 
 class periodoAdmin(admin.ModelAdmin):
-    list_display = ('cPeriodo', 'categoria', 'lVigente')
+    list_display = ('cPeriodo', 'categoria', 'lVigente', 'id')
 
     def __str__(self):
         return self.periodo

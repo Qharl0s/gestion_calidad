@@ -68,18 +68,42 @@ def actualizar_password(request):
     return JsonResponse({"state":"success","cMensaje":'Operación exitosa.'})
   else:
     return JsonResponse({"state":"error","cMensaje":'Los password nuevos no coinciden.'})
-  # else:
-  #   return JsonResponse({"state":"error","cMensaje":'El password actual no coincide.'})
+ 
+@login_required
+def reporte_avance(request, categoria_id=0, periodo_id=0):
+  usuario = request.user
+  periodos = Periodo.objects.filter(lVigente=1, categoria_id=categoria_id).order_by('-id')
+  periodo_seleccionado = periodos.first()
+  if periodo_id>0:
+    try:
+      periodo_seleccionado = periodos.get(id=periodo_id)
+    except Periodo.DoesNotExist:
+      periodo_seleccionado = periodos.first()
 
-# def listar_grupos(user):
-#   if user.lRevisor or user.is_staff :
-#     evidencias = MedioVerificacion.objects.filter(lVigente=True)
-#   else:
-#     evidencias = user.oficina.evidencias.filter(lVigente=True)
-    
-  # listar grupos
-  # categorias = []
-  # for evidencia in evidencias:
-  #   if evidencia.indicador.grupo.categoria.cCategoria not in categorias:
-  #     categorias.append(evidencia.indicador.grupo.categoria.cCategoria)
-  # return categorias
+  es_estandar = 1 if categoria_id==4 else 0
+  es_revisor = 1 if usuario.lRevisor else 0
+
+  objetos = listar_objetos(categoria_id,0,0,0,periodo_seleccionado.id,usuario.oficina.id,es_estandar,es_revisor)
+  grafico = get_grafico_barra('Avance de '+nombre_grupo_func(None, 0, categoria_id), objetos, 'avance_rpt_barras')
+
+  context = {'URL_BASE':settings.URL_BASE,'usuario':usuario, 'menu_reportes':"active pcoded-trigger",
+             "mostrar_periodos":1,"periodos":periodos, 'periodo_seleccionado': periodo_seleccionado, 
+             'es_estandar': es_estandar,'grafico_barras':grafico
+             }
+  return render(request, 'reporte_avances.html', context)
+
+@login_required
+def reporte_detalle(request, categoria_id=0, periodo_id=0):
+  user = Usuario.objects.get(username=request.user.username)
+  periodos = Periodo.objects.filter(categoria_id=categoria_id).order_by('-cPeriodo')
+  categoria = []
+  if categoria_id>0:
+    categoria = Categoria.objects.get(id=categoria_id)
+  periodo_seleccionado = []
+  if periodo_id>0:
+    periodo_seleccionado = Periodo.objects.get(id=periodo_id)
+  evidencias = Evidencia.objects.filter(medioVerificacion__indicador__grupo__categoria_id=categoria_id, periodo_id=periodo_id).order_by('medioVerificacion__id')
+  context = {'URL_BASE':settings.URL_BASE,'usuario':user, 'menu_reportes':"active", 
+             "evidencias":evidencias, 'periodos':periodos, 'periodo_seleccionado': periodo_seleccionado, 'categoria':categoria,
+             'mostrar_periodos': 1}
+  return render(request, 'reporte_detalle.html', context)

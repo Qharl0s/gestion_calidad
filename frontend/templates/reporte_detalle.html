@@ -1,0 +1,68 @@
+{% extends 'header_menu_body.html' %}
+<!--########################-->
+
+<!-- Contenido -->
+{% block pagecontent %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-header">
+                <div class="card-header-left animate__animated animate__bounceInDown">
+                    <h6>Reporte de Medios de Verificación - {{categoria.cCategoria}}</h6>
+                </div>
+                
+                <div class="card-header-right animate__animated animate__bounceInDown">
+
+                    <button type="button" class="btn btn-primary" id="btnExport" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Export Report</button>
+                    {% comment %} <span style="font-sizes: 10px">Items: <label class="badge badge-default">24</label></span> {% endcomment %}
+                </div>
+            </div>
+            <div class="card-block">
+                <div class="box-body table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+
+                    
+
+                    <table class="table table-hover table_archivos accordion-block" id="tableCondicionesRpt">
+                        <thead>
+                            <tr class="animate__animated animate__fadeInDown">
+                            <th scope="col">Ind</th>
+                            <th scope="col">Medio de Verificación</th>
+                            <th scope="col">Oficina Responsable</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Fecha Máxima</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for evidencia in evidencias %}
+                            <tr>
+                                <th scope="row">{{evidencia.medioVerificacion.indicador.id}}</th>
+                                <td>{{evidencia.medioVerificacion.cMedioVerificacion}}</td>
+                                <td>{{evidencia.medioVerificacion.oficinaResponsable.cOficina}}</td>
+                                {%if evidencia.idEstado == "Aprobado"%}
+                                <td><span class="badge badge-success">{{evidencia.idEstado}}</span></td>
+                                {%elif evidencia.idEstado == "Observado"%}
+                                <td><span class="badge badge-danger">{{evidencia.idEstado}}</span></td>
+                                {%else%}
+                                <td><span class="badge badge-warning">{{evidencia.idEstado}}</span></td>
+                                {%endif%}
+                                <td>{{evidencia.dFechaCarga|date:"d/m/Y"}} {{evidencia.dFechaCarga|time:"g:iA"}}</td>
+                                
+                                {%if evidencia.dFechaCarga|date > evidencia.dFechaMaxEntrega %}
+                                <td>{{evidencia.medioVerificacion.dFechaMaxEntrega|date:"d/m/Y"}}</td>
+                                {%else%}
+                                <td>{{evidencia.medioVerificacion.dFechaMaxEntrega|date:"d/m/Y"}}</td>
+                                {%endif%}
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+</div>
+{% endblock pagecontent %}

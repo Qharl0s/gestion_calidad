@@ -260,11 +260,13 @@
                     </a>
                   </li>
                 </ul>
+
+
                 {% if usuario.oficina.lAcreditacion|lower != 'true' or usuario.lRevior|lower == 'true' %}
                 <div class="pcoded-navigation-label">Licenciamiento</div>
 
                 <ul class="pcoded-item pcoded-left-item">
-                  <li class="pcoded-hasmenu {{menu_condicion}}">
+                  <li class="pcoded-hasmenu {{menu_condiciones}}">
                     <a
                       href="javascript:void(0)"
                       class="waves-effect waves-dark menu_condicion"
@@ -280,7 +282,7 @@
                 </ul>
 
                 <ul class="pcoded-item pcoded-left-item">
-                  <li class="pcoded-hasmenu {{menu_requerimiento}}">
+                  <li class="pcoded-hasmenu {{menu_requerimientos}}">
                     <a
                       href="javascript:void(0)"
                       class="waves-effect waves-dark menu_requerimiento"
@@ -296,7 +298,7 @@
                 </ul>
 
                 <ul class="pcoded-item pcoded-left-item">
-                  <li class="pcoded-hasmenu {{menu_recomendacion}}">
+                  <li class="pcoded-hasmenu {{menu_recomendaciones}}">
                     <a
                       href="javascript:void(0)"
                       class="waves-effect waves-dark menu_recomendacion"
@@ -312,7 +314,7 @@
                 </ul>
 
                 <ul class="pcoded-item pcoded-left-item">
-                  <li class="pcoded-hasmenu {{menu_renovacion}}">
+                  <li class="pcoded-hasmenu {{menu_renovaciones}}">
                     <a
                       href="javascript:void(0)"
                       class="waves-effect waves-dark menu_renovacion"
@@ -328,8 +330,9 @@
                 </ul>
 
 
+
                 <ul class="pcoded-item pcoded-left-item">
-                  <li class="pcoded-hasmenu">
+                  <li class="pcoded-hasmenu {{menu_reportes}}">
                     <a
                      href="javascript:void(0)"
                       class="waves-effect waves-dark"
@@ -339,12 +342,23 @@
                       <span class="pcoded-mcaret"></span>
                     </a>
                     <ul class="pcoded-submenu">
-                      <li><a href="{{URL_BASE}}reportes1/">Cuadro de Condiciones</a></li>
-                      <li><a href="{{URL_BASE}}reportes2/">Estado de Condiciones</a></li>
+                      <li><a  href="{{URL_BASE}}reporte-avance/1/0">Avance - Condiciones</a></li>
+                      <li><a  href="{{URL_BASE}}reporte-avance/2/0">Avance - Requerimientos</a></li>
+                      <li><a  href="{{URL_BASE}}reporte-avance/3/0">Avance - Recomendación</a></li>
+                      <li><a  href="{{URL_BASE}}reporte-avance/5/0">Avance - Renovaciones</a></li>
+
+                      <li><a href="{{URL_BASE}}reporte-detalle/1/0">Detalle - Condiciones</a></li>
+                      <li><a href="{{URL_BASE}}reporte-detalle/2/0">Detalle - Requerimientos</a></li>
+                      <li><a href="{{URL_BASE}}reporte-detalle/3/0">Detalle - Recomendación</a></li>
+                      <li><a href="{{URL_BASE}}reporte-detalle/5/0">Detalle - Renovaciones</a></li>
+                      
                       {% comment %} <li><a href="http://{{ request.get_host }}/reportes3/">Condiciones Pendientes</a></li> {% endcomment %}
                     </ul>
                   </li>
                 </ul>
+
+                
+                
                 {%endif%}<!--##########-->
                 {% if usuario.oficina.lAcreditacion|lower == 'true' or usuario.lRevisor|lower == 'true' %}
                 <div class="pcoded-navigation-label">Acreditación</div>
@@ -393,9 +407,11 @@
                   <div class="btn-group btn-group-sm text-right">
                     {% if mostrar_periodos is not none %}
                       <a href="/" type="button" class="btn btn-secondary"><i class="fa fa-home"></i> Inicio</a>
-                      {% for menu in submenu %}
+                    {% endif %}
+                    {% for menu in submenu %}
                       <a href="{{menu.url}}" type="button" class="btn btn-secondary text-capitalize"><i class="fa fa-arrow-left"></i> {{menu.nombre}}</a>
-                      {% endfor %}
+                    {% endfor %}
+                    {% if submenu is not none %}
                       <button type="button" class="btn btn-secondary btnTodos"><i class="fa fa-th"></i> Todos</button>
                       <button type="button" class="btn btn-secondary btnAsignados"><i class="fa fa-check-square"></i> Asignados</button>
                     {% endif %}
@@ -423,7 +439,7 @@
                     {% if mostrar_periodos is not none %}
                       <div class="btn-group btn-group-sm" role="group" style="margin-left: -4px;">
                         {%if periodos.count > 0%}
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}}</button>
+                          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}} <span class="estado-{{periodo_seleccionado.lFinalizado}}"></span></button>
                         {%else%}
                           <button class="btn btn-secondary dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">Periodo {{periodo_seleccionado.cPeriodo}}</button>
                         {%endif%}
@@ -433,7 +449,7 @@
                                 {% if estandar == 1 %}
                                   <a class="dropdown-item" href="{{URL_BASE}}{{url}}/{{oficina_seleccionado.id}}/{{periodo.id}}">{{periodo.cPeriodo}}</a>  
                                 {% else %}
-                                  <a class="dropdown-item" href="{{periodo.id}}">{{periodo.cPeriodo}}</a>  
+                                  <a class="dropdown-item" href="{{periodo.id}}">{{periodo.cPeriodo}} <span class="estado-{{periodo.lFinalizado}}"></span></a>  
                                 {% endif %}
                               {%endfor%}
                           </div>

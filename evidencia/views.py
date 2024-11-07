@@ -10,24 +10,6 @@ from usuario.models import Oficina, Usuario
 from evidencia.funciones import nombre_grupo_func, listar_objetos
 
 @login_required
-def reportes1(request):
-  user = Usuario.objects.get(username=request.user.username)
-  context = {'URL_BASE':settings.URL_BASE,'usuario':user, 'menu_inicio':"active"}
-  return render(request, 'reporte1.html', context)
-
-@login_required
-def reportes2(request):
-  user = Usuario.objects.get(username=request.user.username)
-  context = {'URL_BASE':settings.URL_BASE,'usuario':user, 'menu_inicio':"active"}
-  return render(request, 'reporte2.html', context)
-
-@login_required
-def reportes3(request):
-  user = Usuario.objects.get(username=request.user.username)
-  context = {'URL_BASE':settings.URL_BASE,'usuario':user, 'menu_inicio':"active"}
-  return render(request, 'reporte3.html', context)
-
-@login_required
 def condiciones(request, periodo_id=0):
   usuario = request.user
   #Periodo
@@ -42,6 +24,7 @@ def condiciones(request, periodo_id=0):
 
   context = {'URL_BASE':settings.URL_BASE,'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
              , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario, 'mostrar_periodos':1
+             , 'menu_condiciones':"active"
              }
   return render(request, 'resumen.html', context)
 
@@ -60,6 +43,7 @@ def requerimientos(request, periodo_id=0):
 
   context = {'URL_BASE':settings.URL_BASE,'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
              , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario, 'mostrar_periodos':1
+             , 'menu_requerimientos':"active"
              }
   return render(request, 'resumen.html', context)
 
@@ -78,6 +62,7 @@ def recomendaciones(request, periodo_id=0):
 
   context = {'URL_BASE':settings.URL_BASE,'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
              , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario, 'mostrar_periodos':1
+             , 'menu_recomendaciones':"active"
              }
   return render(request, 'resumen.html', context)
 
@@ -96,6 +81,7 @@ def renovaciones(request, periodo_id=0):
 
   context = {'URL_BASE':settings.URL_BASE,'objetos':objetos, 'periodos':periodos, 'periodo_seleccionado':periodo_seleccionado
              , 'detalle_url':'indicadores', 'submenu':[], 'usuario': usuario, 'mostrar_periodos':1
+             , 'menu_renovaciones':"active"
              }
   return render(request, 'resumen.html', context)
 
@@ -117,6 +103,7 @@ def indicadores(request, periodo_id, grupo_id):
              , 'detalle_url':'medios', 
              'submenu':[{'nombre':nombre_grupo, 'url': settings.URL_BASE+nombre_grupo+'/'+str(periodo_seleccionado.id)}, ]
              , 'usuario': usuario, 'mostrar_periodos':1, 'mostrar_oficinas': 0
+             , 'menu_'+nombre_grupo:"active"
             }
   return render(request, 'resumen.html', context)
 
@@ -136,6 +123,7 @@ def medios_verificacion(request, periodo_id, indicador_id):
 
   context = {'URL_BASE':settings.URL_BASE,'usuario':usuario, 'medios':objetos,'periodo_seleccionado':periodo_seleccionado, 
              'mostrar_periodos':1, 'mostrar_oficinas': 0, 'indicador':indicador,
+             'menu_'+nombre_grupo:"active",
              'detalle_url':'', 
              'submenu':[
                 {'nombre':nombre_grupo, 'url': settings.URL_BASE+nombre_grupo+'/'+str(periodo_seleccionado.id)},
