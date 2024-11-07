@@ -9,7 +9,13 @@ $(function () {
     $('.tarjeta-asignado').show();
   });
 
-  new DataTable('#tableCondicionesRpt');
+  new DataTable('#tableCondicionesRpt', {
+    aLengthMenu: [
+      [20, 50, 100, 200, -1],
+      [20, 50, 100, 200, "All"]
+    ],
+    iDisplayLength: -1
+  });
 
   $("#btnExport").click(function () {
     let table = document.getElementsByTagName("table");
