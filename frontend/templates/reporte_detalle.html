@@ -31,6 +31,7 @@
                             <th scope="col">Estado</th>
                             <th scope="col">Fecha</th>
                             <th scope="col">Fecha Máxima</th>
+                            <th scope="col">Enlaces</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,6 +54,11 @@
                                 {%else%}
                                 <td>{{evidencia.medioVerificacion.dFechaMaxEntrega|date:"d/m/Y"}}</td>
                                 {%endif%}
+                                <td style="width: 100px;">
+                                    {% for archivo in evidencia.archivo_set.all %}
+                                    <span>{{archivo.archivoPdf.path}}</span><br>
+                                    {% endfor %}
+                                </td>
                             </tr>
                             {% endfor %}
                             
