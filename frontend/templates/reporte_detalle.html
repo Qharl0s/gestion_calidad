@@ -56,7 +56,7 @@
                                 {%endif%}
                                 <td >
                                     {% for archivo in evidencia.archivo_set.all %}
-                                    <span>{{ request.scheme }}://{{ request.get_host }}/media/{{archivo.archivoPdf}}</span><br>
+                                    <span>{{URL_BASE}}media/{{archivo.archivoPdf}}</span><br>
                                     {% endfor %}
                                 </td>
                             </tr>
