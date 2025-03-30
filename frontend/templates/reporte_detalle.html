@@ -25,38 +25,38 @@
                     <table class="table table-hover table_archivos accordion-block" id="tableCondicionesRpt">
                         <thead>
                             <tr class="animate__animated animate__fadeInDown">
-                            <th scope="col">Ind</th>
-                            <th scope="col">Medio de Verificación</th>
-                            <th scope="col">Oficina Responsable</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Fecha</th>
-                            <th scope="col">Fecha Máxima</th>
-                            <th scope="col">Enlaces</th>
+                                <th >Ind</th>
+                                <th style="width:400px !important;">Medio de Verificación</th>
+                                <th >Oficina Responsable</th>
+                                <th >Estado</th>
+                                <th >Fecha</th>
+                                <th >Fecha Máxima</th>
+                                <th style="min-width:20px !important;">Enlaces</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for evidencia in evidencias %}
                             <tr>
-                                <th scope="row">{{evidencia.medioVerificacion.indicador.id}}</th>
-                                <td>{{evidencia.medioVerificacion.cMedioVerificacion}}</td>
-                                <td>{{evidencia.medioVerificacion.oficinaResponsable.cOficina}}</td>
+                                <th  scope="row">{{evidencia.medioVerificacion.indicador.id}}</th>
+                                <td >{{evidencia.medioVerificacion.cMedioVerificacion}}</td>
+                                <td >{{evidencia.medioVerificacion.oficinaResponsable.cOficina}}</td>
                                 {%if evidencia.idEstado == "Aprobado"%}
-                                <td><span class="badge badge-success">{{evidencia.idEstado}}</span></td>
+                                <td ><span class="badge badge-success">{{evidencia.idEstado}}</span></td>
                                 {%elif evidencia.idEstado == "Observado"%}
-                                <td><span class="badge badge-danger">{{evidencia.idEstado}}</span></td>
+                                <td ><span class="badge badge-danger">{{evidencia.idEstado}}</span></td>
                                 {%else%}
-                                <td><span class="badge badge-warning">{{evidencia.idEstado}}</span></td>
+                                <td ><span class="badge badge-warning">{{evidencia.idEstado}}</span></td>
                                 {%endif%}
-                                <td>{{evidencia.dFechaCarga|date:"d/m/Y"}} {{evidencia.dFechaCarga|time:"g:iA"}}</td>
+                                <td >{{evidencia.dFechaCarga|date:"d/m/Y"}} {{evidencia.dFechaCarga|time:"g:iA"}}</td>
                                 
                                 {%if evidencia.dFechaCarga|date > evidencia.dFechaMaxEntrega %}
-                                <td>{{evidencia.medioVerificacion.dFechaMaxEntrega|date:"d/m/Y"}}</td>
+                                <td >{{evidencia.medioVerificacion.dFechaMaxEntrega|date:"d/m/Y"}}</td>
                                 {%else%}
-                                <td>{{evidencia.medioVerificacion.dFechaMaxEntrega|date:"d/m/Y"}}</td>
+                                <td >{{evidencia.medioVerificacion.dFechaMaxEntrega|date:"d/m/Y"}}</td>
                                 {%endif%}
-                                <td style="width: 100px;">
+                                <td >
                                     {% for archivo in evidencia.archivo_set.all %}
-                                    <span>{{archivo.archivoPdf.path}}</span><br>
+                                    <span>{{ request.scheme }}://{{ request.get_host }}/media/{{archivo.archivoPdf}}</span><br>
                                     {% endfor %}
                                 </td>
                             </tr>
